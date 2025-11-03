@@ -8,18 +8,31 @@
   </div>
 
   <div class="status__content" *ngIf="!isLoading() && !hasError() && status() as current">
-    <div class="status__metrics">
-      <div class="status__metric">
-        <span class="status__label">Entorno</span>
-        <span class="status__value status__value--environment">{{ current.environment | uppercase }}</span>
+    <div class="status__body">
+      <div class="status__metrics">
+        <div class="status__metric">
+          <span class="status__label">Entorno</span>
+          <span class="status__value status__value--environment">{{ current.environment | uppercase }}</span>
+        </div>
+
+        <div class="status__metric">
+          <span class="status__label">Comercios activos</span>
+          <span class="status__value">{{ current.total | number:'1.0-0' }}</span>
+        </div>
       </div>
 
-      <div class="status__metric">
-        <span class="status__label">Comercios activos</span>
-        <span class="status__value">{{ current.total | number:'1.0-0' }}</span>
-      </div>
+      <p class="status__update">Última actualización: {{ formattedLastUpdate() }}</p>
     </div>
 
-    <p class="status__update">Última actualización: {{ formattedLastUpdate() }}</p>
+    <div class="status__meta">
+      <div class="status__signature" aria-label="Créditos del proyecto">
+        <p class="status__meta-text">Autor: {{ appAuthor }}</p>
+        <p class="status__meta-text">Versión: {{ appVersion }}</p>
+      </div>
+
+      <a *ngIf="showHistoryLink" routerLink="/history" class="status__history-link">
+        Historial de cambios
+      </a>
+    </div>
   </div>
 </section>

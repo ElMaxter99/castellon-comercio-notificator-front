@@ -1,6 +1,7 @@
 {
-  "name": "castellon-comercio-notificator-front",
-  "version": "0.0.0",
+  "name": "Castellón Comercio Notificator",
+  "version": "1.0.0",
+  "author": "Aamoros",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

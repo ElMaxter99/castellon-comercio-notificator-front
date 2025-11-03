@@ -4,12 +4,6 @@
   </main>
 
   <footer class="layout__footer">
-    <app-commerce-status></app-commerce-status>
-
-    <nav class="layout__footer-nav" aria-label="Enlaces adicionales">
-      <a routerLink="/history" routerLinkActive="layout__footer-link--active" class="layout__footer-link">
-        Historial de cambios
-      </a>
-    </nav>
+    <app-commerce-status [showHistoryLink]="!isHistoryRoute()"></app-commerce-status>
   </footer>
 </div>
