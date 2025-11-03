@@ -1,59 +1,84 @@
-# CastellonComercioNotificatorFront
+# Castellón Comercio Notificator Front
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.8.
+Aplicación web desarrollada con Angular para consultar, filtrar y visualizar sobre un mapa los comercios adheridos al programa municipal "Abonem Castelló". El proyecto ofrece una experiencia accesible y responsive que centraliza la información pública del programa y añade utilidades de búsqueda avanzadas.
 
-## Development server
+> **Aviso**
+> Esta iniciativa es independiente y sin ánimo de lucro. No guarda relación con el Ayuntamiento de Castelló de la Plana ni con CONFECOMERÇ. Los datos mostrados proceden de la web oficial del programa y se ofrecen únicamente con fines informativos.
 
-To start a local development server, run:
+## Características principales
 
-```bash
-ng serve
-```
+- **Explorador de comercios** con filtros combinables por nombre, sector y dirección.
+- **Visualización geográfica** mediante Leaflet para ubicar los establecimientos sobre un mapa interactivo.
+- **Cambio rápido de vista** entre cuadrícula y listado para adaptar la navegación a cada necesidad.
+- **Control de paginación** configurable (12/24/48 elementos) con indicadores claros del total de resultados.
+- **Panel de estado** que muestra entorno de ejecución, número total de comercios y fecha de la última actualización.
+- **Histórico de cambios** detallado que resume altas y bajas del censo de comercios.
+- **Indicadores de carga y error** accesibles en todas las secciones para mejorar la experiencia de usuario.
+- **Interfaz responsive** optimizada para dispositivos móviles, tabletas y escritorio.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Arquitectura
 
-## Code scaffolding
+- **Framework**: Angular 20 con componentes standalone, señales (`signal`) y detección de cambios `OnPush` para maximizar el rendimiento.
+- **Capas**:
+  - `services/`: clientes HTTP reutilizables que encapsulan las peticiones a la API (`CommerceService`).
+  - `components/`: piezas visuales reutilizables (`commerce-grid`, `commerce-card`, `commerce-map`, `commerce-status`, `commerce-history`).
+  - `pages/`: páginas ensambladas mediante rutas perezosas (por ejemplo, `history`).
+  - `models/`: tipado TypeScript compartido (`Commerce`, `CommerceStatus`, `CommerceHistoryEntry`).
+- **Datos**: consumo de la API pública, con normalización de URLs y uso de Leaflet cargado desde CDN.
+- **Estilos**: SCSS modular con patrones BEM y adaptaciones responsive.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Requisitos previos
 
-```bash
-ng generate component component-name
-```
+- Node.js 18 o superior.
+- Angular CLI 20 (se instala localmente con las dependencias).
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Instala las dependencias del proyecto con:
 
 ```bash
-ng test
+npm install
 ```
 
-## Running end-to-end tests
+## Scripts disponibles
 
-For end-to-end (e2e) testing, run:
+| Comando | Descripción |
+| --- | --- |
+| `npm start` | Inicia el servidor de desarrollo en `http://localhost:4200/` con recarga en caliente. |
+| `npm run build` | Genera el artefacto de producción optimizado en `dist/`. |
+| `npm test` | Ejecuta la suite de pruebas unitarias mediante Karma + Jasmine. |
+| `npm run watch` | Compila en modo desarrollo y permanece atento a cambios de archivos. |
 
-```bash
-ng e2e
-```
+## Configuración y entorno
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- **Base de datos remota**: no se requiere backend propio; los datos se consumen desde la API pública.
+- **Variables de entorno**: no son necesarias para la ejecución local. El endpoint se encuentra configurado en `CommerceService`.
+- **Mapas**: Leaflet se carga desde CDN (definido en `src/index.html`). Es necesario disponer de conexión a internet para visualizar los mapas.
 
-## Additional Resources
+## Estructura de rutas
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+| Ruta | Descripción |
+| --- | --- |
+| `/` | Explorador principal de comercios con filtros, mapa y listado paginado. |
+| `/history` | Página con el historial completo de cambios registrados en la API. |
+| `**` | Cualquier otra ruta redirige al explorador principal. |
+
+## Buenas prácticas implementadas
+
+- Uso de `takeUntilDestroyed()` para evitar fugas de memoria en suscripciones.
+- Normalización de URLs inseguras (HTTP → HTTPS) antes de mostrarlas en la interfaz.
+- Componentes accesibles con roles ARIA, mensajes de estado y navegación por teclado.
+- Separación clara entre lógica de presentación y consumo de datos.
+- Internacionalización básica con `Intl.DateTimeFormat` para mostrar fechas en español.
+
+## Desarrollo y contribución
+
+1. Realiza un fork del repositorio y crea una rama para tu cambio.
+2. Instala dependencias (`npm install`).
+3. Ejecuta `npm start` y desarrolla con `ng serve` en local.
+4. Asegúrate de que `npm test` se ejecuta sin errores antes de enviar la contribución.
+5. Abre una pull request describiendo claramente el cambio propuesto.
+
+Las sugerencias y mejoras son bienvenidas para seguir evolucionando la experiencia de los comercios adheridos.
+
+## Licencia
+
+Este proyecto se distribuye bajo los términos establecidos por sus autores. Revisa el repositorio original para más información sobre la licencia aplicable.
