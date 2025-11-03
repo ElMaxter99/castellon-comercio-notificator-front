@@ -1,8 +1,4 @@
 <section class="page">
-  <app-commerce-map class="page__map" [commerces]="filteredCommerces()" [totalCount]="commerces().length"
-    [filteredCount]="filteredCommerces().length" [isDataLoading]="isLoading()" [hasDataError]="hasError()">
-  </app-commerce-map>
-
   <header class="page__hero">
     <p class="page__eyebrow">Abonem Castelló</p>
     <h1 class="page__title">Comercios adheridos al programa</h1>
@@ -82,6 +78,10 @@
       <button type="submit" class="filters__button">Filtrar</button>
     </div>
   </form>
+
+  <app-commerce-map class="page__map" [commerces]="filteredCommerces()" [totalCount]="commerces().length"
+    [filteredCount]="filteredCommerces().length" [isDataLoading]="isLoading()" [hasDataError]="hasError()">
+  </app-commerce-map>
 
   <div class="state" *ngIf="isLoading()">
     <p>Cargando comercios...</p>

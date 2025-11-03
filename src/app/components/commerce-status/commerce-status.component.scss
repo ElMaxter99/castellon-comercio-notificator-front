@@ -26,6 +26,11 @@
 
 .status__content {
   display: grid;
+  gap: clamp(1.5rem, 4vw, 2rem);
+}
+
+.status__body {
+  display: grid;
   gap: clamp(1rem, 2.5vw, 1.5rem);
   justify-items: center;
 }
@@ -74,4 +79,45 @@
   margin: 0;
   font-size: clamp(0.9rem, 2.2vw, 1rem);
   color: rgba(226, 232, 240, 0.85);
+}
+
+.status__meta {
+  border-top: 1px solid rgba(148, 163, 184, 0.25);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.status__signature {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.status__meta-text {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(226, 232, 240, 0.85);
+}
+
+.status__history-link {
+  color: rgba(191, 219, 254, 0.85);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(147, 197, 253, 0.25);
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.status__history-link:hover,
+.status__history-link:focus-visible {
+  color: #ffffff;
+  background: rgba(37, 99, 235, 0.15);
+  border-color: rgba(147, 197, 253, 0.45);
+  outline: none;
 }
