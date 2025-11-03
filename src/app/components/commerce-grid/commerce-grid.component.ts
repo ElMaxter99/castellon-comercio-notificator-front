@@ -1,5 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild,
+  computed,
+  effect,
+  inject,
+  signal
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs';
@@ -31,6 +41,8 @@ export class CommerceGridComponent {
     address: ''
   });
   protected readonly currentPage = signal(1);
+  protected readonly isSectorDropdownOpen = signal(false);
+  protected readonly sectorSearchTerm = signal('');
 
   protected readonly sectors = computed(() => {
     const unique = new Set<string>();
@@ -40,6 +52,16 @@ export class CommerceGridComponent {
       }
     });
     return Array.from(unique).sort((a, b) => a.localeCompare(b, 'es'));
+  });
+
+  protected readonly filteredSectors = computed(() => {
+    const query = this.sectorSearchTerm().trim().toLocaleLowerCase('es');
+    if (!query) {
+      return this.sectors();
+    }
+    return this.sectors().filter((sector) =>
+      sector.toLocaleLowerCase('es').includes(query)
+    );
   });
 
   protected readonly filteredCommerces = computed(() => {
@@ -81,6 +103,12 @@ export class CommerceGridComponent {
     address: ['']
   });
 
+  @ViewChild('sectorDropdownRef')
+  private readonly sectorDropdownRef?: ElementRef<HTMLDivElement>;
+
+  @ViewChild('sectorSearchInputRef')
+  private readonly sectorSearchInputRef?: ElementRef<HTMLInputElement>;
+
   constructor() {
     this.filters.valueChanges.pipe(debounceTime(150), takeUntilDestroyed()).subscribe((value) => {
       this.filterValue.set({
@@ -107,6 +135,8 @@ export class CommerceGridComponent {
   protected onResetFilters(): void {
     this.filters.setValue({ name: '', sectorQuery: '', address: '' });
     this.filterValue.set({ name: '', sectorQuery: '', address: '' });
+    this.closeSectorDropdown();
+    this.sectorSearchTerm.set('');
   }
 
   protected onSubmit(): void {
@@ -116,6 +146,40 @@ export class CommerceGridComponent {
       sectorQuery: sectorQuery?.trim() ?? '',
       address: address?.trim() ?? ''
     });
+  }
+
+  protected onToggleSectorDropdown(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.isSectorDropdownOpen()) {
+      this.closeSectorDropdown();
+    } else {
+      this.openSectorDropdown();
+    }
+  }
+
+  protected onSectorSearch(term: string): void {
+    this.sectorSearchTerm.set(term);
+  }
+
+  protected onSelectSector(sector: string): void {
+    const name = this.filters.controls.name.value.trim();
+    const address = this.filters.controls.address.value.trim();
+    this.filters.controls.sectorQuery.setValue(sector);
+    this.filterValue.set({ name, sectorQuery: sector, address });
+    this.closeSectorDropdown();
+    this.sectorSearchTerm.set('');
+  }
+
+  protected onClearSector(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.filters.controls.sectorQuery.setValue('');
+    const name = this.filters.controls.name.value.trim();
+    const address = this.filters.controls.address.value.trim();
+    this.filterValue.set({ name, sectorQuery: '', address });
+    this.closeSectorDropdown();
+    this.sectorSearchTerm.set('');
   }
 
   protected trackByCommerce(index: number, commerce: Commerce): string {
@@ -152,6 +216,21 @@ export class CommerceGridComponent {
     }
   }
 
+  @HostListener('document:click', ['$event'])
+  protected onDocumentClick(event: MouseEvent): void {
+    if (!this.isSectorDropdownOpen()) {
+      return;
+    }
+    const target = event.target as Node | null;
+    if (!target) {
+      return;
+    }
+    const container = this.sectorDropdownRef?.nativeElement;
+    if (container && !container.contains(target)) {
+      this.closeSectorDropdown();
+    }
+  }
+
   private loadCommerces(): void {
     this.commerceService
       .getCommerces()
@@ -167,5 +246,17 @@ export class CommerceGridComponent {
           this.isLoading.set(false);
         }
       });
+  }
+
+  private openSectorDropdown(): void {
+    this.isSectorDropdownOpen.set(true);
+    queueMicrotask(() => {
+      const input = this.sectorSearchInputRef?.nativeElement;
+      input?.focus();
+    });
+  }
+
+  private closeSectorDropdown(): void {
+    this.isSectorDropdownOpen.set(false);
   }
 }

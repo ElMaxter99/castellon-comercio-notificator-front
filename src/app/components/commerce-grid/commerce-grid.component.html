@@ -32,13 +32,41 @@
         autocomplete="off" />
     </div>
 
-    <div class="filters__group filters__group--sector">
-      <label class="filters__label" for="filter-sector">Sector del establecimiento</label>
-      <input id="filter-sector" type="text" formControlName="sectorQuery" placeholder="Escribe para buscar un sector"
-        list="sector-options" autocomplete="off" />
-      <datalist id="sector-options">
-        <option *ngFor="let sector of sectors(); trackBy: trackBySector" [value]="sector">{{ sector }}</option>
-      </datalist>
+    <div class="filters__group filters__group--sector" #sectorDropdownRef>
+      <label class="filters__label" id="filter-sector-label">Sector del establecimiento</label>
+      <button type="button" class="filters__select-trigger" aria-haspopup="listbox"
+        [attr.aria-expanded]="isSectorDropdownOpen()" [attr.aria-labelledby]="'filter-sector-label'"
+        (click)="onToggleSectorDropdown($event)">
+        <span class="filters__select-value"
+          [class.filters__select-value--placeholder]="!filters.controls.sectorQuery.value">
+          {{ filters.controls.sectorQuery.value || 'Selecciona un sector' }}
+        </span>
+        <span class="filters__select-icon" aria-hidden="true"></span>
+      </button>
+
+      <div class="filters__select-panel" *ngIf="isSectorDropdownOpen()" role="dialog" aria-modal="false">
+        <div class="filters__select-search">
+          <input #sectorSearchInputRef type="text" [value]="sectorSearchTerm()"
+            (input)="onSectorSearch($any($event.target).value)" placeholder="Buscar sector" autocomplete="off"
+            role="searchbox" />
+          <button type="button" class="filters__select-clear" *ngIf="filters.controls.sectorQuery.value"
+            (click)="onClearSector($event)">
+            Limpiar
+          </button>
+        </div>
+
+        <div class="filters__select-options" role="listbox" [attr.aria-activedescendant]="null">
+          <button type="button" class="filters__select-option"
+            *ngFor="let sector of filteredSectors(); trackBy: trackBySector"
+            [class.filters__select-option--active]="filters.controls.sectorQuery.value === sector"
+            (click)="onSelectSector(sector)" role="option">
+            {{ sector }}
+          </button>
+          <p class="filters__select-empty" *ngIf="filteredSectors().length === 0">
+            No se han encontrado sectores que coincidan con la búsqueda.
+          </p>
+        </div>
+      </div>
     </div>
 
     <div class="filters__group">
