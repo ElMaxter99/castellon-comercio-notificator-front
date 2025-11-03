@@ -4,9 +4,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
+  Output,
   SimpleChanges,
   ViewChild,
   signal
@@ -34,10 +36,26 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
     this.renderMarkers(value ?? []);
   }
 
+  @Input()
+  set legendSource(value: Commerce[] | null) {
+    const source = Array.isArray(value) ? value : [];
+    this.buildLegend(source);
+  }
+
+  @Input()
+  set selectedSector(value: string | null) {
+    const trimmed = value?.trim() ?? '';
+    const normalised = trimmed ? trimmed.toLocaleLowerCase('es') : null;
+    this.activeSector.set(normalised);
+    this.applyLegendFilter();
+  }
+
   @Input() totalCount = 0;
   @Input() filteredCount = 0;
   @Input() isDataLoading = false;
   @Input() hasDataError = false;
+
+  @Output() readonly sectorFilterChange = new EventEmitter<string | null>();
 
   private map: any;
   private markersLayer: any;
@@ -56,9 +74,11 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
     '#c084fc'
   ];
   private sectorColorMap = new Map<string, string>();
+  private markerEntries: Array<{ marker: any; sector: string; color: string }> = [];
 
   protected readonly isLoading = signal(true);
   protected readonly legend = signal<Array<{ sector: string; color: string; count: number }>>([]);
+  protected readonly activeSector = signal<string | null>(null);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['commerces'] && !changes['commerces'].firstChange) {
@@ -129,8 +149,7 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
     }
 
     this.markersLayer.clearLayers();
-    this.sectorColorMap = new Map<string, string>();
-    const legendAccumulator = new Map<string, { color: string; count: number }>();
+    this.markerEntries = [];
 
     const bounds = leaflet.latLngBounds([]);
 
@@ -154,15 +173,11 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
       marker.addTo(this.markersLayer);
       bounds.extend(coordinates);
 
-      if (commerce.sector.trim().length > 0) {
-        const key = commerce.sector.trim();
-        const existing = legendAccumulator.get(key);
-        if (existing) {
-          existing.count += 1;
-        } else {
-          legendAccumulator.set(key, { color, count: 1 });
-        }
-      }
+      this.markerEntries.push({
+        marker,
+        sector: commerce.sector.trim().toLocaleLowerCase('es'),
+        color
+      });
     });
 
     if (bounds.isValid()) {
@@ -170,11 +185,42 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
     } else {
       this.map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
     }
+    this.applyLegendFilter();
+  }
 
-    const legendEntries = Array.from(legendAccumulator.entries())
-      .map(([sector, value]) => ({ sector, ...value }))
-      .sort((a, b) => a.sector.localeCompare(b.sector, 'es'));
-    this.legend.set(legendEntries);
+  protected onLegendToggle(sector: string): void {
+    const trimmed = sector.trim();
+    const normalised = trimmed.toLocaleLowerCase('es');
+    const current = this.activeSector();
+    const next = current === normalised ? null : normalised;
+    this.activeSector.set(next);
+    this.applyLegendFilter();
+    this.sectorFilterChange.emit(next ? trimmed : null);
+  }
+
+  protected onLegendReset(): void {
+    if (!this.activeSector()) {
+      return;
+    }
+    this.activeSector.set(null);
+    this.applyLegendFilter();
+    this.sectorFilterChange.emit(null);
+  }
+
+  protected isLegendEntryActive(sector: string): boolean {
+    const active = this.activeSector();
+    if (!active) {
+      return false;
+    }
+    return active === sector.trim().toLocaleLowerCase('es');
+  }
+
+  protected isLegendEntryDimmed(sector: string): boolean {
+    const active = this.activeSector();
+    if (!active) {
+      return false;
+    }
+    return active !== sector.trim().toLocaleLowerCase('es');
   }
 
   private extractCoordinates(url: string): [number, number] | null {
@@ -233,5 +279,59 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
     const nextColor = this.sectorPalette[this.sectorColorMap.size % this.sectorPalette.length];
     this.sectorColorMap.set(key, nextColor);
     return nextColor;
+  }
+
+  private buildLegend(commerces: Commerce[]): void {
+    this.sectorColorMap = new Map<string, string>();
+    const accumulator = new Map<string, { color: string; count: number }>();
+
+    commerces.forEach((commerce) => {
+      const sector = commerce.sector.trim();
+      if (!sector) {
+        return;
+      }
+      const color = this.getColorForSector(sector);
+      const existing = accumulator.get(sector);
+      if (existing) {
+        existing.count += 1;
+      } else {
+        accumulator.set(sector, { color, count: 1 });
+      }
+    });
+
+    const legendEntries = Array.from(accumulator.entries())
+      .map(([sector, value]) => ({ sector, ...value }))
+      .sort((a, b) => a.sector.localeCompare(b.sector, 'es'));
+
+    this.legend.set(legendEntries);
+
+    const active = this.activeSector();
+    if (active && !legendEntries.some((entry) => entry.sector.toLocaleLowerCase('es') === active)) {
+      this.activeSector.set(null);
+      this.sectorFilterChange.emit(null);
+    }
+
+    this.applyLegendFilter();
+  }
+
+  private applyLegendFilter(): void {
+    const active = this.activeSector();
+
+    if (!this.markersLayer || this.markerEntries.length === 0) {
+      return;
+    }
+
+    this.markerEntries.forEach(({ marker, sector, color }) => {
+      const isActive = !active || active === sector;
+      marker.setStyle({
+        color,
+        fillColor: color,
+        opacity: isActive ? 0.95 : 0.25,
+        fillOpacity: isActive ? 0.8 : 0.15
+      });
+      if (isActive) {
+        marker.bringToFront?.();
+      }
+    });
   }
 }
