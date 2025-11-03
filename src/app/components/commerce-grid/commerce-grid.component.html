@@ -1,12 +1,7 @@
 <section class="page">
-  <app-commerce-map
-    class="page__map"
-    [commerces]="filteredCommerces()"
-    [totalCount]="commerces().length"
-    [filteredCount]="filteredCommerces().length"
-    [isDataLoading]="isLoading()"
-    [hasDataError]="hasError()"
-  ></app-commerce-map>
+  <app-commerce-map class="page__map" [commerces]="filteredCommerces()" [totalCount]="commerces().length"
+    [filteredCount]="filteredCommerces().length" [isDataLoading]="isLoading()" [hasDataError]="hasError()">
+  </app-commerce-map>
 
   <header class="page__hero">
     <p class="page__eyebrow">Abonem Castelló</p>
@@ -20,43 +15,27 @@
   <section class="notice" aria-label="Información sobre el proyecto">
     <h2 class="notice__title">Proyecto independiente sin ánimo de lucro</h2>
     <p class="notice__body">
-      Esta aplicación nace por amor al arte para ofrecer una perspectiva alternativa, positiva y centrada en los
-      comercios adheridos al programa oficial.
-      Los datos se obtienen de la iniciativa municipal disponible en
-      <a
-        class="notice__link"
-        href="https://bonoscastellodelaplana.es/establecimientos-adheridos-al-programa"
-        target="_blank"
-        rel="noreferrer noopener"
-      >
-        bonoscastellodelaplana.es
+      Esta aplicación es una iniciativa personal sin relación con el Ayuntamiento de Castelló ni con CONFECOMERÇ.
+      Los datos mostrados proceden de fuentes públicas del programa “Abonem Castelló”
+      <a class="notice__link" href="https://bonoscastellodelaplana.es/establecimientos-adheridos-al-programa"
+        target="_blank" rel="noreferrer noopener">
+        (bonoscastellodelaplana.es)
       </a>
-      y se muestran aquí sin ningún fin comercial.
+      y se ofrecen únicamente con fines informativos y de divulgación, sin ningún propósito comercial.
     </p>
   </section>
 
   <form class="filters" [formGroup]="filters" (ngSubmit)="onSubmit()">
     <div class="filters__group">
       <label class="filters__label" for="filter-name">Nombre del establecimiento</label>
-      <input
-        id="filter-name"
-        type="text"
-        formControlName="name"
-        placeholder="Introduce el nombre del establecimiento"
-        autocomplete="off"
-      />
+      <input id="filter-name" type="text" formControlName="name" placeholder="Introduce el nombre del establecimiento"
+        autocomplete="off" />
     </div>
 
     <div class="filters__group filters__group--sector">
       <label class="filters__label" for="filter-sector">Sector del establecimiento</label>
-      <input
-        id="filter-sector"
-        type="text"
-        formControlName="sectorQuery"
-        placeholder="Escribe para buscar un sector"
-        list="sector-options"
-        autocomplete="off"
-      />
+      <input id="filter-sector" type="text" formControlName="sectorQuery" placeholder="Escribe para buscar un sector"
+        list="sector-options" autocomplete="off" />
       <datalist id="sector-options">
         <option *ngFor="let sector of sectors(); trackBy: trackBySector" [value]="sector">{{ sector }}</option>
       </datalist>
@@ -64,13 +43,8 @@
 
     <div class="filters__group">
       <label class="filters__label" for="filter-address">Calle o dirección</label>
-      <input
-        id="filter-address"
-        type="text"
-        formControlName="address"
-        placeholder="Busca por dirección o calle"
-        autocomplete="off"
-      />
+      <input id="filter-address" type="text" formControlName="address" placeholder="Busca por dirección o calle"
+        autocomplete="off" />
     </div>
 
     <div class="filters__actions">
@@ -108,41 +82,26 @@
 
     <ng-container *ngIf="filteredCommerces().length > 0">
       <div class="grid__list">
-        <app-commerce-card
-          *ngFor="let commerce of pagedCommerces(); trackBy: trackByCommerce"
-          [commerce]="commerce"
-        ></app-commerce-card>
+        <app-commerce-card *ngFor="let commerce of pagedCommerces(); trackBy: trackByCommerce" [commerce]="commerce">
+        </app-commerce-card>
       </div>
 
       <nav class="grid__pagination" aria-label="Paginación de resultados" *ngIf="totalPages() > 1">
-        <button
-          type="button"
-          class="grid__page-button"
-          (click)="goToPreviousPage()"
-          [disabled]="currentPage() === 1"
-        >
+        <button type="button" class="grid__page-button" (click)="goToPreviousPage()" [disabled]="currentPage() === 1">
           Anterior
         </button>
 
         <ul class="grid__page-list">
           <li *ngFor="let page of pages(); trackBy: trackByPage" class="grid__page-item">
-            <button
-              type="button"
-              class="grid__page-number"
-              [class.grid__page-number--active]="currentPage() === page"
-              (click)="changePage(page)"
-            >
+            <button type="button" class="grid__page-number" [class.grid__page-number--active]="currentPage() === page"
+              (click)="changePage(page)">
               {{ page }}
             </button>
           </li>
         </ul>
 
-        <button
-          type="button"
-          class="grid__page-button"
-          (click)="goToNextPage()"
-          [disabled]="currentPage() === totalPages()"
-        >
+        <button type="button" class="grid__page-button" (click)="goToNextPage()"
+          [disabled]="currentPage() === totalPages()">
           Siguiente
         </button>
       </nav>
