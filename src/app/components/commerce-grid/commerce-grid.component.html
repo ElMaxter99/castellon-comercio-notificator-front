@@ -198,35 +198,38 @@
     </p>
 
     <ng-container *ngIf="filteredCommerces().length > 0">
-      <div class="grid__list" [class.grid__list--list]="isViewModeActive('list')">
-        <app-commerce-card
-          *ngFor="let commerce of pagedCommerces(); trackBy: trackByCommerce"
-          [commerce]="commerce"
-          [viewMode]="viewMode()"
-        >
-        </app-commerce-card>
-      </div>
+      <ng-container *ngIf="isViewModeActive('list'); else gridView">
+        <div class="grid__table">
+          <div class="grid__table-head">
+            <span class="grid__table-heading grid__table-heading--commerce">Comercio</span>
+            <span class="grid__table-heading">Sector</span>
+            <span class="grid__table-heading">Dirección</span>
+            <span class="grid__table-heading">Teléfono</span>
+          </div>
+
+          <div class="grid__list grid__list--list">
+            <app-commerce-card
+              *ngFor="let commerce of pagedCommerces(); trackBy: trackByCommerce"
+              [commerce]="commerce"
+              [viewMode]="viewMode()"
+            >
+            </app-commerce-card>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #gridView>
+        <div class="grid__list">
+          <app-commerce-card
+            *ngFor="let commerce of pagedCommerces(); trackBy: trackByCommerce"
+            [commerce]="commerce"
+            [viewMode]="viewMode()"
+          >
+          </app-commerce-card>
+        </div>
+      </ng-template>
 
       <nav class="grid__pagination" aria-label="Paginación de resultados" *ngIf="totalPages() > 1">
-        <div class="grid__page-actions">
-          <button
-            type="button"
-            class="grid__page-button"
-            (click)="goToFirstPage()"
-            [disabled]="currentPage() === 1"
-          >
-            Primera
-          </button>
-          <button
-            type="button"
-            class="grid__page-button"
-            (click)="goToPreviousPage()"
-            [disabled]="currentPage() === 1"
-          >
-            Anterior
-          </button>
-        </div>
-
         <ul class="grid__page-list">
           <li
             *ngFor="let item of paginationItems(); let index = index; trackBy: trackByPaginationItem"
@@ -248,25 +251,6 @@
             </ng-template>
           </li>
         </ul>
-
-        <div class="grid__page-actions">
-          <button
-            type="button"
-            class="grid__page-button"
-            (click)="goToNextPage()"
-            [disabled]="currentPage() === totalPages()"
-          >
-            Siguiente
-          </button>
-          <button
-            type="button"
-            class="grid__page-button"
-            (click)="goToLastPage()"
-            [disabled]="currentPage() === totalPages()"
-          >
-            Última
-          </button>
-        </div>
       </nav>
     </ng-container>
   </section>

@@ -1,34 +1,84 @@
 <article class="commerce-card" [class.commerce-card--list]="viewMode === 'list'">
-  <a class="commerce-card__link" [class.commerce-card__link--list]="viewMode === 'list'" [href]="commerce.mapsUrl"
-    target="_blank" rel="noopener noreferrer">
-    <div class="commerce-card__image">
-      <img
-        [src]="commerce.img"
-        [alt]="commerce.name"
-        loading="lazy"
-        (error)="onImageError($event)"
-      />
-    </div>
-    <div class="commerce-card__body">
-      <header>
-        <p class="commerce-card__label" aria-hidden="true">Comercio</p>
-        <h3 class="commerce-card__title" [title]="commerce.name">{{ commerce.name }}</h3>
-        <p class="commerce-card__sector" [title]="commerce.sector">{{ commerce.sector }}</p>
-      </header>
-      <dl class="commerce-card__meta">
-        <div class="commerce-card__meta-item" *ngIf="commerce.phone">
-          <dt aria-label="Teléfono">Teléfono</dt>
-          <dd>
-            <a class="commerce-card__meta-link" [href]="'tel:' + commerce.phone">
-              {{ commerce.phone }}
-            </a>
-          </dd>
+  <ng-container [ngSwitch]="viewMode">
+    <a
+      *ngSwitchCase="'grid'"
+      class="commerce-card__link"
+      [href]="commerce.mapsUrl"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <div class="commerce-card__image">
+        <img
+          [src]="commerce.img"
+          [alt]="commerce.name"
+          loading="lazy"
+          (error)="onImageError($event)"
+        />
+      </div>
+      <div class="commerce-card__body">
+        <header>
+          <p class="commerce-card__label" aria-hidden="true">Comercio</p>
+          <h3 class="commerce-card__title" [title]="commerce.name">{{ commerce.name }}</h3>
+          <p class="commerce-card__sector" [title]="commerce.sector">{{ commerce.sector }}</p>
+        </header>
+        <dl class="commerce-card__meta">
+          <div class="commerce-card__meta-item" *ngIf="commerce.phone">
+            <dt aria-label="Teléfono">Teléfono</dt>
+            <dd>
+              <a class="commerce-card__meta-link" [href]="'tel:' + commerce.phone">
+                {{ commerce.phone }}
+              </a>
+            </dd>
+          </div>
+          <div class="commerce-card__meta-item">
+            <dt aria-label="Dirección">Dirección</dt>
+            <dd [title]="commerce.address">{{ commerce.address }}</dd>
+          </div>
+        </dl>
+      </div>
+    </a>
+
+    <a
+      *ngSwitchCase="'list'"
+      class="commerce-card__row"
+      [href]="commerce.mapsUrl"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <div class="commerce-card__row-cell commerce-card__row-cell--commerce">
+        <div class="commerce-card__row-media">
+          <img
+            [src]="commerce.img"
+            [alt]="commerce.name"
+            loading="lazy"
+            (error)="onImageError($event)"
+          />
         </div>
-        <div class="commerce-card__meta-item">
-          <dt aria-label="Dirección">Dirección</dt>
-          <dd [title]="commerce.address">{{ commerce.address }}</dd>
+        <div class="commerce-card__row-main">
+          <span class="commerce-card__row-heading">Comercio</span>
+          <h3 class="commerce-card__row-title" [title]="commerce.name">{{ commerce.name }}</h3>
         </div>
-      </dl>
-    </div>
-  </a>
+      </div>
+
+      <div class="commerce-card__row-cell" data-label="Sector">
+        <span class="commerce-card__row-heading">Sector</span>
+        <p class="commerce-card__row-text" [title]="commerce.sector">{{ commerce.sector }}</p>
+      </div>
+
+      <div class="commerce-card__row-cell" data-label="Dirección">
+        <span class="commerce-card__row-heading">Dirección</span>
+        <p class="commerce-card__row-text" [title]="commerce.address">{{ commerce.address }}</p>
+      </div>
+
+      <div class="commerce-card__row-cell" data-label="Teléfono">
+        <span class="commerce-card__row-heading">Teléfono</span>
+        <ng-container *ngIf="commerce.phone; else noPhone">
+          <a class="commerce-card__row-link" [href]="'tel:' + commerce.phone">{{ commerce.phone }}</a>
+        </ng-container>
+        <ng-template #noPhone>
+          <span class="commerce-card__row-muted">Sin teléfono</span>
+        </ng-template>
+      </div>
+    </a>
+  </ng-container>
 </article>

@@ -120,33 +120,27 @@ export class CommerceGridComponent {
       return Array.from({ length: total }, (_value, index) => ({ kind: 'page', value: index + 1 }));
     }
 
-    const items: PaginationItem[] = [];
-    const hasPage = (page: number) => items.some((item) => item.kind === 'page' && item.value === page);
-    const addPage = (page: number) => {
-      if (!hasPage(page)) {
-        items.push({ kind: 'page', value: page });
+    const windowSize = 1;
+    const pages = new Set<number>();
+    pages.add(1);
+    pages.add(total);
+
+    for (let offset = -windowSize; offset <= windowSize; offset += 1) {
+      const candidate = current + offset;
+      if (candidate > 1 && candidate < total) {
+        pages.add(candidate);
       }
-    };
-
-    addPage(1);
-
-    const window = 2;
-    const start = Math.max(2, current - window);
-    const end = Math.min(total - 1, current + window);
-
-    if (start > 2) {
-      items.push({ kind: 'ellipsis' });
     }
 
-    for (let page = start; page <= end; page += 1) {
-      addPage(page);
-    }
+    const sortedPages = Array.from(pages).sort((a, b) => a - b);
+    const items: PaginationItem[] = [];
 
-    if (end < total - 1) {
-      items.push({ kind: 'ellipsis' });
-    }
-
-    addPage(total);
+    sortedPages.forEach((page, index) => {
+      if (index > 0 && page - sortedPages[index - 1] > 1) {
+        items.push({ kind: 'ellipsis' });
+      }
+      items.push({ kind: 'page', value: page });
+    });
 
     return items;
   });
@@ -251,34 +245,11 @@ export class CommerceGridComponent {
     return `page-${item.value}`;
   }
 
-  protected goToPreviousPage(): void {
-    const page = this.currentPage();
-    if (page > 1) {
-      this.currentPage.set(page - 1);
-    }
-  }
-
-  protected goToNextPage(): void {
-    const page = this.currentPage();
-    const maxPage = this.totalPages();
-    if (page < maxPage) {
-      this.currentPage.set(page + 1);
-    }
-  }
-
   protected changePage(page: number): void {
     const maxPage = this.totalPages();
     if (page >= 1 && page <= maxPage) {
       this.currentPage.set(page);
     }
-  }
-
-  protected goToFirstPage(): void {
-    this.currentPage.set(1);
-  }
-
-  protected goToLastPage(): void {
-    this.currentPage.set(this.totalPages());
   }
 
   protected onPageSizeChange(size: number): void {
