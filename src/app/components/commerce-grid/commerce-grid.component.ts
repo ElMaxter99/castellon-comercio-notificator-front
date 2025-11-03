@@ -6,6 +6,8 @@ import { debounceTime } from 'rxjs';
 import { Commerce } from '../../models/commerce.model';
 import { CommerceService } from '../../services/commerce.service';
 import { CommerceCardComponent } from '../commerce-card/commerce-card.component';
+import { CommerceMapComponent } from '../commerce-map/commerce-map.component';
+import { CommerceHistoryComponent } from '../commerce-history/commerce-history.component';
 
 interface CommerceFilter {
   name: string;
@@ -15,7 +17,7 @@ interface CommerceFilter {
 @Component({
   selector: 'app-commerce-grid',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, CommerceCardComponent],
+  imports: [CommonModule, ReactiveFormsModule, CommerceMapComponent, CommerceHistoryComponent, CommerceCardComponent],
   templateUrl: './commerce-grid.component.html',
   styleUrl: './commerce-grid.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

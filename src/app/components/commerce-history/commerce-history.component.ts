@@ -1,0 +1,71 @@
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CommerceHistoryEntry } from '../../models/commerce-history-entry.model';
+import { CommerceService } from '../../services/commerce.service';
+
+@Component({
+  selector: 'app-commerce-history',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './commerce-history.component.html',
+  styleUrl: './commerce-history.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class CommerceHistoryComponent {
+  private readonly commerceService = inject(CommerceService);
+
+  protected readonly isLoading = signal(true);
+  protected readonly hasError = signal(false);
+  protected readonly historyEntries = signal<CommerceHistoryEntry[]>([]);
+
+  protected readonly displayEntries = computed(() => this.historyEntries().slice(0, 5));
+
+  constructor() {
+    this.loadHistory();
+  }
+
+  protected formatDate(value: string): string {
+    const formatter = new Intl.DateTimeFormat('es-ES', {
+      dateStyle: 'medium',
+      timeStyle: 'short'
+    });
+    return formatter.format(new Date(value));
+  }
+
+  protected summarise(items: string[]): string {
+    if (items.length === 0) {
+      return 'Sin cambios registrados';
+    }
+
+    const sample = items.slice(0, 3).join(', ');
+    const remaining = items.length - 3;
+
+    if (remaining > 0) {
+      return `${sample} y ${remaining} más`;
+    }
+
+    return sample;
+  }
+
+  protected trackByTimestamp(_index: number, entry: CommerceHistoryEntry): string {
+    return entry.timestamp;
+  }
+
+  private loadHistory(): void {
+    this.commerceService
+      .getHistory()
+      .pipe(takeUntilDestroyed())
+      .subscribe({
+        next: (entries) => {
+          this.historyEntries.set(entries);
+          this.hasError.set(false);
+          this.isLoading.set(false);
+        },
+        error: () => {
+          this.hasError.set(true);
+          this.isLoading.set(false);
+        }
+      });
+  }
+}
