@@ -1,0 +1,80 @@
+<section class="page">
+  <header class="page__hero">
+    <p class="page__eyebrow">Abonem Castelló</p>
+    <h1 class="page__title">Comercios adheridos al programa</h1>
+    <p class="page__subtitle">
+      Consulta y filtra los establecimientos que participan en la campaña de dinamización comercial de
+      Castelló de la Plana.
+    </p>
+  </header>
+
+  <section class="notice" aria-label="Información sobre el proyecto">
+    <h2 class="notice__title">Proyecto independiente sin ánimo de lucro</h2>
+    <p class="notice__body">
+      Esta aplicación nace por amor al arte para ofrecer una perspectiva alternativa, positiva y centrada en los
+      comercios adheridos al programa oficial.
+      Los datos se obtienen de la iniciativa municipal disponible en
+      <a
+        class="notice__link"
+        href="http://bonoscastellodelaplana.es/establecimientos-adheridos-al-programa"
+        target="_blank"
+        rel="noreferrer noopener"
+      >
+        bonoscastellodelaplana.es
+      </a>
+      y se muestran aquí sin ningún fin comercial.
+    </p>
+  </section>
+
+  <form class="filters" [formGroup]="filters" (ngSubmit)="onSubmit()">
+    <div class="filters__group">
+      <label class="filters__label" for="filter-name">Nombre del establecimiento</label>
+      <input
+        id="filter-name"
+        type="text"
+        formControlName="name"
+        placeholder="Introduce el nombre del establecimiento"
+        autocomplete="off"
+      />
+    </div>
+
+    <div class="filters__group">
+      <label class="filters__label" for="filter-sector">Sector del establecimiento</label>
+      <select id="filter-sector" formControlName="sector">
+        <option *ngFor="let sector of sectors(); trackBy: trackBySector" [ngValue]="sector">
+          {{ sector === 'all' ? 'Todos los sectores' : sector }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filters__actions">
+      <button type="button" class="filters__button filters__button--ghost" (click)="onResetFilters()">
+        Limpiar
+      </button>
+      <button type="submit" class="filters__button">Filtrar</button>
+    </div>
+  </form>
+
+  <div class="state" *ngIf="isLoading()">
+    <p>Cargando comercios...</p>
+  </div>
+
+  <div class="state state--error" *ngIf="hasError() && !isLoading()">
+    <p>
+      Ha ocurrido un error al recuperar los comercios. Vuelve a intentarlo en unos instantes.
+    </p>
+  </div>
+
+  <section class="grid" *ngIf="!isLoading() && !hasError()">
+    <p class="grid__empty" *ngIf="filteredCommerces().length === 0">
+      No se han encontrado comercios que coincidan con los filtros aplicados.
+    </p>
+
+    <div class="grid__list" *ngIf="filteredCommerces().length > 0">
+      <app-commerce-card
+        *ngFor="let commerce of filteredCommerces(); trackBy: trackByCommerce"
+        [commerce]="commerce"
+      ></app-commerce-card>
+    </div>
+  </section>
+</section>
