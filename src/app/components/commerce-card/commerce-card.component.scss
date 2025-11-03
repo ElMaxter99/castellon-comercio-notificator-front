@@ -33,6 +33,12 @@
   overflow: hidden;
 }
 
+@media (max-width: 599px) {
+  .commerce-card__image {
+    aspect-ratio: 16 / 9;
+  }
+}
+
 .commerce-card__image img {
   height: 100%;
   width: 100%;
@@ -44,6 +50,13 @@
   flex-direction: column;
   gap: 0.75rem;
   padding: 1.5rem;
+}
+
+@media (max-width: 599px) {
+  .commerce-card__body {
+    gap: 0.65rem;
+    padding: 1.1rem 1.25rem 1.3rem;
+  }
 }
 
 .commerce-card__label {
@@ -66,6 +79,12 @@
   text-overflow: ellipsis;
 }
 
+@media (max-width: 599px) {
+  .commerce-card__title {
+    font-size: 1.025rem;
+  }
+}
+
 .commerce-card__sector {
   font-size: 0.95rem;
   font-weight: 500;
@@ -74,6 +93,12 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media (max-width: 599px) {
+  .commerce-card__sector {
+    font-size: 0.9rem;
+  }
 }
 
 .commerce-card__meta {
