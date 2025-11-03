@@ -1,0 +1,33 @@
+<article class="commerce-card">
+  <a class="commerce-card__link" [href]="commerce.mapsUrl" target="_blank" rel="noopener noreferrer">
+    <div class="commerce-card__image">
+      <img
+        [src]="commerce.img"
+        [alt]="commerce.name"
+        loading="lazy"
+        (error)="onImageError($event)"
+      />
+    </div>
+    <div class="commerce-card__body">
+      <header>
+        <p class="commerce-card__label" aria-hidden="true">Comercio</p>
+        <h3 class="commerce-card__title" [title]="commerce.name">{{ commerce.name }}</h3>
+        <p class="commerce-card__sector" [title]="commerce.sector">{{ commerce.sector }}</p>
+      </header>
+      <dl class="commerce-card__meta">
+        <div class="commerce-card__meta-item" *ngIf="commerce.phone">
+          <dt aria-label="Teléfono">Teléfono</dt>
+          <dd>
+            <a class="commerce-card__meta-link" [href]="'tel:' + commerce.phone">
+              {{ commerce.phone }}
+            </a>
+          </dd>
+        </div>
+        <div class="commerce-card__meta-item">
+          <dt aria-label="Dirección">Dirección</dt>
+          <dd [title]="commerce.address">{{ commerce.address }}</dd>
+        </div>
+      </dl>
+    </div>
+  </a>
+</article>
