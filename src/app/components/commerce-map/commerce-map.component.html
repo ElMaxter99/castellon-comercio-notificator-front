@@ -3,7 +3,7 @@
     <p class="map__eyebrow">Explora Castelló</p>
     <h2 class="map__title">Comercios adheridos sobre el mapa</h2>
     <p class="map__subtitle">
-      Visualiza los {{ commerceCount() }} establecimientos disponibles y descubre su ubicación exacta.
+      Visualiza {{ filteredCount }} de {{ totalCount }} establecimientos disponibles y descubre su ubicación exacta.
     </p>
   </header>
 
@@ -12,22 +12,36 @@
       #mapContainer
       class="map__canvas"
       role="presentation"
-      [attr.aria-hidden]="isLoading() || hasError() ? 'true' : 'false'"
+      [attr.aria-hidden]="isLoading() || isDataLoading || hasDataError ? 'true' : 'false'"
     ></div>
 
-    <div class="map__overlay" *ngIf="isLoading()">
+    <div class="map__overlay" *ngIf="isLoading() || isDataLoading">
       <p class="map__overlay-text">Cargando mapa y ubicaciones...</p>
     </div>
 
-    <div class="map__overlay map__overlay--error" *ngIf="hasError() && !isLoading()">
+    <div class="map__overlay map__overlay--error" *ngIf="hasDataError && !isDataLoading">
       <p class="map__overlay-text">
         No se ha podido cargar el mapa interactivo. Revisa tu conexión e inténtalo de nuevo en unos minutos.
       </p>
     </div>
   </div>
 
-  <p class="map__hint">
-    Acerca el mapa para ver los detalles y selecciona cualquier marcador para consultar el nombre, sector y dirección del
-    comercio.
+  <section class="map__footer" *ngIf="legend().length > 0">
+    <p class="map__hint">
+      Los colores representan los sectores comerciales. Acerca el mapa para ver los detalles y selecciona cualquier
+      marcador para conocer el nombre y la dirección.
+    </p>
+
+    <ul class="map__legend" aria-label="Sectores visibles en el mapa">
+      <li class="map__legend-item" *ngFor="let entry of legend()">
+        <span class="map__legend-color" [style.--legend-color]="entry.color"></span>
+        <span class="map__legend-label">{{ entry.sector }}</span>
+        <span class="map__legend-count">{{ entry.count }}</span>
+      </li>
+    </ul>
+  </section>
+
+  <p class="map__hint map__hint--empty" *ngIf="legend().length === 0 && !isDataLoading && !hasDataError">
+    No hay comercios que coincidan con los filtros seleccionados. Ajusta la búsqueda para ver nuevas ubicaciones.
   </p>
 </section>
