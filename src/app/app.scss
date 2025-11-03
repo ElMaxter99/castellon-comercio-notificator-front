@@ -4,5 +4,15 @@
 
 .layout {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background-color: #0f172a;
+}
+
+.layout__content {
+  flex: 1;
+}
+
+.layout__footer {
+  margin-top: auto;
 }

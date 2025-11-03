@@ -1,4 +1,6 @@
 <section class="page">
+  <app-commerce-map class="page__map"></app-commerce-map>
+
   <header class="page__hero">
     <p class="page__eyebrow">Abonem Castelló</p>
     <h1 class="page__title">Comercios adheridos al programa</h1>
@@ -16,7 +18,7 @@
       Los datos se obtienen de la iniciativa municipal disponible en
       <a
         class="notice__link"
-        href="http://bonoscastellodelaplana.es/establecimientos-adheridos-al-programa"
+        href="https://bonoscastellodelaplana.es/establecimientos-adheridos-al-programa"
         target="_blank"
         rel="noreferrer noopener"
       >
@@ -25,6 +27,8 @@
       y se muestran aquí sin ningún fin comercial.
     </p>
   </section>
+
+  <app-commerce-history class="page__history"></app-commerce-history>
 
   <form class="filters" [formGroup]="filters" (ngSubmit)="onSubmit()">
     <div class="filters__group">
