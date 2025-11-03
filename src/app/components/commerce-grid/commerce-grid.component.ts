@@ -18,7 +18,11 @@ import { CommerceService } from '../../services/commerce.service';
 import { CommerceCardComponent } from '../commerce-card/commerce-card.component';
 import { CommerceMapComponent } from '../commerce-map/commerce-map.component';
 
-const PAGE_SIZE = 12;
+type ViewMode = 'grid' | 'list';
+type PaginationItem = { kind: 'page'; value: number } | { kind: 'ellipsis' };
+
+const DEFAULT_PAGE_SIZE = 12;
+const PAGE_SIZE_OPTIONS = [12, 24, 48];
 
 @Component({
   selector: 'app-commerce-grid',
@@ -41,8 +45,10 @@ export class CommerceGridComponent {
     address: ''
   });
   protected readonly currentPage = signal(1);
+  protected readonly pageSize = signal(DEFAULT_PAGE_SIZE);
   protected readonly isSectorDropdownOpen = signal(false);
   protected readonly sectorSearchTerm = signal('');
+  protected readonly viewMode = signal<ViewMode>('grid');
 
   protected readonly sectors = computed(() => {
     const unique = new Set<string>();
@@ -64,37 +70,85 @@ export class CommerceGridComponent {
     );
   });
 
-  protected readonly filteredCommerces = computed(() => {
-    const { name, sectorQuery, address } = this.filterValue();
+  protected readonly baseFilteredCommerces = computed(() => {
+    const { name, address } = this.filterValue();
     const normalisedName = name.trim().toLocaleLowerCase('es');
-    const normalisedSector = sectorQuery.trim().toLocaleLowerCase('es');
     const normalisedAddress = address.trim().toLocaleLowerCase('es');
 
     return this.commerces().filter((commerce) => {
       const matchesName =
         !normalisedName || commerce.name.toLocaleLowerCase('es').includes(normalisedName);
-      const matchesSector =
-        !normalisedSector || commerce.sector.toLocaleLowerCase('es').includes(normalisedSector);
       const matchesAddress =
         !normalisedAddress || commerce.address.toLocaleLowerCase('es').includes(normalisedAddress);
-      return matchesName && matchesSector && matchesAddress;
+      return matchesName && matchesAddress;
     });
+  });
+
+  protected readonly filteredCommerces = computed(() => {
+    const base = this.baseFilteredCommerces();
+    const { sectorQuery } = this.filterValue();
+    const normalisedSector = sectorQuery.trim().toLocaleLowerCase('es');
+
+    if (!normalisedSector) {
+      return base;
+    }
+
+    return base.filter((commerce) =>
+      commerce.sector.toLocaleLowerCase('es').includes(normalisedSector)
+    );
   });
 
   protected readonly totalPages = computed(() => {
     const total = this.filteredCommerces().length;
-    return total === 0 ? 1 : Math.ceil(total / PAGE_SIZE);
+    const size = this.pageSize();
+    return total === 0 ? 1 : Math.ceil(total / size);
   });
 
   protected readonly pagedCommerces = computed(() => {
     const page = this.currentPage();
-    const start = (page - 1) * PAGE_SIZE;
-    const end = start + PAGE_SIZE;
+    const size = this.pageSize();
+    const start = (page - 1) * size;
+    const end = start + size;
     return this.filteredCommerces().slice(start, end);
   });
 
-  protected readonly pages = computed(() => {
-    return Array.from({ length: this.totalPages() }, (_value, index) => index + 1);
+  protected readonly paginationItems = computed<PaginationItem[]>(() => {
+    const total = this.totalPages();
+    const current = this.currentPage();
+
+    if (total <= 7) {
+      return Array.from({ length: total }, (_value, index) => ({ kind: 'page', value: index + 1 }));
+    }
+
+    const items: PaginationItem[] = [];
+    const hasPage = (page: number) => items.some((item) => item.kind === 'page' && item.value === page);
+    const addPage = (page: number) => {
+      if (!hasPage(page)) {
+        items.push({ kind: 'page', value: page });
+      }
+    };
+
+    addPage(1);
+
+    const window = 2;
+    const start = Math.max(2, current - window);
+    const end = Math.min(total - 1, current + window);
+
+    if (start > 2) {
+      items.push({ kind: 'ellipsis' });
+    }
+
+    for (let page = start; page <= end; page += 1) {
+      addPage(page);
+    }
+
+    if (end < total - 1) {
+      items.push({ kind: 'ellipsis' });
+    }
+
+    addPage(total);
+
+    return items;
   });
 
   protected readonly filters = this.fb.nonNullable.group({
@@ -190,8 +244,11 @@ export class CommerceGridComponent {
     return `${index}-${sector}`;
   }
 
-  protected trackByPage(_index: number, page: number): string {
-    return `page-${page}`;
+  protected trackByPaginationItem(index: number, item: PaginationItem): string {
+    if (item.kind === 'ellipsis') {
+      return `ellipsis-${index}`;
+    }
+    return `page-${item.value}`;
   }
 
   protected goToPreviousPage(): void {
@@ -214,6 +271,51 @@ export class CommerceGridComponent {
     if (page >= 1 && page <= maxPage) {
       this.currentPage.set(page);
     }
+  }
+
+  protected goToFirstPage(): void {
+    this.currentPage.set(1);
+  }
+
+  protected goToLastPage(): void {
+    this.currentPage.set(this.totalPages());
+  }
+
+  protected onPageSizeChange(size: number): void {
+    if (!Number.isFinite(size) || size <= 0) {
+      return;
+    }
+    this.pageSize.set(Math.floor(size));
+    this.currentPage.set(1);
+  }
+
+  protected onPageSizeSelect(event: Event): void {
+    const target = event.target as HTMLSelectElement | null;
+    if (!target) {
+      return;
+    }
+    const value = Number.parseInt(target.value, 10);
+    this.onPageSizeChange(value);
+  }
+
+  protected onSectorFilterFromMap(sector: string | null): void {
+    const trimmedSector = sector?.trim() ?? '';
+    this.filters.controls.sectorQuery.setValue(trimmedSector);
+    const name = this.filters.controls.name.value.trim();
+    const address = this.filters.controls.address.value.trim();
+    this.filterValue.set({ name, sectorQuery: trimmedSector, address });
+  }
+
+  protected setViewMode(mode: ViewMode): void {
+    this.viewMode.set(mode);
+  }
+
+  protected isViewModeActive(mode: ViewMode): boolean {
+    return this.viewMode() === mode;
+  }
+
+  protected get pageSizeOptions(): number[] {
+    return PAGE_SIZE_OPTIONS;
   }
 
   @HostListener('document:click', ['$event'])

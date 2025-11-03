@@ -1,5 +1,6 @@
-<article class="commerce-card">
-  <a class="commerce-card__link" [href]="commerce.mapsUrl" target="_blank" rel="noopener noreferrer">
+<article class="commerce-card" [class.commerce-card--list]="viewMode === 'list'">
+  <a class="commerce-card__link" [class.commerce-card__link--list]="viewMode === 'list'" [href]="commerce.mapsUrl"
+    target="_blank" rel="noopener noreferrer">
     <div class="commerce-card__image">
       <img
         [src]="commerce.img"

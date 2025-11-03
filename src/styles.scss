@@ -60,4 +60,199 @@ app-commerce-grid {
   .notice__link:focus-visible {
     color: #bfdbfe;
   }
+
+  .filters__header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: left;
+  }
+
+  @media (min-width: 768px) {
+    .filters__header {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+  }
+
+  .filters__eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(15, 23, 42, 0.45);
+    margin: 0 0 0.25rem;
+  }
+
+  .filters__title {
+    margin: 0;
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .filters__helper {
+    margin: 0;
+    font-size: 0.95rem;
+    color: rgba(15, 23, 42, 0.75);
+    max-width: 32rem;
+  }
+
+  .filters__grid {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .filters__grid {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+  }
+
+  .filters__group--wide {
+    grid-column: span 1;
+  }
+
+  @media (min-width: 640px) {
+    .filters__group--wide {
+      grid-column: span 3;
+    }
+
+    .filters__group:not(.filters__group--wide) {
+      grid-column: span 3;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .filters__group--wide {
+      grid-column: span 4;
+    }
+
+    .filters__group:not(.filters__group--wide) {
+      grid-column: span 2;
+    }
+  }
+
+  .filters__footer {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 767px) {
+    .filters__footer {
+      flex-direction: column;
+      justify-content: stretch;
+    }
+
+    .filters__button {
+      width: 100%;
+    }
+  }
+
+  .grid__controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .grid__controls {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1.5rem;
+    }
+  }
+
+  .grid__view {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .grid__view-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(226, 232, 240, 0.75);
+  }
+
+  .grid__view-buttons {
+    display: inline-flex;
+    padding: 0.25rem;
+    background: rgba(15, 23, 42, 0.6);
+    border-radius: 999px;
+    gap: 0.25rem;
+  }
+
+  .grid__view-button {
+    border: none;
+    background: transparent;
+    color: rgba(226, 232, 240, 0.7);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .grid__view-button:is(:hover, :focus-visible) {
+    background: rgba(37, 99, 235, 0.4);
+    color: #ffffff;
+    outline: none;
+  }
+
+  .grid__view-button--active {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.9) 0%, rgba(30, 64, 175, 0.85) 100%);
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+  }
+
+  .grid__page-size {
+    color: rgba(226, 232, 240, 0.85);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .grid__page-size select {
+    appearance: none;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    border-radius: 0.75rem;
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    padding: 0.35rem 0.9rem;
+    cursor: pointer;
+  }
+
+  .grid__page-size select:focus-visible {
+    outline: none;
+    border-color: rgba(191, 219, 254, 0.8);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.45);
+  }
+
+  .grid__page-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .grid__page-ellipsis {
+    color: rgba(226, 232, 240, 0.55);
+    font-size: 1.35rem;
+    font-weight: 600;
+    padding: 0 0.45rem;
+    display: flex;
+    align-items: center;
+  }
 }

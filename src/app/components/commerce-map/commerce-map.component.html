@@ -28,15 +28,38 @@
 
   <section class="map__footer" *ngIf="legend().length > 0">
     <p class="map__hint">
-      Los colores representan los sectores comerciales. Acerca el mapa para ver los detalles y selecciona cualquier
-      marcador para conocer el nombre y la dirección.
+      Los colores representan los sectores comerciales. Usa la leyenda para resaltar categorías concretas o vuelve a
+      mostrar todas las ubicaciones cuando lo necesites.
     </p>
 
+    <div class="map__legend-controls">
+      <button
+        type="button"
+        class="map__legend-reset"
+        (click)="onLegendReset()"
+        [disabled]="!activeSector()"
+      >
+        Mostrar todos
+      </button>
+    </div>
+
     <ul class="map__legend" aria-label="Sectores visibles en el mapa">
-      <li class="map__legend-item" *ngFor="let entry of legend()">
-        <span class="map__legend-color" [style.--legend-color]="entry.color"></span>
-        <span class="map__legend-label">{{ entry.sector }}</span>
-        <span class="map__legend-count">{{ entry.count }}</span>
+      <li
+        class="map__legend-item"
+        *ngFor="let entry of legend()"
+        [class.map__legend-item--active]="isLegendEntryActive(entry.sector)"
+        [class.map__legend-item--dimmed]="isLegendEntryDimmed(entry.sector)"
+      >
+        <button
+          type="button"
+          class="map__legend-button"
+          (click)="onLegendToggle(entry.sector)"
+          [attr.aria-pressed]="isLegendEntryActive(entry.sector)"
+        >
+          <span class="map__legend-color" [style.--legend-color]="entry.color"></span>
+          <span class="map__legend-label">{{ entry.sector }}</span>
+          <span class="map__legend-count">{{ entry.count }}</span>
+        </button>
       </li>
     </ul>
   </section>
