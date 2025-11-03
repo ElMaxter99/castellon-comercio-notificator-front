@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommerceHistoryEntry } from '../../models/commerce-history-entry.model';
 import { CommerceService } from '../../services/commerce.service';
@@ -19,7 +19,25 @@ export class CommerceHistoryComponent {
   protected readonly hasError = signal(false);
   protected readonly historyEntries = signal<CommerceHistoryEntry[]>([]);
 
-  protected readonly displayEntries = computed(() => this.historyEntries().slice(0, 5));
+  private readonly entryLimit = signal(5);
+
+  @Input()
+  set displayLimit(value: number | null) {
+    if (value === null || value === undefined || value <= 0) {
+      this.entryLimit.set(0);
+      return;
+    }
+    this.entryLimit.set(Math.floor(value));
+  }
+
+  protected readonly displayEntries = computed(() => {
+    const limit = this.entryLimit();
+    const entries = this.historyEntries();
+    if (limit === 0) {
+      return entries;
+    }
+    return entries.slice(0, limit);
+  });
 
   constructor() {
     this.loadHistory();

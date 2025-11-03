@@ -4,14 +4,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Input,
+  OnChanges,
   OnDestroy,
+  SimpleChanges,
   ViewChild,
-  inject,
   signal
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Commerce } from '../../models/commerce.model';
-import { CommerceService } from '../../services/commerce.service';
 
 const DEFAULT_CENTER: [number, number] = [39.986359, -0.037652];
 const DEFAULT_ZOOM = 14;
@@ -24,23 +24,46 @@ const DEFAULT_ZOOM = 14;
   styleUrl: './commerce-map.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CommerceMapComponent implements AfterViewInit, OnDestroy {
-  private readonly commerceService = inject(CommerceService);
-
+export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges {
   @ViewChild('mapContainer', { static: true })
   private readonly mapContainer?: ElementRef<HTMLDivElement>;
 
-  protected readonly isLoading = signal(true);
-  protected readonly hasError = signal(false);
-  protected readonly commerceCount = signal(0);
+  @Input({ required: true })
+  set commerces(value: Commerce[]) {
+    this.pendingCommerces = value ?? [];
+    this.renderMarkers(value ?? []);
+  }
+
+  @Input() totalCount = 0;
+  @Input() filteredCount = 0;
+  @Input() isDataLoading = false;
+  @Input() hasDataError = false;
 
   private map: any;
   private markersLayer: any;
   private pendingCommerces: Commerce[] = [];
   private isMapReady = false;
+  private readonly sectorPalette = [
+    '#22d3ee',
+    '#a855f7',
+    '#f97316',
+    '#facc15',
+    '#38bdf8',
+    '#f472b6',
+    '#34d399',
+    '#60a5fa',
+    '#f43f5e',
+    '#c084fc'
+  ];
+  private sectorColorMap = new Map<string, string>();
 
-  constructor() {
-    this.loadCommerces();
+  protected readonly isLoading = signal(true);
+  protected readonly legend = signal<Array<{ sector: string; color: string; count: number }>>([]);
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['commerces'] && !changes['commerces'].firstChange) {
+      this.renderMarkers(this.pendingCommerces);
+    }
   }
 
   ngAfterViewInit(): void {
@@ -53,34 +76,14 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private loadCommerces(): void {
-    this.commerceService
-      .getCommerces()
-      .pipe(takeUntilDestroyed())
-      .subscribe({
-        next: (commerces) => {
-          this.commerceCount.set(commerces.length);
-          this.hasError.set(false);
-          this.isLoading.set(false);
-          this.renderMarkers(commerces);
-        },
-        error: () => {
-          this.hasError.set(true);
-          this.isLoading.set(false);
-        }
-      });
-  }
-
   private initialiseMap(): void {
     if (!this.mapContainer) {
-      this.hasError.set(true);
       this.isLoading.set(false);
       return;
     }
 
     const leaflet = this.getLeafletInstance();
     if (!leaflet) {
-      this.hasError.set(true);
       this.isLoading.set(false);
       return;
     }
@@ -101,6 +104,7 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy {
     this.map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
     this.markersLayer = leaflet.layerGroup().addTo(this.map);
     this.isMapReady = true;
+    this.isLoading.set(false);
 
     if (this.pendingCommerces.length > 0) {
       const pending = [...this.pendingCommerces];
@@ -110,18 +114,23 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy {
   }
 
   private renderMarkers(commerces: Commerce[]): void {
+    if (!Array.isArray(commerces)) {
+      return;
+    }
+
     if (!this.isMapReady || !this.markersLayer) {
-      this.pendingCommerces = commerces;
+      this.pendingCommerces = [...commerces];
       return;
     }
 
     const leaflet = this.getLeafletInstance();
     if (!leaflet) {
-      this.hasError.set(true);
       return;
     }
 
     this.markersLayer.clearLayers();
+    this.sectorColorMap = new Map<string, string>();
+    const legendAccumulator = new Map<string, { color: string; count: number }>();
 
     const bounds = leaflet.latLngBounds([]);
 
@@ -131,10 +140,29 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy {
         return;
       }
 
-      const marker = leaflet.marker(coordinates, { title: commerce.name });
+      const color = this.getColorForSector(commerce.sector);
+      const marker = leaflet.circleMarker(coordinates, {
+        title: commerce.name,
+        radius: 8,
+        weight: 2,
+        color,
+        opacity: 0.95,
+        fillOpacity: 0.8,
+        fillColor: color
+      });
       marker.bindPopup(this.buildPopupContent(commerce));
       marker.addTo(this.markersLayer);
       bounds.extend(coordinates);
+
+      if (commerce.sector.trim().length > 0) {
+        const key = commerce.sector.trim();
+        const existing = legendAccumulator.get(key);
+        if (existing) {
+          existing.count += 1;
+        } else {
+          legendAccumulator.set(key, { color, count: 1 });
+        }
+      }
     });
 
     if (bounds.isValid()) {
@@ -142,6 +170,11 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy {
     } else {
       this.map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
     }
+
+    const legendEntries = Array.from(legendAccumulator.entries())
+      .map(([sector, value]) => ({ sector, ...value }))
+      .sort((a, b) => a.sector.localeCompare(b.sector, 'es'));
+    this.legend.set(legendEntries);
   }
 
   private extractCoordinates(url: string): [number, number] | null {
@@ -184,5 +217,21 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy {
   private getLeafletInstance(): any | null {
     const leaflet = (window as typeof window & { L?: any }).L;
     return leaflet ?? null;
+  }
+
+  private getColorForSector(sector: string): string {
+    const key = sector.trim().toLocaleLowerCase('es');
+    if (!key) {
+      return '#38bdf8';
+    }
+
+    const existing = this.sectorColorMap.get(key);
+    if (existing) {
+      return existing;
+    }
+
+    const nextColor = this.sectorPalette[this.sectorColorMap.size % this.sectorPalette.length];
+    this.sectorColorMap.set(key, nextColor);
+    return nextColor;
   }
 }
