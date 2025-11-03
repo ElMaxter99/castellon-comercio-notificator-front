@@ -8,7 +8,7 @@ import { Commerce } from '../models/commerce.model';
 })
 export class CommerceService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = '/api/comercios';
+  private readonly baseUrl = 'https://bcc-api.alvaromaxter.es/api/comercios';
 
   getCommerces(): Observable<Commerce[]> {
     return this.http.get<Commerce[]>(this.baseUrl);
