@@ -1,8 +1,16 @@
 # Changelog
 
-Todas las novedades relevantes del proyecto se documentan en este archivo siguiendo el formato de [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/) y utilizando [Versionado Semántico](https://semver.org/lang/es/).
 
-## [1.0.0] - 2024-11-24
+
+## [v1.1.0](https://github.com/ElMaxter99/castellon-comercio-notificator-front/releases/tag/v1.1.0) - 2025-11-04
+
+### Añadido
+
+- Feat: add Valencian language support #9
+- Add vercel analytics #10
+- Fix responsive movil #11
+
+## [v1.0.0](https://github.com/ElMaxter99/castellon-comercio-notificator-front/releases/tag/v1.0.0) - 2025-11-03
 
 ### Añadido
 
@@ -15,9 +23,3 @@ Todas las novedades relevantes del proyecto se documentan en este archivo siguie
 - Gestión centralizada de estados de carga y error en servicios y componentes visuales.
 - Normalización automática de URLs (HTTP → HTTPS) antes de mostrarlas en la interfaz.
 - Estilos responsive y accesibles con soporte para mensajes ARIA en estados críticos.
-
-### Cambiado
-
-- Documentación del proyecto renovada para reflejar el alcance de la versión 1.0.0.
-
-[1.0.0]: https://github.com/alvaromaxter/castellon-comercio-notificator-front/releases/tag/v1.0.0
