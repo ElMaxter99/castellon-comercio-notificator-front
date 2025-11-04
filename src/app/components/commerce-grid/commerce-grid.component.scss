@@ -11,11 +11,69 @@
   }
 }
 
+
+/* === Mobile viewport refinements === */
+@media (max-width: 599px) {
+  .page {
+    padding: 0 0.5rem;
+    gap: 1.5rem;
+  }
+
+  .page__title {
+    font-size: clamp(1.6rem, 6vw, 2.4rem);
+  }
+
+  .page__subtitle {
+    font-size: clamp(0.9rem, 4vw, 1.05rem);
+  }
+
+  .notice {
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  .filters {
+    padding: 1rem;
+    gap: 1rem;
+    border-radius: 1rem;
+  }
+
+  .filters__label {
+    font-size: 0.85rem;
+  }
+
+  .filters input,
+  .filters__select-trigger {
+    padding: 0.65rem 0.85rem;
+    font-size: 0.95rem;
+  }
+
+  .grid__title {
+    font-size: 1.25rem;
+  }
+
+  .grid__description {
+    font-size: 0.9rem;
+  }
+
+  .grid__pagination {
+    padding: 0.45rem 0.8rem;
+    gap: 0.35rem;
+  }
+
+  .page__map {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+}
+
 .page {
-  display: grid;
-  gap: clamp(2rem, 6vw, 3.5rem);
-  max-width: 1200px;
+  max-width: 960px;
   margin: 0 auto;
+  display: grid;
+  gap: clamp(2rem, 5vw, 3rem);
 }
 
 @media (max-width: 599px) {
@@ -527,3 +585,186 @@
   padding: 0 0.5rem;
 }
 
+:host {
+  display: block;
+  padding: clamp(1.5rem, 3vw, 3rem) clamp(1rem, 4vw, 4rem) 4rem;
+  background: radial-gradient(circle at top, #1e3a8a 0%, #0f172a 60%, #020617 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* 🔧 evita el scroll horizontal en móviles */
+}
+
+@media (max-width: 599px) {
+  :host {
+    padding: 1.25rem 0.75rem 3rem;
+  }
+}
+
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  gap: clamp(2rem, 5vw, 3rem);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 599px) {
+  .page {
+    gap: 1.5rem;
+    padding: 0 0.25rem;
+  }
+}
+
+.page__hero {
+  color: #f8fafc;
+  display: grid;
+  gap: 1rem;
+  text-align: center;
+}
+
+.page__eyebrow {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0;
+  color: rgba(248, 250, 252, 0.7);
+}
+
+.page__title {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700;
+}
+
+.page__subtitle {
+  margin: 0;
+  font-size: clamp(1rem, 3.5vw, 1.2rem);
+  color: rgba(241, 245, 249, 0.9);
+}
+
+/* 🧭 MAP FIX */
+.page__map {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+/* 🟦 NOTICE */
+.notice {
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 1.5rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  color: #e2e8f0;
+  display: grid;
+  gap: 0.75rem;
+  text-align: center;
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.25);
+}
+
+.notice__title {
+  margin: 0;
+  font-size: clamp(1.25rem, 3.2vw, 1.75rem);
+  font-weight: 700;
+}
+
+.notice__body {
+  margin: 0;
+  font-size: clamp(0.95rem, 2.4vw, 1.05rem);
+  line-height: 1.7;
+  color: rgba(226, 232, 240, 0.85);
+}
+
+.notice__link {
+  color: #cbd5f5;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+/* 🧩 FILTERS */
+.filters {
+  display: grid;
+  gap: clamp(1.5rem, 2.8vw, 2rem);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 1.5rem;
+  box-shadow: 0 18px 32px rgba(15, 23, 42, 0.18);
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+@media (max-width: 599px) {
+  .filters {
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+}
+
+/* 🧩 GRID (tarjetas) */
+.grid {
+  display: grid;
+  gap: 2rem;
+  overflow-x: hidden;
+}
+
+.grid__list {
+  display: grid;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 639px) {
+  .grid__list {
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .grid__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* 📱 Mobile scale refinements */
+@media (max-width: 599px) {
+  .page__title {
+    font-size: clamp(1.6rem, 6vw, 2.3rem);
+  }
+
+  .page__subtitle {
+    font-size: clamp(0.9rem, 4vw, 1rem);
+  }
+
+  .notice__title {
+    font-size: 1.25rem;
+  }
+
+  .notice__body {
+    font-size: 0.95rem;
+  }
+
+  .grid__title {
+    font-size: 1.25rem;
+  }
+
+  .grid__description {
+    font-size: 0.9rem;
+  }
+
+  .grid__pagination {
+    padding: 0.45rem 0.8rem;
+    gap: 0.35rem;
+  }
+}

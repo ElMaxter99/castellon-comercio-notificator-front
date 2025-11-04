@@ -1,18 +1,16 @@
-<section class="history" aria-label="Histórico de actualizaciones de comercios">
+<section class="history" [attr.aria-label]="'history.component.ariaLabel' | translate">
   <header class="history__header">
-    <p class="history__eyebrow">Actualizaciones recientes</p>
-    <h2 class="history__title">Movimientos en el censo de comercios</h2>
-    <p class="history__subtitle">
-      Consulta los últimos cambios registrados en el listado oficial de establecimientos adheridos.
-    </p>
+    <p class="history__eyebrow">{{ 'history.component.eyebrow' | translate }}</p>
+    <h2 class="history__title">{{ 'history.component.title' | translate }}</h2>
+    <p class="history__subtitle">{{ 'history.component.subtitle' | translate }}</p>
   </header>
 
   <div class="history__state" *ngIf="isLoading()">
-    <p>Cargando histórico de cambios...</p>
+    <p>{{ 'history.component.loading' | translate }}</p>
   </div>
 
   <div class="history__state history__state--error" *ngIf="hasError() && !isLoading()">
-    <p>Ha ocurrido un error al recuperar el histórico. Intenta recargar la página más tarde.</p>
+    <p>{{ 'history.component.error' | translate }}</p>
   </div>
 
   <ul class="history__list" *ngIf="!isLoading() && !hasError() && displayEntries().length > 0">
@@ -20,25 +18,27 @@
       <article class="history__card">
         <header class="history__card-header">
           <time class="history__timestamp" [dateTime]="entry.timestamp">{{ formatDate(entry.timestamp) }}</time>
-          <span class="history__count">Total tras la actualización: {{ entry.countAfter }}</span>
+          <span class="history__count">
+            {{ 'history.component.totalAfter' | translate: { count: entry.countAfter } }}
+          </span>
         </header>
 
         <div class="history__changes" *ngIf="entry.added.length > 0">
           <span class="history__badge history__badge--added">+{{ entry.added.length }}</span>
           <p class="history__change-text" [attr.title]="entry.added.join(', ')">
-            Se incorporan: {{ summarise(entry.added) }}
+            {{ 'history.component.addedPrefix' | translate }} {{ summarise(entry.added) }}
           </p>
         </div>
 
         <div class="history__changes history__changes--removed" *ngIf="entry.removed.length > 0">
           <span class="history__badge history__badge--removed">-{{ entry.removed.length }}</span>
           <p class="history__change-text" [attr.title]="entry.removed.join(', ')">
-            Dejan de participar: {{ summarise(entry.removed) }}
+            {{ 'history.component.removedPrefix' | translate }} {{ summarise(entry.removed) }}
           </p>
         </div>
 
         <p class="history__no-change" *ngIf="entry.added.length === 0 && entry.removed.length === 0">
-          No se registraron altas ni bajas en este momento.
+          {{ 'history.component.noChanges' | translate }}
         </p>
       </article>
     </li>

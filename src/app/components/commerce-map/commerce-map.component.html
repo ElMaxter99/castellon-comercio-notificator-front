@@ -1,9 +1,9 @@
-<section class="map" aria-label="Mapa interactivo de comercios">
+<section class="map" [attr.aria-label]="'map.ariaLabel' | translate">
   <header class="map__header">
-    <p class="map__eyebrow">Explora Castelló</p>
-    <h2 class="map__title">Comercios adheridos sobre el mapa</h2>
+    <p class="map__eyebrow">{{ 'map.hero.eyebrow' | translate }}</p>
+    <h2 class="map__title">{{ 'map.hero.title' | translate }}</h2>
     <p class="map__subtitle">
-      Visualiza {{ filteredCount }} de {{ totalCount }} establecimientos disponibles y descubre su ubicación exacta.
+      {{ 'map.hero.subtitle' | translate: { filtered: filteredCount, total: totalCount } }}
     </p>
   </header>
 
@@ -16,21 +16,16 @@
     ></div>
 
     <div class="map__overlay" *ngIf="isLoading() || isDataLoading">
-      <p class="map__overlay-text">Cargando mapa y ubicaciones...</p>
+      <p class="map__overlay-text">{{ 'map.overlay.loading' | translate }}</p>
     </div>
 
     <div class="map__overlay map__overlay--error" *ngIf="hasDataError && !isDataLoading">
-      <p class="map__overlay-text">
-        No se ha podido cargar el mapa interactivo. Revisa tu conexión e inténtalo de nuevo en unos minutos.
-      </p>
+      <p class="map__overlay-text">{{ 'map.overlay.error' | translate }}</p>
     </div>
   </div>
 
   <section class="map__footer" *ngIf="legend().length > 0">
-    <p class="map__hint">
-      Los colores representan los sectores comerciales. Usa la leyenda para resaltar categorías concretas o vuelve a
-      mostrar todas las ubicaciones cuando lo necesites.
-    </p>
+    <p class="map__hint">{{ 'map.legend.hint' | translate }}</p>
 
     <div class="map__legend-controls">
       <button
@@ -39,11 +34,11 @@
         (click)="onLegendReset()"
         [disabled]="!activeSector()"
       >
-        Mostrar todos
+        {{ 'map.legend.reset' | translate }}
       </button>
     </div>
 
-    <ul class="map__legend" aria-label="Sectores visibles en el mapa">
+    <ul class="map__legend" [attr.aria-label]="'map.legend.ariaLabel' | translate">
       <li
         class="map__legend-item"
         *ngFor="let entry of legend()"
@@ -65,6 +60,6 @@
   </section>
 
   <p class="map__hint map__hint--empty" *ngIf="legend().length === 0 && !isDataLoading && !hasDataError">
-    No hay comercios que coincidan con los filtros seleccionados. Ajusta la búsqueda para ver nuevas ubicaciones.
+    {{ 'map.empty' | translate }}
   </p>
 </section>

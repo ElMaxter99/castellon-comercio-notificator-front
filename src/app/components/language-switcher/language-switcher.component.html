@@ -1,0 +1,37 @@
+<div
+  class="language-switcher"
+  [class.language-switcher--select]="variant === 'select'"
+  [attr.role]="variant === 'buttons' ? 'group' : null"
+  [attr.aria-label]="variant === 'buttons' ? ('language.switcher.label' | translate) : null"
+>
+  <ng-container *ngIf="variant === 'select'; else buttonVariant">
+    <label class="language-switcher__select">
+      <span class="language-switcher__label">{{ 'language.switcher.label' | translate }}</span>
+      <select
+        class="language-switcher__dropdown"
+        [value]="currentLanguageCode"
+        (change)="onSelectChange($event)"
+      >
+        <option *ngFor="let language of languages" [value]="language.code">
+          {{ ('language.switcher.option.' + language.code) | translate }}
+        </option>
+      </select>
+    </label>
+  </ng-container>
+
+  <ng-template #buttonVariant>
+    <span class="language-switcher__label">{{ 'language.switcher.label' | translate }}</span>
+    <div class="language-switcher__options">
+      <button
+        *ngFor="let language of languages"
+        type="button"
+        class="language-switcher__button"
+        [class.language-switcher__button--active]="isActive(language.code)"
+        [attr.aria-pressed]="isActive(language.code)"
+        (click)="selectLanguage(language.code)"
+      >
+        {{ ('language.switcher.option.' + language.code) | translate }}
+      </button>
+    </div>
+  </ng-template>
+</div>

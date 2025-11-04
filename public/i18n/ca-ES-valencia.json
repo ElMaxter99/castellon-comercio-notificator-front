@@ -1,0 +1,143 @@
+{
+  "language": {
+    "switcher": {
+      "label": "Idioma",
+      "option": {
+        "es": "Castellà",
+        "ca-ES-valencia": "Valencià"
+      }
+    }
+  },
+  "grid": {
+    "hero": {
+      "eyebrow": "Abonem Castelló",
+      "title": "Comerços adherits al programa",
+      "subtitle": "Consulta i filtra els establiments que participen en la campanya de dinamització comercial de Castelló de la Plana."
+    },
+    "notice": {
+      "ariaLabel": "Informació sobre el projecte",
+      "title": "Projecte independent sense ànim de lucre",
+      "body": {
+        "beforeLink": "Aquesta aplicació és una iniciativa personal sense relació amb l'Ajuntament de Castelló ni amb CONFECOMERÇ. Les dades mostrades provenen de fonts públiques del programa “Abonem Castelló” ",
+        "linkLabel": "(bonoscastellodelaplana.es)",
+        "afterLink": " i s'ofereixen únicament amb fins informatius i de divulgació, sense cap propòsit comercial."
+      }
+    },
+    "filters": {
+      "eyebrow": "Personalitza la cerca",
+      "title": "Filtra els comerços disponibles",
+      "helper": "Combina els camps per a trobar establiments concrets o descobreix noves zones explorant el mapa.",
+      "nameLabel": "Nom de l'establiment",
+      "namePlaceholder": "Introdueix el nom de l'establiment",
+      "sectorLabel": "Sector de l'establiment",
+      "sectorPlaceholder": "Selecciona un sector",
+      "sectorSearchPlaceholder": "Cerca sector",
+      "sectorClear": "Neteja",
+      "sectorEmpty": "No s'han trobat sectors que coincidisquen amb la cerca.",
+      "addressLabel": "Carrer o adreça",
+      "addressPlaceholder": "Busca per adreça o carrer",
+      "reset": "Neteja la cerca",
+      "apply": "Aplica els filtres"
+    },
+    "state": {
+      "loading": "Carregant comerços...",
+      "error": "S'ha produït un error en recuperar els comerços. Torna-ho a intentar en uns instants."
+    },
+    "results": {
+      "title": "{{count}} comerços trobats",
+      "suffix": "de {{total}} disponibles",
+      "description": "Ajusta els filtres per a acotar la cerca o explora el mapa per a localitzar comerços pròxims."
+    },
+    "controls": {
+      "ariaLabel": "Opcions de visualització i paginació",
+      "view": {
+        "ariaLabel": "Canvia el mode de visualització",
+        "label": "Vista",
+        "grid": "Quadrícula",
+        "list": "Llista"
+      },
+      "pageSize": {
+        "label": "Mostra",
+        "suffix": "per pàgina"
+      }
+    },
+    "empty": "No s'han trobat comerços que coincidisquen amb els filtres aplicats.",
+    "table": {
+      "commerce": "Comerç",
+      "sector": "Sector",
+      "address": "Adreça",
+      "phone": "Telèfon"
+    },
+    "pagination": {
+      "ariaLabel": "Paginació de resultats"
+    }
+  },
+  "map": {
+    "ariaLabel": "Mapa interactiu de comerços",
+    "hero": {
+      "eyebrow": "Explora Castelló",
+      "title": "Comerços adherits sobre el mapa",
+      "subtitle": "Visualitza {{filtered}} de {{total}} establiments disponibles i descobreix la seua ubicació exacta."
+    },
+    "overlay": {
+      "loading": "Carregant mapa i ubicacions...",
+      "error": "No s'ha pogut carregar el mapa interactiu. Revisa la teua connexió i torna-ho a intentar en uns minuts."
+    },
+    "legend": {
+      "hint": "Els colors representen els sectors comercials. Utilitza la llegenda per a ressaltar categories concretes o torna a mostrar totes les ubicacions quan ho necessites.",
+      "reset": "Mostra-ho tot",
+      "ariaLabel": "Sectors visibles en el mapa"
+    },
+    "empty": "No hi ha comerços que coincidisquen amb els filtres seleccionats. Ajusta la cerca per a veure noves ubicacions."
+  },
+  "card": {
+    "labels": {
+      "commerce": "Comerç",
+      "sector": "Sector",
+      "address": "Adreça",
+      "phone": "Telèfon",
+      "phoneUnavailable": "Sense telèfon",
+      "imageFallback": "Imatge no disponible"
+    }
+  },
+  "history": {
+    "page": {
+      "eyebrow": "Registre intern",
+      "title": "Historial complet de canvis",
+      "subtitle": "Consulta totes les actualitzacions registrades en el llistat de comerços adherits per a portar un control de les altes i baixes.",
+      "back": "Torna a l'explorador de comerços"
+    },
+    "component": {
+      "ariaLabel": "Històric d'actualitzacions de comerços",
+      "eyebrow": "Actualitzacions recents",
+      "title": "Moviments en el cens de comerços",
+      "subtitle": "Consulta els últims canvis registrats en el llistat oficial d'establiments adherits.",
+      "loading": "Carregant l'històric de canvis...",
+      "error": "S'ha produït un error en recuperar l'històric. Intenta actualitzar la pàgina més tard.",
+      "totalAfter": "Total després de l'actualització: {{count}}",
+      "addedPrefix": "S'incorporen:",
+      "removedPrefix": "Deixen de participar:",
+      "noChanges": "No es van registrar altes ni baixes en este moment.",
+      "summary": {
+        "none": "Sense canvis registrats",
+        "more": "{{sample}} i {{count}} més"
+      }
+    }
+  },
+  "status": {
+    "loading": "Recuperant l'estat del programa de comerços...",
+    "error": "No s'ha pogut obtindre la informació general. Torna-ho a intentar més tard.",
+    "labels": {
+      "environment": "Entorn",
+      "total": "Comerços actius"
+    },
+    "lastUpdate": "Última actualització: {{value}}",
+    "meta": {
+      "ariaLabel": "Crèdits del projecte",
+      "authorLabel": "Autor:",
+      "authorUnknown": "Autor no especificat",
+      "versionLabel": "Versió:"
+    },
+    "historyLink": "Historial de canvis"
+  }
+}
