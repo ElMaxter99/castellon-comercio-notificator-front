@@ -1,7 +1,5 @@
 # Changelog
 
-
-
 ## [v1.1.0](https://github.com/ElMaxter99/castellon-comercio-notificator-front/releases/tag/v1.1.0) - 2025-11-04
 
 ### Añadido
