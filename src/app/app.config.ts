@@ -6,13 +6,26 @@ import {
 } from '@angular/core';
 import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule, Translation } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 
 import { routes } from './app.routes';
 
-export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+class AssetTranslateLoader implements TranslateLoader {
+  constructor(
+    private readonly http: HttpClient,
+    private readonly prefix = './assets/i18n/',
+    private readonly suffix = '.json'
+  ) {}
+
+  getTranslation(lang: string): Observable<Translation> {
+    const path = `${this.prefix}${lang}${this.suffix}`;
+    return this.http.get<Translation>(path);
+  }
+}
+
+export function createTranslateLoader(http: HttpClient): TranslateLoader {
+  return new AssetTranslateLoader(http);
 }
 
 export const appConfig: ApplicationConfig = {

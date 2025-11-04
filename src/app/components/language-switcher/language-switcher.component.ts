@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { LanguageService } from '../../services/language.service';
+import { LanguageService, SupportedLanguage } from '../../services/language.service';
 
 @Component({
   selector: 'app-language-switcher',
@@ -14,7 +14,9 @@ import { LanguageService } from '../../services/language.service';
 export class LanguageSwitcherComponent {
   constructor(private readonly languageService: LanguageService) {}
 
-  protected readonly languages = this.languageService.languages;
+  protected get languages(): readonly SupportedLanguage[] {
+    return this.languageService.languages;
+  }
 
   protected isActive(code: string): boolean {
     return this.languageService.currentCode() === code;
