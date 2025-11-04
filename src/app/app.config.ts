@@ -2,7 +2,7 @@ import {
   ApplicationConfig,
   importProvidersFrom,
   provideBrowserGlobalErrorListeners,
-  provideZoneChangeDetection
+  provideZoneChangeDetection,
 } from '@angular/core';
 import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
@@ -14,7 +14,7 @@ import { routes } from './app.routes';
 class AssetTranslateLoader implements TranslateLoader {
   constructor(
     private readonly http: HttpClient,
-    private readonly prefix = '/assets/i18n/',
+    private readonly prefix = '/public/i18n/',
     private readonly suffix = '.json'
   ) {}
 
@@ -40,9 +40,9 @@ export const appConfig: ApplicationConfig = {
         loader: {
           provide: TranslateLoader,
           useFactory: createTranslateLoader,
-          deps: [HttpClient]
-        }
+          deps: [HttpClient],
+        },
       })
-    )
-  ]
+    ),
+  ],
 };

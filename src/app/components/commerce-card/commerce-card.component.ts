@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Commerce } from '../../models/commerce.model';
 
-const FALLBACK_IMAGE = 'assets/commerce-placeholder.svg';
+const FALLBACK_IMAGE = 'public/commerce-placeholder.svg';
 
 @Component({
   selector: 'app-commerce-card',
@@ -11,7 +11,7 @@ const FALLBACK_IMAGE = 'assets/commerce-placeholder.svg';
   imports: [CommonModule, TranslateModule],
   templateUrl: './commerce-card.component.html',
   styleUrl: './commerce-card.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommerceCardComponent {
   @Input({ required: true }) commerce!: Commerce;
