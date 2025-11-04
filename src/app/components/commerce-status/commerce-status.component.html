@@ -1,37 +1,46 @@
 <section class="status" aria-live="polite">
   <div class="status__state" *ngIf="isLoading()">
-    <p>Recuperando el estado del programa de comercios...</p>
+    <p>{{ 'status.loading' | translate }}</p>
   </div>
 
   <div class="status__state status__state--error" *ngIf="hasError() && !isLoading()">
-    <p>No se ha podido obtener la información general. Inténtalo de nuevo más tarde.</p>
+    <p>{{ 'status.error' | translate }}</p>
   </div>
 
   <div class="status__content" *ngIf="!isLoading() && !hasError() && status() as current">
     <div class="status__body">
       <div class="status__metrics">
         <div class="status__metric">
-          <span class="status__label">Entorno</span>
+          <span class="status__label">{{ 'status.labels.environment' | translate }}</span>
           <span class="status__value status__value--environment">{{ current.environment | uppercase }}</span>
         </div>
 
         <div class="status__metric">
-          <span class="status__label">Comercios activos</span>
+          <span class="status__label">{{ 'status.labels.total' | translate }}</span>
           <span class="status__value">{{ current.total | number:'1.0-0' }}</span>
         </div>
       </div>
 
-      <p class="status__update">Última actualización: {{ formattedLastUpdate() }}</p>
+      <p class="status__update">
+        {{ 'status.lastUpdate' | translate: { value: formattedLastUpdate() } }}
+      </p>
     </div>
 
     <div class="status__meta">
-      <div class="status__signature" aria-label="Créditos del proyecto">
-        <p class="status__meta-text">Autor: {{ appAuthor }}</p>
-        <p class="status__meta-text">Versión: {{ appVersion }}</p>
+      <div class="status__signature" [attr.aria-label]="'status.meta.ariaLabel' | translate">
+        <p class="status__meta-text">
+          {{ 'status.meta.authorLabel' | translate }}
+          {{ appAuthor || ('status.meta.authorUnknown' | translate) }}
+        </p>
+        <p class="status__meta-text">
+          {{ 'status.meta.versionLabel' | translate }} {{ appVersion }}
+        </p>
       </div>
 
+      <app-language-switcher class="status__language-switcher"></app-language-switcher>
+
       <a *ngIf="showHistoryLink" routerLink="/history" class="status__history-link">
-        Historial de cambios
+        {{ 'status.historyLink' | translate }}
       </a>
     </div>
   </div>

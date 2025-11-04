@@ -1,0 +1,19 @@
+<div
+  class="language-switcher"
+  role="group"
+  [attr.aria-label]="'language.switcher.label' | translate"
+>
+  <span class="language-switcher__label">{{ 'language.switcher.label' | translate }}</span>
+  <div class="language-switcher__options">
+    <button
+      *ngFor="let language of languages"
+      type="button"
+      class="language-switcher__button"
+      [class.language-switcher__button--active]="isActive(language.code)"
+      [attr.aria-pressed]="isActive(language.code)"
+      (click)="selectLanguage(language.code)"
+    >
+      {{ ('language.switcher.option.' + language.code) | translate }}
+    </button>
+  </div>
+</div>

@@ -15,8 +15,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs';
 import { Commerce } from '../../models/commerce.model';
 import { CommerceService } from '../../services/commerce.service';
+import { TranslateModule } from '@ngx-translate/core';
 import { CommerceCardComponent } from '../commerce-card/commerce-card.component';
 import { CommerceMapComponent } from '../commerce-map/commerce-map.component';
+import { LanguageService } from '../../services/language.service';
 
 type ViewMode = 'grid' | 'list';
 type PaginationItem = { kind: 'page'; value: number } | { kind: 'ellipsis' };
@@ -27,7 +29,7 @@ const PAGE_SIZE_OPTIONS = [12, 24, 48];
 @Component({
   selector: 'app-commerce-grid',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, CommerceMapComponent, CommerceCardComponent],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, CommerceMapComponent, CommerceCardComponent],
   templateUrl: './commerce-grid.component.html',
   styleUrl: './commerce-grid.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -35,6 +37,7 @@ const PAGE_SIZE_OPTIONS = [12, 24, 48];
 export class CommerceGridComponent {
   private readonly commerceService = inject(CommerceService);
   private readonly fb = inject(FormBuilder);
+  private readonly languageService = inject(LanguageService);
 
   protected readonly isLoading = signal(true);
   protected readonly hasError = signal(false);
@@ -51,35 +54,38 @@ export class CommerceGridComponent {
   protected readonly viewMode = signal<ViewMode>('grid');
 
   protected readonly sectors = computed(() => {
+    const locale = this.languageService.currentLocale();
     const unique = new Set<string>();
     this.commerces().forEach((commerce) => {
       if (commerce.sector.trim().length > 0) {
         unique.add(commerce.sector.trim());
       }
     });
-    return Array.from(unique).sort((a, b) => a.localeCompare(b, 'es'));
+    return Array.from(unique).sort((a, b) => a.localeCompare(b, locale));
   });
 
   protected readonly filteredSectors = computed(() => {
-    const query = this.sectorSearchTerm().trim().toLocaleLowerCase('es');
+    const locale = this.languageService.currentLocale();
+    const query = this.sectorSearchTerm().trim().toLocaleLowerCase(locale);
     if (!query) {
       return this.sectors();
     }
     return this.sectors().filter((sector) =>
-      sector.toLocaleLowerCase('es').includes(query)
+      sector.toLocaleLowerCase(locale).includes(query)
     );
   });
 
   protected readonly baseFilteredCommerces = computed(() => {
+    const locale = this.languageService.currentLocale();
     const { name, address } = this.filterValue();
-    const normalisedName = name.trim().toLocaleLowerCase('es');
-    const normalisedAddress = address.trim().toLocaleLowerCase('es');
+    const normalisedName = name.trim().toLocaleLowerCase(locale);
+    const normalisedAddress = address.trim().toLocaleLowerCase(locale);
 
     return this.commerces().filter((commerce) => {
       const matchesName =
-        !normalisedName || commerce.name.toLocaleLowerCase('es').includes(normalisedName);
+        !normalisedName || commerce.name.toLocaleLowerCase(locale).includes(normalisedName);
       const matchesAddress =
-        !normalisedAddress || commerce.address.toLocaleLowerCase('es').includes(normalisedAddress);
+        !normalisedAddress || commerce.address.toLocaleLowerCase(locale).includes(normalisedAddress);
       return matchesName && matchesAddress;
     });
   });
@@ -87,14 +93,15 @@ export class CommerceGridComponent {
   protected readonly filteredCommerces = computed(() => {
     const base = this.baseFilteredCommerces();
     const { sectorQuery } = this.filterValue();
-    const normalisedSector = sectorQuery.trim().toLocaleLowerCase('es');
+    const locale = this.languageService.currentLocale();
+    const normalisedSector = sectorQuery.trim().toLocaleLowerCase(locale);
 
     if (!normalisedSector) {
       return base;
     }
 
     return base.filter((commerce) =>
-      commerce.sector.toLocaleLowerCase('es').includes(normalisedSector)
+      commerce.sector.toLocaleLowerCase(locale).includes(normalisedSector)
     );
   });
 

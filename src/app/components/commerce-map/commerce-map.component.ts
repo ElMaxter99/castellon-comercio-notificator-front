@@ -13,7 +13,9 @@ import {
   ViewChild,
   signal
 } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { Commerce } from '../../models/commerce.model';
+import { LanguageService } from '../../services/language.service';
 
 const DEFAULT_CENTER: [number, number] = [39.986359, -0.037652];
 const DEFAULT_ZOOM = 14;
@@ -21,7 +23,7 @@ const DEFAULT_ZOOM = 14;
 @Component({
   selector: 'app-commerce-map',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './commerce-map.component.html',
   styleUrl: './commerce-map.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -45,7 +47,8 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
   @Input()
   set selectedSector(value: string | null) {
     const trimmed = value?.trim() ?? '';
-    const normalised = trimmed ? trimmed.toLocaleLowerCase('es') : null;
+    const locale = this.getLocale();
+    const normalised = trimmed ? trimmed.toLocaleLowerCase(locale) : null;
     this.activeSector.set(normalised);
     this.applyLegendFilter();
   }
@@ -79,6 +82,8 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
   protected readonly isLoading = signal(true);
   protected readonly legend = signal<Array<{ sector: string; color: string; count: number }>>([]);
   protected readonly activeSector = signal<string | null>(null);
+
+  constructor(private readonly languageService: LanguageService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['commerces'] && !changes['commerces'].firstChange) {
@@ -153,6 +158,8 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
 
     const bounds = leaflet.latLngBounds([]);
 
+    const locale = this.getLocale();
+
     commerces.forEach((commerce) => {
       const coordinates = this.extractCoordinates(commerce.mapsUrl);
       if (!coordinates) {
@@ -175,7 +182,7 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
 
       this.markerEntries.push({
         marker,
-        sector: commerce.sector.trim().toLocaleLowerCase('es'),
+        sector: commerce.sector.trim().toLocaleLowerCase(locale),
         color
       });
     });
@@ -190,7 +197,8 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
 
   protected onLegendToggle(sector: string): void {
     const trimmed = sector.trim();
-    const normalised = trimmed.toLocaleLowerCase('es');
+    const locale = this.getLocale();
+    const normalised = trimmed.toLocaleLowerCase(locale);
     const current = this.activeSector();
     const next = current === normalised ? null : normalised;
     this.activeSector.set(next);
@@ -212,7 +220,8 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
     if (!active) {
       return false;
     }
-    return active === sector.trim().toLocaleLowerCase('es');
+    const locale = this.getLocale();
+    return active === sector.trim().toLocaleLowerCase(locale);
   }
 
   protected isLegendEntryDimmed(sector: string): boolean {
@@ -220,7 +229,8 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
     if (!active) {
       return false;
     }
-    return active !== sector.trim().toLocaleLowerCase('es');
+    const locale = this.getLocale();
+    return active !== sector.trim().toLocaleLowerCase(locale);
   }
 
   private extractCoordinates(url: string): [number, number] | null {
@@ -266,7 +276,8 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
   }
 
   private getColorForSector(sector: string): string {
-    const key = sector.trim().toLocaleLowerCase('es');
+    const locale = this.getLocale();
+    const key = sector.trim().toLocaleLowerCase(locale);
     if (!key) {
       return '#38bdf8';
     }
@@ -282,6 +293,7 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
   }
 
   private buildLegend(commerces: Commerce[]): void {
+    const locale = this.getLocale();
     this.sectorColorMap = new Map<string, string>();
     const accumulator = new Map<string, { color: string; count: number }>();
 
@@ -301,17 +313,21 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
 
     const legendEntries = Array.from(accumulator.entries())
       .map(([sector, value]) => ({ sector, ...value }))
-      .sort((a, b) => a.sector.localeCompare(b.sector, 'es'));
+      .sort((a, b) => a.sector.localeCompare(b.sector, locale));
 
     this.legend.set(legendEntries);
 
     const active = this.activeSector();
-    if (active && !legendEntries.some((entry) => entry.sector.toLocaleLowerCase('es') === active)) {
+    if (active && !legendEntries.some((entry) => entry.sector.toLocaleLowerCase(locale) === active)) {
       this.activeSector.set(null);
       this.sectorFilterChange.emit(null);
     }
 
     this.applyLegendFilter();
+  }
+
+  private getLocale(): string {
+    return this.languageService.currentLocale();
   }
 
   private applyLegendFilter(): void {
