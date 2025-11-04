@@ -1,4 +1,4 @@
-<section class="page">
+<div class="page">
   <header class="page__hero">
     <p class="page__eyebrow">{{ 'grid.hero.eyebrow' | translate }}</p>
     <h1 class="page__title">{{ 'grid.hero.title' | translate }}</h1>
@@ -29,29 +29,17 @@
     <div class="filters__grid">
       <div class="filters__group filters__group--wide">
         <label class="filters__label" for="filter-name">{{ 'grid.filters.nameLabel' | translate }}</label>
-        <input
-          id="filter-name"
-          type="text"
-          formControlName="name"
-          [placeholder]="'grid.filters.namePlaceholder' | translate"
-          autocomplete="off"
-        />
+        <input id="filter-name" type="text" formControlName="name"
+          [placeholder]="'grid.filters.namePlaceholder' | translate" autocomplete="off" />
       </div>
 
       <div class="filters__group filters__group--sector" #sectorDropdownRef>
         <label class="filters__label" id="filter-sector-label">{{ 'grid.filters.sectorLabel' | translate }}</label>
-        <button
-          type="button"
-          class="filters__select-trigger"
-          aria-haspopup="listbox"
-          [attr.aria-expanded]="isSectorDropdownOpen()"
-          [attr.aria-labelledby]="'filter-sector-label'"
-          (click)="onToggleSectorDropdown($event)"
-        >
-          <span
-            class="filters__select-value"
-            [class.filters__select-value--placeholder]="!filters.controls.sectorQuery.value"
-          >
+        <button type="button" class="filters__select-trigger" aria-haspopup="listbox"
+          [attr.aria-expanded]="isSectorDropdownOpen()" [attr.aria-labelledby]="'filter-sector-label'"
+          (click)="onToggleSectorDropdown($event)">
+          <span class="filters__select-value"
+            [class.filters__select-value--placeholder]="!filters.controls.sectorQuery.value">
             {{ filters.controls.sectorQuery.value || ('grid.filters.sectorPlaceholder' | translate) }}
           </span>
           <span class="filters__select-icon" aria-hidden="true"></span>
@@ -59,34 +47,20 @@
 
         <div class="filters__select-panel" *ngIf="isSectorDropdownOpen()" role="dialog" aria-modal="false">
           <div class="filters__select-search">
-            <input
-              #sectorSearchInputRef
-              type="text"
-              [value]="sectorSearchTerm()"
+            <input #sectorSearchInputRef type="text" [value]="sectorSearchTerm()"
               (input)="onSectorSearch($any($event.target).value)"
-              [placeholder]="'grid.filters.sectorSearchPlaceholder' | translate"
-              autocomplete="off"
-              role="searchbox"
-            />
-            <button
-              type="button"
-              class="filters__select-clear"
-              *ngIf="filters.controls.sectorQuery.value"
-              (click)="onClearSector($event)"
-            >
+              [placeholder]="'grid.filters.sectorSearchPlaceholder' | translate" autocomplete="off" role="searchbox" />
+            <button type="button" class="filters__select-clear" *ngIf="filters.controls.sectorQuery.value"
+              (click)="onClearSector($event)">
               {{ 'grid.filters.sectorClear' | translate }}
             </button>
           </div>
 
           <div class="filters__select-options" role="listbox" [attr.aria-activedescendant]="null">
-            <button
-              type="button"
-              class="filters__select-option"
+            <button type="button" class="filters__select-option"
               *ngFor="let sector of filteredSectors(); trackBy: trackBySector"
               [class.filters__select-option--active]="filters.controls.sectorQuery.value === sector"
-              (click)="onSelectSector(sector)"
-              role="option"
-            >
+              (click)="onSelectSector(sector)" role="option">
               {{ sector }}
             </button>
             <p class="filters__select-empty" *ngIf="filteredSectors().length === 0">
@@ -98,13 +72,8 @@
 
       <div class="filters__group">
         <label class="filters__label" for="filter-address">{{ 'grid.filters.addressLabel' | translate }}</label>
-        <input
-          id="filter-address"
-          type="text"
-          formControlName="address"
-          [placeholder]="'grid.filters.addressPlaceholder' | translate"
-          autocomplete="off"
-        />
+        <input id="filter-address" type="text" formControlName="address"
+          [placeholder]="'grid.filters.addressPlaceholder' | translate" autocomplete="off" />
       </div>
     </div>
 
@@ -116,17 +85,10 @@
     </footer>
   </form>
 
-  <app-commerce-map
-    class="page__map"
-    [legendSource]="baseFilteredCommerces()"
-    [commerces]="filteredCommerces()"
-    [selectedSector]="filterValue().sectorQuery"
-    [totalCount]="commerces().length"
-    [filteredCount]="filteredCommerces().length"
-    [isDataLoading]="isLoading()"
-    [hasDataError]="hasError()"
-    (sectorFilterChange)="onSectorFilterFromMap($event)"
-  >
+  <app-commerce-map class="page__map" [legendSource]="baseFilteredCommerces()" [commerces]="filteredCommerces()"
+    [selectedSector]="filterValue().sectorQuery" [totalCount]="commerces().length"
+    [filteredCount]="filteredCommerces().length" [isDataLoading]="isLoading()" [hasDataError]="hasError()"
+    (sectorFilterChange)="onSectorFilterFromMap($event)">
   </app-commerce-map>
 
   <div class="state" *ngIf="isLoading()">
@@ -153,20 +115,12 @@
         <div class="grid__view" role="group" [attr.aria-label]="'grid.controls.view.ariaLabel' | translate">
           <span class="grid__view-label">{{ 'grid.controls.view.label' | translate }}</span>
           <div class="grid__view-buttons">
-            <button
-              type="button"
-              class="grid__view-button"
-              [class.grid__view-button--active]="isViewModeActive('grid')"
-              (click)="setViewMode('grid')"
-            >
+            <button type="button" class="grid__view-button" [class.grid__view-button--active]="isViewModeActive('grid')"
+              (click)="setViewMode('grid')">
               {{ 'grid.controls.view.grid' | translate }}
             </button>
-            <button
-              type="button"
-              class="grid__view-button"
-              [class.grid__view-button--active]="isViewModeActive('list')"
-              (click)="setViewMode('list')"
-            >
+            <button type="button" class="grid__view-button" [class.grid__view-button--active]="isViewModeActive('list')"
+              (click)="setViewMode('list')">
               {{ 'grid.controls.view.list' | translate }}
             </button>
           </div>
@@ -174,11 +128,7 @@
 
         <label class="grid__page-size" for="page-size">
           {{ 'grid.controls.pageSize.label' | translate }}
-          <select
-            id="page-size"
-            [value]="pageSize()"
-            (change)="onPageSizeSelect($event)"
-          >
+          <select id="page-size" [value]="pageSize()" (change)="onPageSizeSelect($event)">
             <option *ngFor="let option of pageSizeOptions" [value]="option">{{ option }}</option>
           </select>
           {{ 'grid.controls.pageSize.suffix' | translate }}
@@ -194,18 +144,16 @@
       <ng-container *ngIf="isViewModeActive('list'); else gridView">
         <div class="grid__table">
           <div class="grid__table-head">
-            <span class="grid__table-heading grid__table-heading--commerce">{{ 'grid.table.commerce' | translate }}</span>
+            <span
+              class="grid__table-heading grid__table-heading--commerce">{{ 'grid.table.commerce' | translate }}</span>
             <span class="grid__table-heading">{{ 'grid.table.sector' | translate }}</span>
             <span class="grid__table-heading">{{ 'grid.table.address' | translate }}</span>
             <span class="grid__table-heading">{{ 'grid.table.phone' | translate }}</span>
           </div>
 
           <div class="grid__list grid__list--list">
-            <app-commerce-card
-              *ngFor="let commerce of pagedCommerces(); trackBy: trackByCommerce"
-              [commerce]="commerce"
-              [viewMode]="viewMode()"
-            >
+            <app-commerce-card *ngFor="let commerce of pagedCommerces(); trackBy: trackByCommerce" [commerce]="commerce"
+              [viewMode]="viewMode()">
             </app-commerce-card>
           </div>
         </div>
@@ -213,33 +161,21 @@
 
       <ng-template #gridView>
         <div class="grid__list">
-          <app-commerce-card
-            *ngFor="let commerce of pagedCommerces(); trackBy: trackByCommerce"
-            [commerce]="commerce"
-            [viewMode]="viewMode()"
-          >
+          <app-commerce-card *ngFor="let commerce of pagedCommerces(); trackBy: trackByCommerce" [commerce]="commerce"
+            [viewMode]="viewMode()">
           </app-commerce-card>
         </div>
       </ng-template>
 
-      <nav
-        class="grid__pagination"
-        *ngIf="totalPages() > 1"
-        [attr.aria-label]="'grid.pagination.ariaLabel' | translate"
-      >
+      <nav class="grid__pagination" *ngIf="totalPages() > 1"
+        [attr.aria-label]="'grid.pagination.ariaLabel' | translate">
         <ul class="grid__page-list">
-          <li
-            *ngFor="let item of paginationItems(); let index = index; trackBy: trackByPaginationItem"
-            class="grid__page-item"
-          >
+          <li *ngFor="let item of paginationItems(); let index = index; trackBy: trackByPaginationItem"
+            class="grid__page-item">
             <ng-container *ngIf="item.kind === 'page'; else paginationEllipsis">
-              <button
-                type="button"
-                class="grid__page-number"
+              <button type="button" class="grid__page-number"
                 [class.grid__page-number--active]="currentPage() === item.value"
-                [attr.aria-current]="currentPage() === item.value ? 'page' : null"
-                (click)="changePage(item.value)"
-              >
+                [attr.aria-current]="currentPage() === item.value ? 'page' : null" (click)="changePage(item.value)">
                 {{ item.value }}
               </button>
             </ng-container>
@@ -251,4 +187,4 @@
       </nav>
     </ng-container>
   </section>
-</section>
+</div>
