@@ -14,7 +14,7 @@ import { routes } from './app.routes';
 class AssetTranslateLoader implements TranslateLoader {
   constructor(
     private readonly http: HttpClient,
-    private readonly prefix = 'assets/i18n/',
+    private readonly prefix = '/assets/i18n/',
     private readonly suffix = '.json'
   ) {}
 
