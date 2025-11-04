@@ -1,19 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, computed, inject, signal } from '@angular/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommerceHistoryEntry } from '../../models/commerce-history-entry.model';
 import { CommerceService } from '../../services/commerce.service';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-commerce-history',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './commerce-history.component.html',
   styleUrl: './commerce-history.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommerceHistoryComponent {
   private readonly commerceService = inject(CommerceService);
+  private readonly translate = inject(TranslateService);
+  private readonly languageService = inject(LanguageService);
 
   protected readonly isLoading = signal(true);
   protected readonly hasError = signal(false);
@@ -44,7 +48,8 @@ export class CommerceHistoryComponent {
   }
 
   protected formatDate(value: string): string {
-    const formatter = new Intl.DateTimeFormat('es-ES', {
+    const locale = this.languageService.currentLocale();
+    const formatter = new Intl.DateTimeFormat(locale, {
       dateStyle: 'medium',
       timeStyle: 'short'
     });
@@ -53,14 +58,17 @@ export class CommerceHistoryComponent {
 
   protected summarise(items: string[]): string {
     if (items.length === 0) {
-      return 'Sin cambios registrados';
+      return this.translate.instant('history.component.summary.none');
     }
 
     const sample = items.slice(0, 3).join(', ');
     const remaining = items.length - 3;
 
     if (remaining > 0) {
-      return `${sample} y ${remaining} más`;
+      return this.translate.instant('history.component.summary.more', {
+        sample,
+        count: remaining
+      });
     }
 
     return sample;

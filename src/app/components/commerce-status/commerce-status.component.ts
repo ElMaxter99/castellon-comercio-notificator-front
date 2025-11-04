@@ -5,11 +5,14 @@ import { RouterLink } from '@angular/router';
 import packageInfo from '../../../../package.json';
 import { CommerceStatus } from '../../models/commerce-status.model';
 import { CommerceService } from '../../services/commerce.service';
+import { LanguageService } from '../../services/language.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
 
 @Component({
   selector: 'app-commerce-status',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TranslateModule, LanguageSwitcherComponent],
   templateUrl: './commerce-status.component.html',
   styleUrl: './commerce-status.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -24,7 +27,9 @@ export class CommerceStatusComponent {
   protected readonly hasError = signal(false);
   protected readonly status = signal<CommerceStatus | null>(null);
 
-  protected readonly appAuthor = packageInfo.author ?? 'Autor no especificado';
+  private readonly languageService = inject(LanguageService);
+
+  protected readonly appAuthor = packageInfo.author ?? '';
   protected readonly appVersion = packageInfo.version ?? '0.0.0';
 
   protected readonly formattedLastUpdate = computed(() => {
@@ -33,7 +38,8 @@ export class CommerceStatusComponent {
       return '';
     }
 
-    const formatter = new Intl.DateTimeFormat('es-ES', {
+    const locale = this.languageService.currentLocale();
+    const formatter = new Intl.DateTimeFormat(locale, {
       dateStyle: 'long',
       timeStyle: 'short'
     });

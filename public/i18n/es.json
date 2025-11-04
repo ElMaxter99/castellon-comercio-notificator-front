@@ -1,0 +1,143 @@
+{
+  "language": {
+    "switcher": {
+      "label": "Idioma",
+      "option": {
+        "es": "Castellano",
+        "ca-ES-valencia": "Valencià"
+      }
+    }
+  },
+  "grid": {
+    "hero": {
+      "eyebrow": "Abonem Castelló",
+      "title": "Comercios adheridos al programa",
+      "subtitle": "Consulta y filtra los establecimientos que participan en la campaña de dinamización comercial de Castelló de la Plana."
+    },
+    "notice": {
+      "ariaLabel": "Información sobre el proyecto",
+      "title": "Proyecto independiente sin ánimo de lucro",
+      "body": {
+        "beforeLink": "Esta aplicación es una iniciativa personal sin relación con el Ayuntamiento de Castelló ni con CONFECOMERÇ. Los datos mostrados proceden de fuentes públicas del programa “Abonem Castelló” ",
+        "linkLabel": "(bonoscastellodelaplana.es)",
+        "afterLink": " y se ofrecen únicamente con fines informativos y de divulgación, sin ningún propósito comercial."
+      }
+    },
+    "filters": {
+      "eyebrow": "Personaliza la búsqueda",
+      "title": "Filtra los comercios disponibles",
+      "helper": "Combina los campos para encontrar establecimientos concretos o descubre nuevas zonas explorando el mapa.",
+      "nameLabel": "Nombre del establecimiento",
+      "namePlaceholder": "Introduce el nombre del establecimiento",
+      "sectorLabel": "Sector del establecimiento",
+      "sectorPlaceholder": "Selecciona un sector",
+      "sectorSearchPlaceholder": "Buscar sector",
+      "sectorClear": "Limpiar",
+      "sectorEmpty": "No se han encontrado sectores que coincidan con la búsqueda.",
+      "addressLabel": "Calle o dirección",
+      "addressPlaceholder": "Busca por dirección o calle",
+      "reset": "Limpiar búsqueda",
+      "apply": "Aplicar filtros"
+    },
+    "state": {
+      "loading": "Cargando comercios...",
+      "error": "Ha ocurrido un error al recuperar los comercios. Vuelve a intentarlo en unos instantes."
+    },
+    "results": {
+      "title": "{{count}} comercios encontrados",
+      "suffix": "de {{total}} disponibles",
+      "description": "Ajusta los filtros para acotar la búsqueda o explora el mapa para localizar comercios cercanos."
+    },
+    "controls": {
+      "ariaLabel": "Opciones de visualización y paginación",
+      "view": {
+        "ariaLabel": "Cambiar el modo de visualización",
+        "label": "Vista",
+        "grid": "Cuadrícula",
+        "list": "Lista"
+      },
+      "pageSize": {
+        "label": "Mostrar",
+        "suffix": "por página"
+      }
+    },
+    "empty": "No se han encontrado comercios que coincidan con los filtros aplicados.",
+    "table": {
+      "commerce": "Comercio",
+      "sector": "Sector",
+      "address": "Dirección",
+      "phone": "Teléfono"
+    },
+    "pagination": {
+      "ariaLabel": "Paginación de resultados"
+    }
+  },
+  "map": {
+    "ariaLabel": "Mapa interactivo de comercios",
+    "hero": {
+      "eyebrow": "Explora Castelló",
+      "title": "Comercios adheridos sobre el mapa",
+      "subtitle": "Visualiza {{filtered}} de {{total}} establecimientos disponibles y descubre su ubicación exacta."
+    },
+    "overlay": {
+      "loading": "Cargando mapa y ubicaciones...",
+      "error": "No se ha podido cargar el mapa interactivo. Revisa tu conexión e inténtalo de nuevo en unos minutos."
+    },
+    "legend": {
+      "hint": "Los colores representan los sectores comerciales. Usa la leyenda para resaltar categorías concretas o vuelve a mostrar todas las ubicaciones cuando lo necesites.",
+      "reset": "Mostrar todos",
+      "ariaLabel": "Sectores visibles en el mapa"
+    },
+    "empty": "No hay comercios que coincidan con los filtros seleccionados. Ajusta la búsqueda para ver nuevas ubicaciones."
+  },
+  "card": {
+    "labels": {
+      "commerce": "Comercio",
+      "sector": "Sector",
+      "address": "Dirección",
+      "phone": "Teléfono",
+      "phoneUnavailable": "Sin teléfono",
+      "imageFallback": "Imagen no disponible"
+    }
+  },
+  "history": {
+    "page": {
+      "eyebrow": "Registro interno",
+      "title": "Historial completo de cambios",
+      "subtitle": "Consulta todas las actualizaciones registradas en el listado de comercios adheridos para llevar un control de las altas y bajas.",
+      "back": "Volver al explorador de comercios"
+    },
+    "component": {
+      "ariaLabel": "Histórico de actualizaciones de comercios",
+      "eyebrow": "Actualizaciones recientes",
+      "title": "Movimientos en el censo de comercios",
+      "subtitle": "Consulta los últimos cambios registrados en el listado oficial de establecimientos adheridos.",
+      "loading": "Cargando histórico de cambios...",
+      "error": "Ha ocurrido un error al recuperar el histórico. Intenta recargar la página más tarde.",
+      "totalAfter": "Total tras la actualización: {{count}}",
+      "addedPrefix": "Se incorporan:",
+      "removedPrefix": "Dejan de participar:",
+      "noChanges": "No se registraron altas ni bajas en este momento.",
+      "summary": {
+        "none": "Sin cambios registrados",
+        "more": "{{sample}} y {{count}} más"
+      }
+    }
+  },
+  "status": {
+    "loading": "Recuperando el estado del programa de comercios...",
+    "error": "No se ha podido obtener la información general. Inténtalo de nuevo más tarde.",
+    "labels": {
+      "environment": "Entorno",
+      "total": "Comercios activos"
+    },
+    "lastUpdate": "Última actualización: {{value}}",
+    "meta": {
+      "ariaLabel": "Créditos del proyecto",
+      "authorLabel": "Autor:",
+      "authorUnknown": "Autor no especificado",
+      "versionLabel": "Versión:"
+    },
+    "historyLink": "Historial de cambios"
+  }
+}

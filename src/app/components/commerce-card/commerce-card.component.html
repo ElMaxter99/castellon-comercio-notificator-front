@@ -17,13 +17,13 @@
       </div>
       <div class="commerce-card__body">
         <header>
-          <p class="commerce-card__label" aria-hidden="true">Comercio</p>
+          <p class="commerce-card__label" aria-hidden="true">{{ 'card.labels.commerce' | translate }}</p>
           <h3 class="commerce-card__title" [title]="commerce.name">{{ commerce.name }}</h3>
           <p class="commerce-card__sector" [title]="commerce.sector">{{ commerce.sector }}</p>
         </header>
         <dl class="commerce-card__meta">
           <div class="commerce-card__meta-item" *ngIf="commerce.phone">
-            <dt aria-label="Teléfono">Teléfono</dt>
+            <dt [attr.aria-label]="'card.labels.phone' | translate">{{ 'card.labels.phone' | translate }}</dt>
             <dd>
               <a class="commerce-card__meta-link" [href]="'tel:' + commerce.phone">
                 {{ commerce.phone }}
@@ -31,7 +31,7 @@
             </dd>
           </div>
           <div class="commerce-card__meta-item">
-            <dt aria-label="Dirección">Dirección</dt>
+            <dt [attr.aria-label]="'card.labels.address' | translate">{{ 'card.labels.address' | translate }}</dt>
             <dd [title]="commerce.address">{{ commerce.address }}</dd>
           </div>
         </dl>
@@ -55,28 +55,28 @@
           />
         </div>
         <div class="commerce-card__row-main">
-          <span class="commerce-card__row-heading">Comercio</span>
+          <span class="commerce-card__row-heading">{{ 'card.labels.commerce' | translate }}</span>
           <h3 class="commerce-card__row-title" [title]="commerce.name">{{ commerce.name }}</h3>
         </div>
       </div>
 
-      <div class="commerce-card__row-cell" data-label="Sector">
-        <span class="commerce-card__row-heading">Sector</span>
+      <div class="commerce-card__row-cell" [attr.data-label]="'card.labels.sector' | translate">
+        <span class="commerce-card__row-heading">{{ 'card.labels.sector' | translate }}</span>
         <p class="commerce-card__row-text" [title]="commerce.sector">{{ commerce.sector }}</p>
       </div>
 
-      <div class="commerce-card__row-cell" data-label="Dirección">
-        <span class="commerce-card__row-heading">Dirección</span>
+      <div class="commerce-card__row-cell" [attr.data-label]="'card.labels.address' | translate">
+        <span class="commerce-card__row-heading">{{ 'card.labels.address' | translate }}</span>
         <p class="commerce-card__row-text" [title]="commerce.address">{{ commerce.address }}</p>
       </div>
 
-      <div class="commerce-card__row-cell" data-label="Teléfono">
-        <span class="commerce-card__row-heading">Teléfono</span>
+      <div class="commerce-card__row-cell" [attr.data-label]="'card.labels.phone' | translate">
+        <span class="commerce-card__row-heading">{{ 'card.labels.phone' | translate }}</span>
         <ng-container *ngIf="commerce.phone; else noPhone">
           <a class="commerce-card__row-link" [href]="'tel:' + commerce.phone">{{ commerce.phone }}</a>
         </ng-container>
         <ng-template #noPhone>
-          <span class="commerce-card__row-muted">Sin teléfono</span>
+          <span class="commerce-card__row-muted">{{ 'card.labels.phoneUnavailable' | translate }}</span>
         </ng-template>
       </div>
     </a>
