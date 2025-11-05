@@ -99,10 +99,34 @@
       "loading": "Cargando mapa y ubicaciones...",
       "error": "No se ha podido cargar el mapa interactivo. Revisa tu conexión e inténtalo de nuevo en unos minutos."
     },
+    "insights": {
+      "ariaLabel": "Panel de ayuda para interpretar el mapa",
+      "hint": "Usa estas herramientas para localizar al instante los comercios filtrados sobre el mapa interactivo."
+    },
+    "actions": {
+      "ariaLabel": "Acciones disponibles para el mapa",
+      "focus": "Encajar resultados",
+      "reset": "Restablecer vista"
+    },
+    "selection": {
+      "title": "Comercio seleccionado",
+      "emptyTitle": "Selecciona un comercio en el mapa",
+      "emptySubtitle": "Haz clic en un marcador o elige uno de la lista para ver los detalles y acceder rápidamente a su ubicación.",
+      "addressLabel": "Dirección",
+      "phoneLabel": "Teléfono",
+      "navigate": "Cómo llegar",
+      "call": "Llamar"
+    },
     "legend": {
       "hint": "Los colores representan los sectores comerciales. Usa la leyenda para resaltar categorías concretas o vuelve a mostrar todas las ubicaciones cuando lo necesites.",
       "reset": "Mostrar todos",
       "ariaLabel": "Sectores visibles en el mapa"
+    },
+    "list": {
+      "ariaLabel": "Comercios filtrados representados en el mapa",
+      "title": "Accesos rápidos",
+      "subtitle": "Pulsa para centrar el mapa y resaltar su punto correspondiente.",
+      "more": "Y {{count}} comercios más disponibles en los resultados generales."
     },
     "empty": "No hay comercios que coincidan con los filtros seleccionados. Ajusta la búsqueda para ver nuevas ubicaciones."
   },

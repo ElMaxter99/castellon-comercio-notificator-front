@@ -99,10 +99,34 @@
       "loading": "Carregant mapa i ubicacions...",
       "error": "No s'ha pogut carregar el mapa interactiu. Revisa la teua connexió i torna-ho a intentar en uns minuts."
     },
+    "insights": {
+      "ariaLabel": "Panell d'ajuda per a interpretar el mapa",
+      "hint": "Utilitza estes ferramentes per a localitzar al moment els comerços filtrats sobre el mapa interactiu."
+    },
+    "actions": {
+      "ariaLabel": "Accions disponibles per al mapa",
+      "focus": "Ajustar resultats",
+      "reset": "Restablir vista"
+    },
+    "selection": {
+      "title": "Comerç seleccionat",
+      "emptyTitle": "Selecciona un comerç en el mapa",
+      "emptySubtitle": "Fes clic en un marcador o tria'n un de la llista per a veure'n els detalls i accedir ràpidament a la seua ubicació.",
+      "addressLabel": "Adreça",
+      "phoneLabel": "Telèfon",
+      "navigate": "Com arribar",
+      "call": "Telefonar"
+    },
     "legend": {
       "hint": "Els colors representen els sectors comercials. Utilitza la llegenda per a ressaltar categories concretes o torna a mostrar totes les ubicacions quan ho necessites.",
       "reset": "Mostra-ho tot",
       "ariaLabel": "Sectors visibles en el mapa"
+    },
+    "list": {
+      "ariaLabel": "Comerços filtrats representats al mapa",
+      "title": "Accessos ràpids",
+      "subtitle": "Prem per a centrar el mapa i ressaltar el seu punt corresponent.",
+      "more": "I {{count}} comerços més disponibles en els resultats generals."
     },
     "empty": "No hi ha comerços que coincidisquen amb els filtres seleccionats. Ajusta la cerca per a veure noves ubicacions."
   },

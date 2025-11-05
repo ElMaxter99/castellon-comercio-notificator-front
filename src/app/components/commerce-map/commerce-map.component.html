@@ -27,6 +27,125 @@
     </div>
   </div>
 
+  <section
+    class="map__insights"
+    *ngIf="previewCommerces().length > 0 || selectedCommerce()"
+    [attr.aria-label]="'map.insights.ariaLabel' | translate"
+  >
+    <p class="map__insights-hint">{{ 'map.insights.hint' | translate }}</p>
+
+    <div class="map__toolbar" role="group" [attr.aria-label]="'map.actions.ariaLabel' | translate">
+      <button
+        type="button"
+        class="map__toolbar-button"
+        (click)="onFitToResults()"
+        [disabled]="previewCommerces().length === 0"
+      >
+        {{ 'map.actions.focus' | translate }}
+      </button>
+      <button
+        type="button"
+        class="map__toolbar-button map__toolbar-button--ghost"
+        (click)="onResetView()"
+        [disabled]="!selectedCommerce() && !activeSector()"
+      >
+        {{ 'map.actions.reset' | translate }}
+      </button>
+    </div>
+
+    <div class="map__panels">
+      <ng-container *ngIf="previewCommerces().length > 0; else mapNoResultsPanel">
+        <article class="map__selection" *ngIf="selectedCommerce() as selected; else mapSelectionPlaceholder">
+          <header class="map__selection-header">
+            <p class="map__selection-eyebrow">{{ 'map.selection.title' | translate }}</p>
+            <h3 class="map__selection-name">{{ selected.name }}</h3>
+          </header>
+
+          <p class="map__selection-sector" *ngIf="selected.sector">{{ selected.sector }}</p>
+
+          <dl class="map__selection-details">
+            <div class="map__selection-row" *ngIf="selected.address">
+              <dt class="map__selection-label">{{ 'map.selection.addressLabel' | translate }}</dt>
+              <dd class="map__selection-value">{{ selected.address }}</dd>
+            </div>
+            <div class="map__selection-row" *ngIf="selected.phone">
+              <dt class="map__selection-label">{{ 'map.selection.phoneLabel' | translate }}</dt>
+              <dd class="map__selection-value">
+                <a class="map__selection-link" [href]="'tel:' + selected.phone">{{ selected.phone }}</a>
+              </dd>
+            </div>
+          </dl>
+
+          <div class="map__selection-actions">
+            <a
+              class="map__selection-action"
+              [href]="selected.mapsUrl"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {{ 'map.selection.navigate' | translate }}
+            </a>
+            <a
+              *ngIf="selected.phone"
+              class="map__selection-action map__selection-action--ghost"
+              [href]="'tel:' + selected.phone"
+            >
+              {{ 'map.selection.call' | translate }}
+            </a>
+          </div>
+        </article>
+
+        <ng-template #mapSelectionPlaceholder>
+          <article class="map__selection map__selection--empty">
+            <header class="map__selection-header">
+              <p class="map__selection-eyebrow">{{ 'map.selection.emptyTitle' | translate }}</p>
+            </header>
+            <p class="map__selection-hint">{{ 'map.selection.emptySubtitle' | translate }}</p>
+          </article>
+        </ng-template>
+
+        <section class="map__list" [attr.aria-label]="'map.list.ariaLabel' | translate">
+          <header class="map__list-header">
+            <h3 class="map__list-title">{{ 'map.list.title' | translate }}</h3>
+            <p class="map__list-subtitle">{{ 'map.list.subtitle' | translate }}</p>
+          </header>
+
+          <ul class="map__list-items">
+            <li class="map__list-item" *ngFor="let commerce of previewCommerces(); trackBy: trackByCommerce">
+              <button
+                type="button"
+                class="map__list-button"
+                (click)="onCommerceFocus(commerce)"
+                [class.map__list-button--active]="isCommerceSelected(commerce)"
+                [attr.aria-pressed]="isCommerceSelected(commerce)"
+              >
+                <span class="map__list-color" [style.--legend-color]="getLegendColorForSector(commerce.sector)"></span>
+                <span class="map__list-info">
+                  <span class="map__list-name">{{ commerce.name }}</span>
+                  <span class="map__list-meta" *ngIf="commerce.address">{{ commerce.address }}</span>
+                </span>
+                <span class="map__list-sector" *ngIf="commerce.sector">{{ commerce.sector }}</span>
+              </button>
+            </li>
+          </ul>
+
+          <p class="map__list-more" *ngIf="additionalResults() > 0">
+            {{ 'map.list.more' | translate: { count: additionalResults() } }}
+          </p>
+        </section>
+      </ng-container>
+    </div>
+
+    <ng-template #mapNoResultsPanel>
+      <article class="map__selection map__selection--empty">
+        <header class="map__selection-header">
+          <p class="map__selection-eyebrow">{{ 'map.selection.emptyTitle' | translate }}</p>
+        </header>
+        <p class="map__selection-hint">{{ 'map.empty' | translate }}</p>
+      </article>
+    </ng-template>
+  </section>
+
   <section class="map__footer" *ngIf="legend().length > 0">
     <p class="map__hint">{{ 'map.legend.hint' | translate }}</p>
 
