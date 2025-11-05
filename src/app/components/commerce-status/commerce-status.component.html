@@ -1,6 +1,6 @@
 <section class="status" aria-live="polite">
   <div class="status__state" *ngIf="isLoading()">
-    <p>{{ 'status.loading' | translate }}</p>
+    <app-loading-spinner [label]="'status.loading' | translate"></app-loading-spinner>
   </div>
 
   <div class="status__state status__state--error" *ngIf="hasError() && !isLoading()">

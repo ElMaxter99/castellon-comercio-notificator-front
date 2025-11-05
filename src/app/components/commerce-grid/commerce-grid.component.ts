@@ -17,8 +17,9 @@ import { Commerce } from '../../models/commerce.model';
 import { CommerceService } from '../../services/commerce.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommerceCardComponent } from '../commerce-card/commerce-card.component';
-import { CommerceMapComponent } from '../commerce-map/commerce-map.component';
 import { LanguageService } from '../../services/language.service';
+import { CommerceMapComponent } from '../commerce-map/commerce-map.component';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 
 type ViewMode = 'grid' | 'list';
 type PaginationItem = { kind: 'page'; value: number } | { kind: 'ellipsis' };
@@ -29,7 +30,14 @@ const PAGE_SIZE_OPTIONS = [12, 24, 48];
 @Component({
   selector: 'app-commerce-grid',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, CommerceMapComponent, CommerceCardComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    CommerceMapComponent,
+    CommerceCardComponent,
+    LoadingSpinnerComponent
+  ],
   templateUrl: './commerce-grid.component.html',
   styleUrl: './commerce-grid.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

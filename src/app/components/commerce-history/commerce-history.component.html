@@ -6,7 +6,7 @@
   </header>
 
   <div class="history__state" *ngIf="isLoading()">
-    <p>{{ 'history.component.loading' | translate }}</p>
+    <app-loading-spinner [label]="'history.component.loading' | translate"></app-loading-spinner>
   </div>
 
   <div class="history__state history__state--error" *ngIf="hasError() && !isLoading()">

@@ -5,11 +5,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommerceHistoryEntry } from '../../models/commerce-history-entry.model';
 import { CommerceService } from '../../services/commerce.service';
 import { LanguageService } from '../../services/language.service';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-commerce-history',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, LoadingSpinnerComponent],
   templateUrl: './commerce-history.component.html',
   styleUrl: './commerce-history.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,0 +1,4 @@
+<div class="spinner" [class.spinner--inline]="inline" role="status" aria-live="polite">
+  <span class="spinner__circle" aria-hidden="true"></span>
+  <span class="spinner__label" *ngIf="label as text">{{ text }}</span>
+</div>

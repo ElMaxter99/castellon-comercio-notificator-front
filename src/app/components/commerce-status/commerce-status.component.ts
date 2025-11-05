@@ -8,11 +8,12 @@ import { CommerceService } from '../../services/commerce.service';
 import { LanguageService } from '../../services/language.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-commerce-status',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, LanguageSwitcherComponent],
+  imports: [CommonModule, RouterLink, TranslateModule, LanguageSwitcherComponent, LoadingSpinnerComponent],
   templateUrl: './commerce-status.component.html',
   styleUrl: './commerce-status.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
