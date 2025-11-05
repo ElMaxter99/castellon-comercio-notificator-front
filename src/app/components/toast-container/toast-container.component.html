@@ -1,0 +1,12 @@
+<section class="toast-container" aria-live="assertive" aria-atomic="true"
+  [attr.aria-label]="'toast.ariaLabel' | translate">
+  <article *ngFor="let toast of toasts(); trackBy: trackByToast" class="toast"
+    [class.toast--error]="toast.type === 'error'" [class.toast--success]="toast.type === 'success'"
+    [class.toast--warning]="toast.type === 'warning'" [class.toast--info]="toast.type === 'info'">
+    <p class="toast__message">{{ toast.message }}</p>
+    <button type="button" class="toast__close" (click)="onDismiss(toast.id)"
+      [attr.aria-label]="'toast.close' | translate">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </article>
+</section>

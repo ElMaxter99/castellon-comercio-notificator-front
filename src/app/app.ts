@@ -5,10 +5,18 @@ import { TranslateModule } from '@ngx-translate/core';
 import { filter } from 'rxjs';
 import { CommerceStatusComponent } from './components/commerce-status/commerce-status.component';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
+import { ToastContainerComponent } from './components/toast-container/toast-container.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, TranslateModule, CommerceStatusComponent, LanguageSwitcherComponent],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    TranslateModule,
+    CommerceStatusComponent,
+    LanguageSwitcherComponent,
+    ToastContainerComponent
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

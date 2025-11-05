@@ -6,6 +6,7 @@ import { CommerceHistoryEntry } from '../../models/commerce-history-entry.model'
 import { CommerceService } from '../../services/commerce.service';
 import { LanguageService } from '../../services/language.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-commerce-history',
@@ -19,6 +20,7 @@ export class CommerceHistoryComponent {
   private readonly commerceService = inject(CommerceService);
   private readonly translate = inject(TranslateService);
   private readonly languageService = inject(LanguageService);
+  private readonly toastService = inject(ToastService);
 
   protected readonly isLoading = signal(true);
   protected readonly hasError = signal(false);
@@ -92,6 +94,8 @@ export class CommerceHistoryComponent {
         error: () => {
           this.hasError.set(true);
           this.isLoading.set(false);
+          const message = this.translate.instant('toast.error.history');
+          this.toastService.showError(message);
         }
       });
   }

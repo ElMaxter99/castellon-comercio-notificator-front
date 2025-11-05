@@ -6,9 +6,10 @@ import packageInfo from '../../../../package.json';
 import { CommerceStatus } from '../../models/commerce-status.model';
 import { CommerceService } from '../../services/commerce.service';
 import { LanguageService } from '../../services/language.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-commerce-status',
@@ -20,6 +21,8 @@ import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.comp
 })
 export class CommerceStatusComponent {
   private readonly commerceService = inject(CommerceService);
+  private readonly translate = inject(TranslateService);
+  private readonly toastService = inject(ToastService);
 
   @Input({ required: false })
   public showHistoryLink = true;
@@ -65,6 +68,8 @@ export class CommerceStatusComponent {
         error: () => {
           this.hasError.set(true);
           this.isLoading.set(false);
+          const message = this.translate.instant('toast.error.status');
+          this.toastService.showError(message);
         }
       });
   }
