@@ -1,4 +1,11 @@
 {
+  "app": {
+    "name": "Castelló Comerç Notificator"
+  },
+  "navigation": {
+    "ariaLabel": "Navegació principal",
+    "home": "Inici"
+  },
   "language": {
     "switcher": {
       "label": "Idioma",
