@@ -4,13 +4,14 @@ import { map, Observable } from 'rxjs';
 import { Commerce } from '../models/commerce.model';
 import { CommerceStatus } from '../models/commerce-status.model';
 import { CommerceHistoryEntry } from '../models/commerce-history-entry.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommerceService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = 'https://bcc-api.alvaromaxter.es/api/comercios';
+  private readonly baseUrl = `${environment.apiBaseUrl}/api/comercios`;
 
   getCommerces(): Observable<Commerce[]> {
     return this.http.get<Commerce[]>(this.baseUrl).pipe(
