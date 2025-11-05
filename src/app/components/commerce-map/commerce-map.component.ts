@@ -16,6 +16,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { Commerce } from '../../models/commerce.model';
 import { LanguageService } from '../../services/language.service';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 
 const DEFAULT_CENTER: [number, number] = [39.986359, -0.037652];
 const DEFAULT_ZOOM = 14;
@@ -23,7 +24,7 @@ const DEFAULT_ZOOM = 14;
 @Component({
   selector: 'app-commerce-map',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, LoadingSpinnerComponent],
   templateUrl: './commerce-map.component.html',
   styleUrl: './commerce-map.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

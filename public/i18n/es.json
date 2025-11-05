@@ -15,6 +15,15 @@
       }
     }
   },
+  "toast": {
+    "ariaLabel": "Notificaciones del sistema",
+    "close": "Cerrar notificación",
+    "error": {
+      "commerces": "No se han podido cargar los comercios. Comprueba tu conexión e inténtalo de nuevo.",
+      "history": "No se ha podido cargar el historial de cambios. Vuelve a intentarlo más tarde.",
+      "status": "No se ha podido cargar el estado general del programa. Revisa tu conexión e inténtalo más tarde."
+    }
+  },
   "grid": {
     "hero": {
       "eyebrow": "Abonem Castelló",

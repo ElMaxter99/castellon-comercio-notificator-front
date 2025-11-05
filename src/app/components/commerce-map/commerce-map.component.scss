@@ -74,6 +74,11 @@
   border-radius: 1.25rem;
 }
 
+.map__overlay-spinner {
+  color: #bfdbfe;
+  --spinner-track-color: rgba(148, 163, 184, 0.3);
+}
+
 .map__overlay--error {
   background: rgba(185, 28, 28, 0.9);
 }
