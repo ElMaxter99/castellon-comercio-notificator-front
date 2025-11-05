@@ -2,6 +2,10 @@
   "app": {
     "name": "Castellón Comercio Notificator"
   },
+  "navigation": {
+    "ariaLabel": "Navegación principal",
+    "home": "Inicio"
+  },
   "language": {
     "switcher": {
       "label": "Idioma",

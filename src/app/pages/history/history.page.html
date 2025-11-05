@@ -1,6 +1,8 @@
 <section class="history-page">
   <header class="history-page__header">
-    <a class="history-page__brand" routerLink="/">{{ 'app.name' | translate }}</a>
+    <nav class="history-page__nav" aria-label="{{ 'navigation.ariaLabel' | translate }}">
+      <a class="history-page__nav-link" routerLink="/">{{ 'navigation.home' | translate }}</a>
+    </nav>
     <p class="history-page__eyebrow">{{ 'history.page.eyebrow' | translate }}</p>
     <h1 class="history-page__title">{{ 'history.page.title' | translate }}</h1>
     <p class="history-page__subtitle">{{ 'history.page.subtitle' | translate }}</p>

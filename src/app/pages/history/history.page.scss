@@ -20,26 +20,25 @@
   justify-items: center;
 }
 
-.history-page__brand {
-  justify-self: start;
-  text-decoration: none;
-  color: #bfdbfe;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-  padding: 0.5rem 1.25rem;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  background: rgba(30, 64, 175, 0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+.history-page__nav {
+  justify-self: stretch;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
 }
 
-.history-page__brand:hover,
-.history-page__brand:focus-visible {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 30px rgba(30, 64, 175, 0.35);
-  background: rgba(59, 130, 246, 0.45);
+.history-page__nav-link {
+  color: #f8fafc;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.history-page__nav-link:hover,
+.history-page__nav-link:focus-visible {
+  background-color: rgba(59, 130, 246, 0.25);
   outline: none;
 }
 
