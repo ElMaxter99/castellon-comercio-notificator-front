@@ -1,4 +1,7 @@
 {
+  "app": {
+    "name": "Castelló Comerç Notificator"
+  },
   "language": {
     "switcher": {
       "label": "Idioma",

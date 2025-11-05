@@ -1,4 +1,7 @@
 {
+  "app": {
+    "name": "Castellón Comercio Notificator"
+  },
   "language": {
     "switcher": {
       "label": "Idioma",
