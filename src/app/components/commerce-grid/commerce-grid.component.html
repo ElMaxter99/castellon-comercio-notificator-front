@@ -1,8 +1,14 @@
 <div class="page">
   <header class="page__hero">
-    <p class="page__eyebrow">{{ 'grid.hero.eyebrow' | translate }}</p>
-    <h1 class="page__title">{{ 'grid.hero.title' | translate }}</h1>
-    <p class="page__subtitle">{{ 'grid.hero.subtitle' | translate }}</p>
+    <div class="page__hero-media" aria-hidden="true">
+      <img class="page__hero-logo" src="/public/logo.png" alt="" loading="lazy" />
+      <span class="page__hero-highlight">{{ 'grid.hero.highlight' | translate }}</span>
+    </div>
+    <div class="page__hero-copy">
+      <p class="page__eyebrow">{{ 'grid.hero.eyebrow' | translate }}</p>
+      <h1 class="page__title">{{ 'grid.hero.title' | translate }}</h1>
+      <p class="page__subtitle">{{ 'grid.hero.subtitle' | translate }}</p>
+    </div>
   </header>
 
   <section class="notice" [attr.aria-label]="'grid.notice.ariaLabel' | translate">

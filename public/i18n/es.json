@@ -4,7 +4,12 @@
   },
   "navigation": {
     "ariaLabel": "Navegación principal",
-    "home": "Inicio"
+    "home": "Inicio",
+    "brand": {
+      "logoAlt": "Logotipo del proyecto Castellón Comercio Notificator",
+      "title": "Castellón Comercio",
+      "subtitle": "Notificator"
+    }
   },
   "language": {
     "switcher": {
@@ -28,7 +33,8 @@
     "hero": {
       "eyebrow": "Abonem Castelló",
       "title": "Comercios adheridos al programa",
-      "subtitle": "Consulta y filtra los establecimientos que participan en la campaña de dinamización comercial de Castelló de la Plana."
+      "subtitle": "Consulta y filtra los establecimientos que participan en la campaña de dinamización comercial de Castelló de la Plana.",
+      "highlight": "Edición 2024"
     },
     "notice": {
       "ariaLabel": "Información sobre el proyecto",
@@ -121,6 +127,7 @@
       "eyebrow": "Registro interno",
       "title": "Historial completo de cambios",
       "subtitle": "Consulta todas las actualizaciones registradas en el listado de comercios adheridos para llevar un control de las altas y bajas.",
+      "badge": "Datos oficiales",
       "back": "Volver al explorador de comercios"
     },
     "component": {
