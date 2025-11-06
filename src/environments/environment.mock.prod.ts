@@ -1,5 +1,5 @@
 export const environment = {
-  mode: 'production',
+  mode: 'production-mock',
   apiBaseUrl: 'https://bcc-api.alvaromaxter.es',
-  isLive: true
+  isLive: false
 };

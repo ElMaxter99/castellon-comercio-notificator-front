@@ -12,19 +12,33 @@ import { environment } from '../../environments/environment';
 export class CommerceService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiBaseUrl}/api/comercios`;
+  private readonly mockBaseUrl = 'public/mockup';
+  private readonly isLive = environment.isLive;
 
   getCommerces(): Observable<Commerce[]> {
-    return this.http.get<Commerce[]>(this.baseUrl).pipe(
+    const request$ = this.isLive
+      ? this.http.get<Commerce[]>(this.baseUrl)
+      : this.http.get<Commerce[]>(`${this.mockBaseUrl}/commerces.json`);
+
+    return request$.pipe(
       map((commerces) => commerces.map((commerce) => this.normaliseCommerce(commerce)))
     );
   }
 
   getStatus(): Observable<CommerceStatus> {
-    return this.http.get<CommerceStatus>(`${this.baseUrl}/status`);
+    if (this.isLive) {
+      return this.http.get<CommerceStatus>(`${this.baseUrl}/status`);
+    }
+
+    return this.http.get<CommerceStatus>(`${this.mockBaseUrl}/status.json`);
   }
 
   getHistory(): Observable<CommerceHistoryEntry[]> {
-    return this.http.get<CommerceHistoryEntry[]>(`${this.baseUrl}/history`);
+    if (this.isLive) {
+      return this.http.get<CommerceHistoryEntry[]>(`${this.baseUrl}/history`);
+    }
+
+    return this.http.get<CommerceHistoryEntry[]>(`${this.mockBaseUrl}/history.json`);
   }
 
   private normaliseCommerce(commerce: Commerce): Commerce {

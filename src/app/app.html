@@ -1,4 +1,8 @@
 <div class="layout">
+  <aside class="layout__disclaimer" *ngIf="!isLive">
+    <p class="layout__disclaimer-title">{{ 'layout.mockDisclaimer.title' | translate }}</p>
+    <p class="layout__disclaimer-body">{{ 'layout.mockDisclaimer.body' | translate }}</p>
+  </aside>
   <header class="layout__header">
     <a class="layout__brand" routerLink="/" aria-label="{{ 'navigation.home' | translate }}">
       <img class="layout__brand-logo" src="/public/logo.png" alt="{{ 'navigation.brand.logoAlt' | translate }}"

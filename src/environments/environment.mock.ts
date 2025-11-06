@@ -1,5 +1,5 @@
 export const environment = {
-  mode: 'development',
+  mode: 'development-mock',
   apiBaseUrl: 'http://localhost:12001',
-  isLive: true
+  isLive: false
 };
