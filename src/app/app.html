@@ -1,8 +1,14 @@
 <div class="layout">
   <header class="layout__header">
-    <nav class="layout__nav" aria-label="{{ 'navigation.ariaLabel' | translate }}">
-      <a class="layout__nav-link" routerLink="/">{{ 'navigation.home' | translate }}</a>
-    </nav>
+    <a class="layout__brand" routerLink="/" aria-label="{{ 'navigation.home' | translate }}">
+      <img class="layout__brand-logo" src="/public/logo.png" alt="{{ 'navigation.brand.logoAlt' | translate }}"
+        loading="lazy" />
+      <div class="layout__brand-text">
+        <span class="layout__brand-title">{{ 'navigation.brand.title' | translate }}</span>
+        <span class="layout__brand-subtitle">{{ 'navigation.brand.subtitle' | translate }}</span>
+      </div>
+    </a>
+
     <app-language-switcher variant="select"></app-language-switcher>
   </header>
   <main class="layout__content">
