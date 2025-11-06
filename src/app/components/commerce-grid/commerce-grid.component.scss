@@ -480,9 +480,16 @@
   }
 }
 
-.grid__list--list {
-  grid-template-columns: 1fr;
+.grid__list.grid__list--list {
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
+  grid-template-columns: none; /* neutralise the grid layout so flex can stretch items */
+  width: 100%;
+}
+
+.grid__list.grid__list--list > * {
+  width: 100%;
 }
 
 
@@ -490,6 +497,7 @@
   --table-columns: minmax(220px, 2.2fr) minmax(140px, 1fr) minmax(240px, 2.2fr) minmax(140px, 1fr);
   display: grid;
   gap: 1rem;
+  width: 100%;
 }
 
 .grid__table-head {
@@ -530,7 +538,7 @@
     display: none;
   }
 
-  .grid__list--list {
+  .grid__list.grid__list--list {
     gap: 0.85rem;
   }
 }

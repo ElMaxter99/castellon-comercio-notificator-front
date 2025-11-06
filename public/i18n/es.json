@@ -1,4 +1,11 @@
 {
+  "app": {
+    "name": "Castellón Comercio Notificator"
+  },
+  "navigation": {
+    "ariaLabel": "Navegación principal",
+    "home": "Inicio"
+  },
   "language": {
     "switcher": {
       "label": "Idioma",
@@ -6,6 +13,15 @@
         "es": "Castellano",
         "ca-ES-valencia": "Valencià"
       }
+    }
+  },
+  "toast": {
+    "ariaLabel": "Notificaciones del sistema",
+    "close": "Cerrar notificación",
+    "error": {
+      "commerces": "No se han podido cargar los comercios. Comprueba tu conexión e inténtalo de nuevo.",
+      "history": "No se ha podido cargar el historial de cambios. Vuelve a intentarlo más tarde.",
+      "status": "No se ha podido cargar el estado general del programa. Revisa tu conexión e inténtalo más tarde."
     }
   },
   "grid": {

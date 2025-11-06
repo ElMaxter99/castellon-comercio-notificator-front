@@ -92,7 +92,7 @@
   </app-commerce-map>
 
   <div class="state" *ngIf="isLoading()">
-    <p>{{ 'grid.state.loading' | translate }}</p>
+    <app-loading-spinner [label]="'grid.state.loading' | translate"></app-loading-spinner>
   </div>
 
   <div class="state state--error" *ngIf="hasError() && !isLoading()">

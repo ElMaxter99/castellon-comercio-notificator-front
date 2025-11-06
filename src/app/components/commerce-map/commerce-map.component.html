@@ -16,7 +16,10 @@
     ></div>
 
     <div class="map__overlay" *ngIf="isLoading() || isDataLoading">
-      <p class="map__overlay-text">{{ 'map.overlay.loading' | translate }}</p>
+      <app-loading-spinner
+        class="map__overlay-spinner"
+        [label]="'map.overlay.loading' | translate"
+      ></app-loading-spinner>
     </div>
 
     <div class="map__overlay map__overlay--error" *ngIf="hasDataError && !isDataLoading">

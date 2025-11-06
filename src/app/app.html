@@ -1,5 +1,8 @@
 <div class="layout">
   <header class="layout__header">
+    <nav class="layout__nav" aria-label="{{ 'navigation.ariaLabel' | translate }}">
+      <a class="layout__nav-link" routerLink="/">{{ 'navigation.home' | translate }}</a>
+    </nav>
     <app-language-switcher variant="select"></app-language-switcher>
   </header>
   <main class="layout__content">
@@ -10,3 +13,4 @@
     <app-commerce-status [showHistoryLink]="!isHistoryRoute()"></app-commerce-status>
   </footer>
 </div>
+<app-toast-container></app-toast-container>

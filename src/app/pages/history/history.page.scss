@@ -17,6 +17,29 @@
   text-align: center;
   display: grid;
   gap: 1rem;
+  justify-items: center;
+}
+
+.history-page__nav {
+  justify-self: stretch;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.history-page__nav-link {
+  color: #f8fafc;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.history-page__nav-link:hover,
+.history-page__nav-link:focus-visible {
+  background-color: rgba(59, 130, 246, 0.25);
+  outline: none;
 }
 
 .history-page__eyebrow {

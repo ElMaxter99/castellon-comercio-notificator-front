@@ -15,10 +15,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs';
 import { Commerce } from '../../models/commerce.model';
 import { CommerceService } from '../../services/commerce.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommerceCardComponent } from '../commerce-card/commerce-card.component';
-import { CommerceMapComponent } from '../commerce-map/commerce-map.component';
 import { LanguageService } from '../../services/language.service';
+import { CommerceMapComponent } from '../commerce-map/commerce-map.component';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
+import { ToastService } from '../../services/toast.service';
 
 type ViewMode = 'grid' | 'list';
 type PaginationItem = { kind: 'page'; value: number } | { kind: 'ellipsis' };
@@ -29,7 +31,14 @@ const PAGE_SIZE_OPTIONS = [12, 24, 48];
 @Component({
   selector: 'app-commerce-grid',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, CommerceMapComponent, CommerceCardComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    CommerceMapComponent,
+    CommerceCardComponent,
+    LoadingSpinnerComponent
+  ],
   templateUrl: './commerce-grid.component.html',
   styleUrl: './commerce-grid.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -38,6 +47,8 @@ export class CommerceGridComponent {
   private readonly commerceService = inject(CommerceService);
   private readonly fb = inject(FormBuilder);
   private readonly languageService = inject(LanguageService);
+  private readonly translate = inject(TranslateService);
+  private readonly toastService = inject(ToastService);
 
   protected readonly isLoading = signal(true);
   protected readonly hasError = signal(false);
@@ -324,6 +335,8 @@ export class CommerceGridComponent {
         error: () => {
           this.hasError.set(true);
           this.isLoading.set(false);
+          const message = this.translate.instant('toast.error.commerces');
+          this.toastService.showError(message);
         }
       });
   }

@@ -1,5 +1,15 @@
 # Changelog
 
+## [v1.1.1](https://github.com/ElMaxter99/castellon-comercio-notificator-front/releases/tag/v1.1.1) - 2025-11-06
+
+### Añadido
+- Add reusable loading spinner for API call states #15hours ago
+- Configure environment-specific API endpoints #13
+- Add brand navigation button and auto-scroll on history view 
+
+### Correciones 
+- Fix list view layout for commerce grid #14
+
 ## [v1.1.0](https://github.com/ElMaxter99/castellon-comercio-notificator-front/releases/tag/v1.1.0) - 2025-11-04
 
 ### Añadido

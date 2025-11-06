@@ -1,4 +1,11 @@
 {
+  "app": {
+    "name": "Castelló Comerç Notificator"
+  },
+  "navigation": {
+    "ariaLabel": "Navegació principal",
+    "home": "Inici"
+  },
   "language": {
     "switcher": {
       "label": "Idioma",
@@ -6,6 +13,15 @@
         "es": "Castellà",
         "ca-ES-valencia": "Valencià"
       }
+    }
+  },
+  "toast": {
+    "ariaLabel": "Notificacions del sistema",
+    "close": "Tanca la notificació",
+    "error": {
+      "commerces": "No s'han pogut carregar els comerços. Comprova la connexió i torna-ho a intentar.",
+      "history": "No s'ha pogut carregar l'històric de canvis. Torna-ho a intentar més tard.",
+      "status": "No s'ha pogut carregar l'estat general del programa. Revisa la connexió i torna-ho a intentar més tard."
     }
   },
   "grid": {
