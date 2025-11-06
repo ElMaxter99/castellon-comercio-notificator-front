@@ -53,6 +53,29 @@ npm install
 - **Variables de entorno**: no son necesarias para la ejecución local. El endpoint se encuentra configurado en `CommerceService`.
 - **Mapas**: Leaflet se carga desde CDN (definido en `src/index.html`). Es necesario disponer de conexión a internet para visualizar los mapas.
 
+## Modo mock (datos ficticios)
+
+Para facilitar las demostraciones una vez finalizado el programa «Abonem Castelló», la aplicación incorpora un modo *mock* que simula las respuestas de la API con fixtures almacenados en `public/mockup/`. Cuando este modo está activo, se muestra un aviso persistente indicando que los datos son meramente ilustrativos.
+
+### ¿Cuándo usarlo?
+
+- **Periodo oficial finalizado**: permite seguir enseñando la interfaz sin depender de la API real.
+- **Entornos de pruebas o ferias**: garantiza datos estables y controlados que no caducan.
+
+### Cómo activarlo
+
+Todas las órdenes de `npm` delegan en el envoltorio `tools/ng-live.cjs`, que acepta el flag `--live`. Por defecto la aplicación se ejecuta en modo real (`--live=true`). Para forzar el modo mock indica `--live=false` tras un doble guion (`--`):
+
+```bash
+# Servidor de desarrollo con datos mock
+npm start -- --live=false
+
+# Build de producción simulada
+npm run build -- --configuration=production --live=false
+```
+
+> Si necesitas el comportamiento original, omite el flag o establece `--live=true`.
+
 ## Estructura de rutas
 
 | Ruta | Descripción |
