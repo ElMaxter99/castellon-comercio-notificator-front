@@ -76,6 +76,8 @@ npm run build -- --configuration=production --live=false
 
 > Si necesitas el comportamiento original, omite el flag o establece `--live=true`.
 
+Tras `npm install` el script de *postinstall* sustituye el binario local de Angular CLI por dicho envoltorio, de modo que **los comandos directos** (`ng build`, `ng serve`, etc.) también aceptan el flag `--live`. Esto permite reutilizar el mismo parámetro en pipelines o despliegues como `ng build --configuration=$NG_BUILD_CONFIG --live=false` sin errores.
+
 ## Estructura de rutas
 
 | Ruta | Descripción |
@@ -96,7 +98,7 @@ npm run build -- --configuration=production --live=false
 
 1. Realiza un fork del repositorio y crea una rama para tu cambio.
 2. Instala dependencias (`npm install`).
-3. Ejecuta `npm start` y desarrolla con `ng serve` en local.
+3. Ejecuta `npm start` (o directamente `ng serve`) y desarrolla en local.
 4. Asegúrate de que `npm test` se ejecuta sin errores antes de enviar la contribución.
 5. Abre una pull request describiendo claramente el cambio propuesto.
 

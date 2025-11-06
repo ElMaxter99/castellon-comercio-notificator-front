@@ -5,8 +5,8 @@ const { spawnSync } = require('node:child_process');
 const args = process.argv.slice(2);
 
 if (args.length === 0) {
-  console.error('Usage: npm run ng -- <command> [options]');
-  process.exit(1);
+  executeNg([]);
+  process.exit(0);
 }
 
 const command = args[0];
@@ -48,16 +48,7 @@ const finalArgs = !liveFlag
   ? [command, ...applyMockConfiguration(command, filteredArgs)]
   : [command, ...filteredArgs];
 
-const ngBin = require.resolve('@angular/cli/bin/ng');
-const result = spawnSync(process.execPath, [ngBin, ...finalArgs], {
-  stdio: 'inherit'
-});
-
-if (result.error) {
-  console.error(result.error);
-}
-
-process.exit(result.status ?? 1);
+executeNg(finalArgs);
 
 function parseLiveValue(value) {
   const normalised = String(value).toLowerCase();
@@ -126,4 +117,25 @@ function applyMockConfiguration(commandName, args) {
 
     return `${value}${mockSuffix}`;
   }
+}
+
+function executeNg(passedArgs) {
+  const ngBin = require.resolve('@angular/cli/bin/ng');
+  const result = spawnSync(process.execPath, [ngBin, ...passedArgs], {
+    stdio: 'inherit'
+  });
+
+  if (result.error) {
+    console.error(result.error);
+  }
+
+  if (typeof result.status === 'number') {
+    process.exit(result.status);
+  }
+
+  if (result.signal) {
+    process.kill(process.pid, result.signal);
+  }
+
+  process.exit(1);
 }
