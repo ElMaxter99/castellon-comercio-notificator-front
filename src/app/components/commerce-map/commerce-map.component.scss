@@ -209,10 +209,24 @@
 }
 
 :host ::ng-deep .map-popup {
+  min-width: 12rem;
+}
+
+:host ::ng-deep .map-popup__link {
   display: grid;
   gap: 0.35rem;
   color: #0f172a;
-  min-width: 12rem;
+  text-decoration: none;
+}
+
+:host ::ng-deep .map-popup__link:hover,
+:host ::ng-deep .map-popup__link:focus-visible {
+  text-decoration: underline;
+}
+
+:host ::ng-deep .map-popup__link:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
 }
 
 :host ::ng-deep .map-popup__title {
