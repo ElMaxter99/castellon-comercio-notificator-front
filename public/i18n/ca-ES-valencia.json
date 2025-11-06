@@ -2,6 +2,12 @@
   "app": {
     "name": "Castelló Comerç Notificator"
   },
+  "layout": {
+    "mockDisclaimer": {
+      "title": "El programa de bons ha finalitzat",
+      "body": "Les dades mostrades corresponen a un exemple de com funcionaria l'aplicació durant la campanya activa."
+    }
+  },
   "navigation": {
     "ariaLabel": "Navegació principal",
     "home": "Inici",

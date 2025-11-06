@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Llibreria La Plaça",
+    "sector": "Llibres i papereria",
+    "phone": "+34 964 000 111",
+    "address": "Plaça Major, 12",
+    "img": "public/commerce-placeholder.svg",
+    "mapsUrl": "https://maps.google.com/?q=Pla%C3%A7a+Major+12+Castell%C3%B3+de+la+Plana"
+  },
+  {
+    "name": "Cafeteria Bon Gust",
+    "sector": "Hostaleria",
+    "phone": "+34 964 000 245",
+    "address": "Carrer Enmig, 45",
+    "img": "public/commerce-placeholder.svg",
+    "mapsUrl": "https://maps.google.com/?q=Carrer+Enmig+45+Castell%C3%B3+de+la+Plana"
+  },
+  {
+    "name": "Moda Mediterrània",
+    "sector": "Moda i complements",
+    "phone": "+34 964 000 389",
+    "address": "Avinguda Rei en Jaume, 78",
+    "img": "public/commerce-placeholder.svg",
+    "mapsUrl": "https://maps.google.com/?q=Avinguda+Rei+en+Jaume+78+Castell%C3%B3+de+la+Plana"
+  },
+  {
+    "name": "EcoVerda",
+    "sector": "Productes ecològics",
+    "phone": "+34 964 000 512",
+    "address": "Ronda Mijares, 102",
+    "img": "public/commerce-placeholder.svg",
+    "mapsUrl": "https://maps.google.com/?q=Ronda+Mijares+102+Castell%C3%B3+de+la+Plana"
+  },
+  {
+    "name": "Tecnologia Grau",
+    "sector": "Electrònica",
+    "phone": "+34 964 000 634",
+    "address": "Carrer Major, 5",
+    "img": "public/commerce-placeholder.svg",
+    "mapsUrl": "https://maps.google.com/?q=Carrer+Major+5+Castell%C3%B3+de+la+Plana"
+  },
+  {
+    "name": "Floristeria Azahar",
+    "sector": "Floristeria",
+    "phone": "+34 964 000 758",
+    "address": "Carrer de Sant Pere, 9",
+    "img": "public/commerce-placeholder.svg",
+    "mapsUrl": "https://maps.google.com/?q=Carrer+de+Sant+Pere+9+Castell%C3%B3+de+la+Plana"
+  }
+]

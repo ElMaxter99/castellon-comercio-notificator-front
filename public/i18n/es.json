@@ -2,6 +2,12 @@
   "app": {
     "name": "Castellón Comercio Notificator"
   },
+  "layout": {
+    "mockDisclaimer": {
+      "title": "El programa de bonos ha finalizado",
+      "body": "Los datos mostrados corresponden a un ejemplo de cómo funcionaría la aplicación durante la campaña activa."
+    }
+  },
   "navigation": {
     "ariaLabel": "Navegación principal",
     "home": "Inicio",
