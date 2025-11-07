@@ -2,9 +2,20 @@
   "app": {
     "name": "Castelló Comerç Notificator"
   },
+  "layout": {
+    "mockDisclaimer": {
+      "title": "El programa de bons ha finalitzat",
+      "body": "Les dades mostrades corresponen a un exemple de com funcionaria l'aplicació durant la campanya activa."
+    }
+  },
   "navigation": {
     "ariaLabel": "Navegació principal",
-    "home": "Inici"
+    "home": "Inici",
+    "brand": {
+      "logoAlt": "Logotip del projecte Castelló Comerç Notificator",
+      "title": "Castelló Comerç",
+      "subtitle": "Notificator"
+    }
   },
   "language": {
     "switcher": {
@@ -28,7 +39,8 @@
     "hero": {
       "eyebrow": "Abonem Castelló",
       "title": "Comerços adherits al programa",
-      "subtitle": "Consulta i filtra els establiments que participen en la campanya de dinamització comercial de Castelló de la Plana."
+      "subtitle": "Consulta i filtra els establiments que participen en la campanya de dinamització comercial de Castelló de la Plana.",
+      "highlight": "Edició 2025"
     },
     "notice": {
       "ariaLabel": "Informació sobre el projecte",

@@ -9,6 +9,29 @@
   background-color: #0f172a;
 }
 
+.layout__disclaimer {
+  padding: 1rem clamp(1.25rem, 4vw, 2.5rem);
+  text-align: center;
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 55%, #fef3c7 100%);
+  border-bottom: 1px solid rgba(185, 28, 28, 0.35);
+  box-shadow: 0 6px 18px rgba(185, 28, 28, 0.2);
+  color: #7f1d1d;
+}
+
+.layout__disclaimer-title {
+  margin: 0 0 0.25rem;
+  font-weight: 700;
+  font-size: clamp(1rem, 2.8vw, 1.1rem);
+}
+
+.layout__disclaimer-body {
+  margin: 0;
+  font-size: clamp(0.85rem, 2.6vw, 0.95rem);
+  color: rgba(127, 29, 29, 0.9);
+  max-width: 68ch;
+  margin-inline: auto;
+}
+
 .layout__header {
   position: sticky;
   top: 0;
@@ -16,11 +39,57 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 1.25rem;
   flex-wrap: wrap;
-  padding: 1rem 2rem;
-  background-color: #ffffff;
+  padding: 1rem clamp(1.25rem, 4vw, 2.5rem);
+  background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 65%, #dbeafe 100%);
   border-bottom: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.layout__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.2), 0 10px 24px rgba(30, 64, 175, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.layout__brand:hover,
+.layout__brand:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.35), 0 16px 30px rgba(30, 64, 175, 0.2);
+  outline: none;
+}
+
+.layout__brand-logo {
+  width: clamp(40px, 6vw, 52px);
+  height: clamp(40px, 6vw, 52px);
+  object-fit: contain;
+  border-radius: 50%;
+  box-shadow: 0 8px 16px rgba(59, 130, 246, 0.25);
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, #bfdbfe 100%);
+}
+
+.layout__brand-text {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.layout__brand-title {
+  color: #0f172a;
+  font-weight: 700;
+  font-size: clamp(1rem, 3vw, 1.15rem);
+}
+
+.layout__brand-subtitle {
+  color: rgba(15, 23, 42, 0.65);
+  font-size: clamp(0.75rem, 2.4vw, 0.85rem);
+  letter-spacing: 0.02em;
 }
 
 .layout__nav {
@@ -50,4 +119,27 @@
 
 .layout__footer {
   margin-top: auto;
+}
+
+@media (max-width: 768px) {
+  .layout__header {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .layout__nav {
+    order: 3;
+  }
+
+  .layout__nav-link {
+    font-size: 0.95rem;
+  }
+
+  .layout__brand {
+    order: 1;
+  }
+
+  app-language-switcher {
+    order: 2;
+  }
 }

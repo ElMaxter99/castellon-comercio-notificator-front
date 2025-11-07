@@ -56,10 +56,42 @@
                 }
               ]
             },
+            "production-mock": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "10KB",
+                  "maximumError": "15KB"
+                }
+              ],
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mock.prod.ts"
+                }
+              ]
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "development-mock": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mock.ts"
+                }
+              ]
             },
             "test": {
               "budgets": [
@@ -81,6 +113,27 @@
                   "with": "src/environments/environment.test.ts"
                 }
               ]
+            },
+            "test-mock": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "10KB",
+                  "maximumError": "15KB"
+                }
+              ],
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mock.test.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "development"
@@ -91,11 +144,20 @@
             "production": {
               "buildTarget": "castellon-comercio-notificator-front:build:production"
             },
+            "production-mock": {
+              "buildTarget": "castellon-comercio-notificator-front:build:production-mock"
+            },
             "development": {
               "buildTarget": "castellon-comercio-notificator-front:build:development"
             },
+            "development-mock": {
+              "buildTarget": "castellon-comercio-notificator-front:build:development-mock"
+            },
             "test": {
               "buildTarget": "castellon-comercio-notificator-front:build:test"
+            },
+            "test-mock": {
+              "buildTarget": "castellon-comercio-notificator-front:build:test-mock"
             }
           },
           "defaultConfiguration": "development"

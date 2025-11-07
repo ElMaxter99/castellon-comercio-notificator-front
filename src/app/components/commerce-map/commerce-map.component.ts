@@ -264,9 +264,11 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
 
     return `
       <article class="map-popup">
-        <h3 class="map-popup__title">${commerce.name}</h3>
-        ${safeSector}
-        ${safeAddress}
+        <a class="map-popup__link" href="${commerce.mapsUrl}" target="_blank" rel="noopener noreferrer">
+          <h3 class="map-popup__title">${commerce.name}</h3>
+          ${safeSector}
+          ${safeAddress}
+        </a>
       </article>
     `;
   }
