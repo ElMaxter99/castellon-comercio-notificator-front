@@ -53,6 +53,31 @@ npm install
 - **Variables de entorno**: no son necesarias para la ejecución local. El endpoint se encuentra configurado en `CommerceService`.
 - **Mapas**: Leaflet se carga desde CDN (definido en `src/index.html`). Es necesario disponer de conexión a internet para visualizar los mapas.
 
+## Modo mock (datos ficticios)
+
+Para facilitar las demostraciones una vez finalizado el programa «Abonem Castelló», la aplicación incorpora un modo *mock* que simula las respuestas de la API con fixtures almacenados en `public/mockup/`. Cuando este modo está activo, se muestra un aviso persistente indicando que los datos son meramente ilustrativos.
+
+### ¿Cuándo usarlo?
+
+- **Periodo oficial finalizado**: permite seguir enseñando la interfaz sin depender de la API real.
+- **Entornos de pruebas o ferias**: garantiza datos estables y controlados que no caducan.
+
+### Cómo activarlo
+
+Todas las órdenes de `npm` delegan en el envoltorio `tools/ng-live.cjs`, que acepta el flag `--live`. Por defecto la aplicación se ejecuta en modo real (`--live=true`). Para forzar el modo mock indica `--live=false` tras un doble guion (`--`):
+
+```bash
+# Servidor de desarrollo con datos mock
+npm start -- --live=false
+
+# Build de producción simulada
+npm run build -- --configuration=production --live=false
+```
+
+> Si necesitas el comportamiento original, omite el flag o establece `--live=true`.
+
+Tras `npm install` el script de *postinstall* sustituye el binario local de Angular CLI por dicho envoltorio, de modo que **los comandos directos** (`ng build`, `ng serve`, etc.) también aceptan el flag `--live`. Esto permite reutilizar el mismo parámetro en pipelines o despliegues como `ng build --configuration=$NG_BUILD_CONFIG --live=false` sin errores.
+
 ## Estructura de rutas
 
 | Ruta | Descripción |
@@ -73,7 +98,7 @@ npm install
 
 1. Realiza un fork del repositorio y crea una rama para tu cambio.
 2. Instala dependencias (`npm install`).
-3. Ejecuta `npm start` y desarrolla con `ng serve` en local.
+3. Ejecuta `npm start` (o directamente `ng serve`) y desarrolla en local.
 4. Asegúrate de que `npm test` se ejecuta sin errores antes de enviar la contribución.
 5. Abre una pull request describiendo claramente el cambio propuesto.
 

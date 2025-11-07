@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Llibreria La Plaça",
+    "sector": "Llibres i papereria",
+    "phone": "+34 964 000 111",
+    "address": "Plaça Major, 12",
+    "img": "public/commerce-placeholder.svg",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=39.9892939,-0.0341973"
+  },
+  {
+    "name": "Cafeteria Bon Gust",
+    "sector": "Hostaleria",
+    "phone": "+34 964 000 245",
+    "address": "Carrer Enmig, 45",
+    "img": "public/commerce-placeholder.svg",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=39.9908424,-0.0494571"
+  },
+  {
+    "name": "Moda Mediterrània",
+    "sector": "Moda i complements",
+    "phone": "+34 964 000 389",
+    "address": "Avinguda Rei en Jaume, 78",
+    "img": "public/commerce-placeholder.svg",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=39.9891323,-0.0385510"
+  },
+  {
+    "name": "EcoVerda",
+    "sector": "Productes ecològics",
+    "phone": "+34 964 000 512",
+    "address": "Ronda Mijares, 102",
+    "img": "public/commerce-placeholder.svg",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=39.9850807,-0.0380777"
+  },
+  {
+    "name": "Tecnologia Grau",
+    "sector": "Electrònica",
+    "phone": "+34 964 000 634",
+    "address": "Carrer Major, 5",
+    "img": "public/commerce-placeholder.svg",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=39.9822933,-0.0453947"
+  },
+  {
+    "name": "Floristeria Azahar",
+    "sector": "Floristeria",
+    "phone": "+34 964 000 758",
+    "address": "Carrer de Sant Pere, 9",
+    "img": "public/commerce-placeholder.svg",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=39.9866773,-0.0392715"
+  }
+]

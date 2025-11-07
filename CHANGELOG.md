@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.2.0](https://github.com/ElMaxter99/castellon-comercio-notificator-front/releases/tag/v1.2.0) - 2025-11-07
+
+### Añadido
+- Make map popups open Google Maps #20
+- Add mock mode toggle with disclaimer and sample data #19
+- Add brand branding to layout #18
+- Change icon and socialmetadata #17
+
 ## [v1.1.1](https://github.com/ElMaxter99/castellon-comercio-notificator-front/releases/tag/v1.1.1) - 2025-11-06
 
 ### Añadido
