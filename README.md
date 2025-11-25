@@ -104,6 +104,10 @@ Tras `npm install` el script de *postinstall* sustituye el binario local de Angu
 
 Las sugerencias y mejoras son bienvenidas para seguir evolucionando la experiencia de los comercios adheridos.
 
+## QA y validación
+
+Para revisiones rápidas o regresiones visuales, consulta la [Guía de QA](docs/QA.md) con listas de comprobación y comandos de prueba habituales.
+
 ## Licencia
 
 Este proyecto se distribuye bajo los términos establecidos por sus autores. Revisa el repositorio original para más información sobre la licencia aplicable.
