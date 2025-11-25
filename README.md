@@ -47,6 +47,10 @@ npm install
 | `npm test` | Ejecuta la suite de pruebas unitarias mediante Karma + Jasmine. |
 | `npm run watch` | Compila en modo desarrollo y permanece atento a cambios de archivos. |
 
+## Calidad y QA
+
+Consulta la [guía rápida de QA](docs/QA_GUIDE.md) para conocer los chequeos sugeridos antes de subir cambios: pirámide de pruebas, checklist funcional (filtros, mapa, paginación e histórico) y recordatorios de accesibilidad, rendimiento y datos de prueba.
+
 ## Configuración y entorno
 
 - **Base de datos remota**: no se requiere backend propio; los datos se consumen desde la API pública.
