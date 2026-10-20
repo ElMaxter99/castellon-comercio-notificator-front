@@ -38,7 +38,7 @@ export class CommerceStatusComponent {
 
   protected readonly formattedLastUpdate = computed(() => {
     const data = this.status();
-    if (!data) {
+    if (!data?.lastUpdate) {
       return '';
     }
 

@@ -1,0 +1,45 @@
+# Integración continua: tests unitarios y builds de producción (con API real y en modo mock).
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [develop, master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # No se versiona package-lock.json, así que no se usa `npm ci` ni la caché de npm.
+      - name: Instalar dependencias
+        run: npm install --no-audit --no-fund
+
+      # En runners con AppArmor Chrome puede negarse a arrancar con sandbox.
+      - name: Chrome sin sandbox
+        run: |
+          printf '#!/bin/sh\nexec "$(command -v google-chrome || command -v chromium-browser || command -v chromium)" --no-sandbox "$@"\n' > "$RUNNER_TEMP/chrome-ci"
+          chmod +x "$RUNNER_TEMP/chrome-ci"
+          echo "CHROME_BIN=$RUNNER_TEMP/chrome-ci" >> "$GITHUB_ENV"
+
+      - name: Tests
+        run: npm test -- --watch=false --browsers=ChromeHeadless
+
+      - name: Build de producción
+        run: npm run build -- --configuration=production
+
+      - name: Build de producción en modo mock
+        run: npm run build -- --configuration=production --live=false
