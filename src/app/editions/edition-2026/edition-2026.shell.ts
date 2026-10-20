@@ -3,6 +3,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import packageInfo from '../../../../package.json';
 import { LanguageSwitcherComponent } from '../../components/language-switcher/language-switcher.component';
+import { ConsentService } from '../../services/consent.service';
 import { LanguageService } from '../../services/language.service';
 import { formatDate } from '../../utils/format-date';
 import { Edition2026Store } from './edition-2026.store';
@@ -18,6 +19,7 @@ import { Edition2026Store } from './edition-2026.store';
 export class Edition2026ShellComponent {
   private readonly store = inject(Edition2026Store);
   private readonly language = inject(LanguageService);
+  protected readonly consent = inject(ConsentService);
 
   protected readonly version = packageInfo.version ?? '';
   protected readonly lastUpdate = computed(() => {

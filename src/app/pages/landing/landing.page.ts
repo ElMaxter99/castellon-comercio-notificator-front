@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import packageInfo from '../../../../package.json';
+import { ConsentService } from '../../services/consent.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageSwitcherComponent } from '../../components/language-switcher/language-switcher.component';
 import { GeoArtComponent } from '../../editions/edition-2026/components/geo-art.component';
@@ -15,5 +16,6 @@ import { GeoArtComponent } from '../../editions/edition-2026/components/geo-art.
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LandingPageComponent {
+  protected readonly consent = inject(ConsentService);
   protected readonly version = packageInfo.version ?? '';
 }

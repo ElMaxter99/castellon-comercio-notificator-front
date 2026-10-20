@@ -64,6 +64,8 @@
               {{ 'ed26.footer.code' | translate }} ↗
             </a>
           </li>
+          <li><a routerLink="/privacidad">{{ 'ed26.footer.legal' | translate }}</a></li>
+          <li><button type="button" class="shell__linkbtn" (click)="consent.reopen()">{{ 'ed26.footer.cookies' | translate }}</button></li>
         </ul>
       </div>
     </div>

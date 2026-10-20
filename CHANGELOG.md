@@ -1,5 +1,17 @@
 # Changelog
 
+## v2.5.0 - 2026-10-20
+
+### Legal (LSSI / RGPD)
+- **Aviso de cookies** (`CookieBannerComponent`): «Aceptar» y «Rechazar» con el mismo peso visual. La analítica de Vercel **ya no se carga al arrancar**: `ConsentService` la inyecta solo tras aceptar (y recarga si se retira el consentimiento). La decisión se guarda en `castellon-comercio-consent-v1`.
+- **Página `/privacidad`** (castellano y valencià): responsable, datos que se tratan, tabla de cookies y almacenamiento local, servicios de terceros (Vercel, Render, unpkg, OpenStreetMap, Google Maps), derechos RGPD y reclamación ante la AEPD. Enlazada desde el pie de la portada y de la edición 2026, junto a «Gestionar cookies» para cambiar la elección.
+- Tests de `ConsentService` (27 en total).
+
+### Cambio (edición 2026)
+- **Comercios en móvil**: se elimina la tira horizontal de sectores y el selector suelto. Los filtros son un único botón plegable «Filtros de búsqueda» (con contador de filtros activos) que al abrirse muestra búsqueda, sectores en chips que se reparten en varias líneas y favoritos. En escritorio se mantiene la fila de chips y el panel lateral.
+- **Comercios**: nueva cabecera con la composición geométrica del cartel, chips de sector (filtro rápido con recuento y scroll horizontal), tarjetas con franja del color del sector y botones de llamar / cómo llegar.
+- **Novedades**: el cronograma es plegable. Cada mes es una fila resumen (+altas / −bajas y nº de actualizaciones), solo se despliega el más reciente y su última entrada, y cada bloque muestra los 8 primeros nombres con «Ver N más». Botón «Desplegar/Plegar todo». Pensado para listados largos (p. ej. 200 altas de golpe).
+
 ## v2.4.3 - 2026-10-20
 
 ### Cambio
