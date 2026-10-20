@@ -59,7 +59,7 @@ npm install
 ## Configuración y entorno
 
 - **Base de datos remota**: no se requiere backend propio; los datos se consumen desde la API pública.
-- **Variables de entorno**: no son necesarias para la ejecución local. El endpoint se encuentra configurado en `CommerceService`.
+- **Variables de entorno**: no son necesarias para la ejecución local (API por defecto en `http://localhost:12001`). Para apuntar a otro API define `API_BASE_URL` (o `--api-url=`) al compilar; ver [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md).
 - **Mapas**: Leaflet se carga desde CDN (definido en `src/index.html`). Es necesario disponer de conexión a internet para visualizar los mapas.
 
 ## Modo mock (datos ficticios)

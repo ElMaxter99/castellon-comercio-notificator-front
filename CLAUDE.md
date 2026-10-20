@@ -43,6 +43,8 @@ npm start -- --live=false        # dev con datos mock (solo afecta a 2026; 2025 
 npm run build                    # build (config development por defecto)
 npm run build -- --configuration=production
 npm run build -- --configuration=production --live=false   # prod con mock
+API_BASE_URL=https://mi-api.onrender.com npm run build -- --configuration=production   # API propio
+npm start -- --api-url=http://localhost:3000                 # API local en otro puerto
 npm test                         # Karma + Jasmine (solo hay un spec mínimo: app.spec.ts)
 ```
 
@@ -58,7 +60,7 @@ npm test                         # Karma + Jasmine (solo hay un spec mínimo: ap
 1. El mapa extrae lat/lng del parámetro `query=lat,lng` de `mapsUrl`; si el origen cambia el formato, desaparecen los marcadores (sin error visible).
 2. `commerce-map.buildPopupContent` interpola `name/address/sector/mapsUrl` **sin escapar** en HTML (riesgo XSS si el origen se corrompe). Mejora pendiente.
 3. Leaflet viene de `unpkg.com` en `src/index.html` (necesita internet) y se usa como `any`.
-4. URL del API **hardcodeada** por entorno en `src/environments/*.ts` (`https://bcc-api.alvaromaxter.es` en prod).
+4. La URL del API se resuelve en compilación: `API_BASE_URL` (env) o `--api-url=` → `define` → `resolveApiBaseUrl()`; si no hay, el valor por defecto de `src/environments/*.ts` (`https://bcc-api.alvaromaxter.es` en prod). Es **build-time**: cambiarla exige recompilar/redesplegar. Solo la inyecta el wrapper `tools/ng-live.cjs` en `build|serve|dev-server`.
 5. `CommerceStatus.lastUpdate` se tipa `string` pero el API puede devolver `null` (si no hay scrapeos aún).
 6. `ng` en `node_modules/.bin` es sobrescrito por el postinstall; si el flag `--live` "no existe", repetir `npm install`.
 7. Las traducciones se cargan desde `/public/i18n/` (el `angular.json` publica `public/` bajo `/public`).

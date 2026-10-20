@@ -1,5 +1,16 @@
 # Changelog
 
+## v2.0.0 - 2026-10-20
+
+Nueva versión mayor por el cambio de edición: la edición 2026 pasa a ser la versión principal y la 2025 queda como demo.
+
+### Añadido
+- URL del API configurable sin tocar código: variable de entorno `API_BASE_URL` o flag `--api-url=...` en `npm start|build` y `ng ...` (se inyecta en compilación con `define`). Sin configurar se usan los valores por defecto de cada entorno.
+
+### Cambiado
+- Los ficheros `src/environments/*.ts` obtienen `apiBaseUrl` con `resolveApiBaseUrl(<valor por defecto>)` (`src/environments/api-url.ts`).
+- **Ruptura**: la raíz `/` es ahora el selector de edición; las vistas originales viven en `/2025` (siempre en modo demo) y las renovadas en `/2026` (introducido en 1.3.0, consolidado como versión mayor).
+
 ## v1.3.0 - 2026-10-20
 
 ### Añadido

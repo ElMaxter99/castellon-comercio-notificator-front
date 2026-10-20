@@ -17,6 +17,9 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "define": {
+              "API_BASE_URL": "undefined"
+            },
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
