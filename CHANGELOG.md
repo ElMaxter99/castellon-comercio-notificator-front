@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.4.0 - 2026-10-20
+
+### Añadido
+- **CI** con GitHub Actions (`.github/workflows/ci.yml`): tests y builds de producción (API real y modo mock) en cada PR y push a `develop`/`master`. Dependabot semanal (npm, agrupando Angular) y mensual (Actions).
+- 22 tests unitarios: utils (búsqueda sin acentos, coordenadas, escapado, popup, fechas), `CommerceService` (modo demo/live y normalización https) y `api-url`.
+
+### Corrección
+- **Seguridad**: el popup del mapa de la edición 2025 interpolaba datos del API sin escapar (riesgo de XSS). Ahora se construye en `utils/map-popup.ts` escapando todo y admitiendo solo enlaces http(s). El marcado y el aspecto no cambian.
+- `CommerceStatus.lastUpdate` se tipa `string | null`; la vista de estado de 2025 oculta la línea de última actualización si el API aún no tiene scrapeos (antes mostraba una fecha incorrecta).
+
 ## v2.3.0 - 2026-10-20
 
 ### Añadido

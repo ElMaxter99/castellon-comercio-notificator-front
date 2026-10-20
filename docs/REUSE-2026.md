@@ -17,11 +17,11 @@ Para trabajar con Claude: "sigue `docs/REUSE-2026.md` del repo front". Haz antes
 10. Vercel: revisar variables (`NG_BUILD_CONFIG`), dominio y analytics.
 
 ## 2. Mejoras recomendadas (no implementadas)
-1. **Escapar HTML** en `buildPopupContent` de la edición 2025 (XSS). La edición 2026 ya usa nodos DOM.
+1. ~~Escapar HTML en el popup del mapa de 2025~~ Hecho (`utils/map-popup.ts`).
 2. Mover `apiBaseUrl` a un único sitio (los 6 ficheros de entorno lo duplican).
-3. Tipar `lastUpdate: string | null` y mostrar "sin datos" si es nulo.
+3. ~~Tipar `lastUpdate: string | null`~~ Hecho (la línea de última actualización se oculta si es nulo).
 6. Instalar Leaflet vía npm en lugar de CDN (offline, SRI, tipos `@types/leaflet`).
 7. Agrupar marcadores (markercluster) si hay cientos de comercios.
-8. Tests unitarios de `CommerceGridComponent` (filtros/paginación) y `CommerceService` (normalización https).
+8. Tests: `CommerceService` y utils ya cubiertos; faltan `CommerceGridComponent` (filtros/paginación) y el store 2026.
 9. Mostrar en histórico los nombres añadidos/quitados con enlace al comercio, y aviso/push cuando haya altas (el API ya envía email).
 10. Estado de error específico si el API devuelve lista vacía (programa sin datos aún) frente a fallo de red.

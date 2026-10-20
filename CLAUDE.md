@@ -45,7 +45,7 @@ npm run build -- --configuration=production
 npm run build -- --configuration=production --live=false   # prod con mock
 API_BASE_URL=https://mi-api.onrender.com npm run build -- --configuration=production   # API propio
 npm start -- --api-url=http://localhost:3000                 # API local en otro puerto
-npm test                         # Karma + Jasmine (solo hay un spec mínimo: app.spec.ts)
+npm test                         # Karma + Jasmine (22 tests: utils, CommerceService, popup, api-url, app); CI en .github/workflows/ci.yml
 ```
 
 ## Convenciones
@@ -53,6 +53,7 @@ npm test                         # Karma + Jasmine (solo hay un spec mínimo: ap
 - Prettier: `printWidth 100`, `singleQuote`. SCSS con BEM.
 - **Todo texto visible va por ngx-translate**: añadir la clave en **ambos** JSON de `public/i18n/`.
 - Los datos se piden siempre vía `CommerceService`, nunca `HttpClient` directo en componentes.
+- Los PR deben pasar el CI (tests + builds). Añade tests para la lógica nueva (utils y servicios).
 - Cada release: `CHANGELOG.md` + `version` en `package.json` (se muestra en el panel de estado). Gitflow (`develop`, `release/x.y.z`, `master`).
 
 ## Capturas y logos del README
@@ -62,11 +63,11 @@ npm test                         # Karma + Jasmine (solo hay un spec mínimo: ap
 ## Trampas conocidas
 0. **2025 es intocable y siempre demo** (`DATA_MODE`). Los estilos de 2026 viven bajo `.ed26`; no mezclar con los de 2025. No usar `DatePipe` (sin locale data): usar `utils/format-date.ts`.
 1. El mapa extrae lat/lng del parámetro `query=lat,lng` de `mapsUrl`; si el origen cambia el formato, desaparecen los marcadores (sin error visible).
-2. `commerce-map.buildPopupContent` interpola `name/address/sector/mapsUrl` **sin escapar** en HTML (riesgo XSS si el origen se corrompe). Mejora pendiente.
+2. El popup del mapa 2025 se construye en `utils/map-popup.ts` **escapando** todo (`utils/escape-html.ts`) y solo admite enlaces http(s); no vuelvas a interpolar datos del API directamente en HTML.
 3a. Los textos de footer están en `landing.mini.*` y `ed26.footer.*` (ambos idiomas). Los iconos de navegación 2026 son SVG inline; no usar glifos Unicode.
 3b. El mapa 2026 debe mantener su contexto de apilamiento propio (`:host { position: relative; z-index: 0 }`); sin él, los controles de Leaflet (z-index hasta 1000) se pintan sobre la cabecera y la barra inferior móvil. Las animaciones de 2026 respetan `prefers-reduced-motion`.
 3. Leaflet y `leaflet.markercluster` (clústeres de la edición 2026) vienen de `unpkg.com` en `src/index.html` con SRI (necesita internet) y se usan como `any`. Si el plugin no carga, el mapa 2026 funciona sin clústeres.
 4. La URL del API se resuelve en compilación: `API_BASE_URL` (env) o `--api-url=` → `define` → `resolveApiBaseUrl()`; si no hay, el valor por defecto de `src/environments/*.ts` (`https://bcc-api.alvaromaxter.es` en prod). Es **build-time**: cambiarla exige recompilar/redesplegar. Solo la inyecta el wrapper `tools/ng-live.cjs` en `build|serve|dev-server`.
-5. `CommerceStatus.lastUpdate` se tipa `string` pero el API puede devolver `null` (si no hay scrapeos aún).
+5. `CommerceStatus.lastUpdate` es `string | null` (el API devuelve `null` si aún no hay scrapeos): las vistas deben tratarlo.
 6. `ng` en `node_modules/.bin` es sobrescrito por el postinstall; si el flag `--live` "no existe", repetir `npm install`.
 7. Las traducciones se cargan desde `/public/i18n/` (el `angular.json` publica `public/` bajo `/public`).

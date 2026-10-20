@@ -1,5 +1,6 @@
 export interface CommerceStatus {
   environment: string;
   total: number;
-  lastUpdate: string;
+  /** `null` si el API aún no ha completado ningún scrapeo. */
+  lastUpdate: string | null;
 }
