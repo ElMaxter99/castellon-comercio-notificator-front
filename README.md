@@ -1,122 +1,168 @@
-# Castellón Comercio Notificator Front
+<div align="center">
 
-Aplicación web desarrollada con Angular para consultar, filtrar y visualizar sobre un mapa los comercios adheridos al programa municipal "Abonem Castelló". El proyecto ofrece una experiencia accesible y responsive que centraliza la información pública del programa y añade utilidades de búsqueda avanzadas.
+<img src="docs/assets/banner.svg" alt="Castellón Comercio · Edición 2026" width="100%">
 
-> **Aviso**
-> Esta iniciativa es independiente y sin ánimo de lucro. No guarda relación con el Ayuntamiento de Castelló de la Plana ni con CONFECOMERÇ. Los datos mostrados proceden de la web oficial del programa y se ofrecen únicamente con fines informativos.
+<img src="docs/assets/logo.png" alt="Logotipo de Comerç Castelló Notificator" width="96">
 
-## Características principales
+# Castellón Comercio · Front
 
-- **Explorador de comercios** con filtros combinables por nombre, sector y dirección.
-- **Visualización geográfica** mediante Leaflet para ubicar los establecimientos sobre un mapa interactivo.
-- **Cambio rápido de vista** entre cuadrícula y listado para adaptar la navegación a cada necesidad.
-- **Control de paginación** configurable (12/24/48 elementos) con indicadores claros del total de resultados.
-- **Panel de estado** que muestra entorno de ejecución, número total de comercios y fecha de la última actualización.
-- **Histórico de cambios** detallado que resume altas y bajas del censo de comercios.
-- **Indicadores de carga y error** accesibles en todas las secciones para mejorar la experiencia de usuario.
-- **Interfaz responsive** optimizada para dispositivos móviles, tabletas y escritorio.
+**Encuentra, filtra y sigue en un mapa los comercios adheridos a los bonos de Castelló de la Plana.**
+<br>Dos ediciones en una sola web: la **2025** (demo) y la **2026** (renovada).
 
-## Documentación para desarrolladores (y para Claude)
+[![Versión](https://img.shields.io/github/package-json/v/ElMaxter99/castellon-comercio-notificator-front?style=flat-square&color=1E4D2B&label=versi%C3%B3n)](CHANGELOG.md)
+[![Angular](https://img.shields.io/badge/Angular-20-DD0031?style=flat-square&logo=angular&logoColor=white)](https://angular.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Leaflet](https://img.shields.io/badge/Leaflet-1.9-199900?style=flat-square&logo=leaflet&logoColor=white)](https://leafletjs.com)
+[![Vercel](https://img.shields.io/badge/despliegue-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com)
+[![Idiomas](https://img.shields.io/badge/idiomas-castellano%20%C2%B7%20valenci%C3%A0-F77F00?style=flat-square)](public/i18n)
 
-- [`CLAUDE.md`](CLAUDE.md): guía rápida del proyecto para Claude Code.
-- [`docs/EDITIONS.md`](docs/EDITIONS.md): ediciones 2025 (demo) y 2026 (renovada).
-- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): arquitectura y flujos.
-- [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md): entornos, flag `--live` y modo mock.
-- [`docs/REUSE-2026.md`](docs/REUSE-2026.md): checklist para reutilizarlo en la edición 2026.
-- Backend: [castellon-comercio-notificator-api](https://github.com/ElMaxter99/castellon-comercio-notificator-api).
+[Capturas](#-capturas) · [Ecosistema](#-ecosistema) · [Arranque rápido](#-arranque-rápido) · [Documentación](#-documentación) · [⚙️ API](https://github.com/ElMaxter99/castellon-comercio-notificator-api)
 
-## Arquitectura
+</div>
 
-- **Framework**: Angular 20 con componentes standalone, señales (`signal`) y detección de cambios `OnPush` para maximizar el rendimiento.
-- **Capas**:
-  - `services/`: clientes HTTP reutilizables que encapsulan las peticiones a la API (`CommerceService`).
-  - `components/`: piezas visuales reutilizables (`commerce-grid`, `commerce-card`, `commerce-map`, `commerce-status`, `commerce-history`).
-  - `pages/`: páginas ensambladas mediante rutas perezosas (por ejemplo, `history`).
-  - `models/`: tipado TypeScript compartido (`Commerce`, `CommerceStatus`, `CommerceHistoryEntry`).
-- **Datos**: consumo de la API pública, con normalización de URLs y uso de Leaflet cargado desde CDN.
-- **Estilos**: SCSS modular con patrones BEM y adaptaciones responsive.
+> [!NOTE]
+> **Iniciativa independiente y sin ánimo de lucro.** No guarda relación con el Ayuntamiento de Castelló de la Plana ni con CONFECOMERÇ. Los datos proceden de la web oficial del programa y se ofrecen solo con fines informativos.
 
-## Requisitos previos
+---
 
-- Node.js 18 o superior.
-- Angular CLI 20 (se instala localmente con las dependencias).
+## ✨ ¿Qué es?
 
-Instala las dependencias del proyecto con:
+La web oficial del programa ofrece un listado paginado sin buscador cómodo, sin mapa y sin histórico. Este proyecto lo convierte en una experiencia útil:
+
+- 🔎 **Buscador** por nombre, dirección o sector (tolera acentos).
+- 🗂️ **Lista agrupada por sector** o 🗺️ **mapa con clústeres**, con contador de establecimientos.
+- ⭐ **Favoritos** guardados en tu navegador y 🔗 filtros compartibles por URL.
+- 🔔 **Novedades**: altas y bajas del listado a lo largo del tiempo.
+- 🌍 Castellano y valencià, responsive y con accesibilidad en mente (`prefers-reduced-motion`, ARIA, teclado).
+
+## 🧭 Ecosistema
+
+Este repositorio es **solo el front**. Los datos los produce el [**API**](https://github.com/ElMaxter99/castellon-comercio-notificator-api), que vigila la web oficial y avisa de los cambios.
+
+```mermaid
+flowchart LR
+    W["🌐 Web oficial<br/>bonoscastellodelaplana.es"] -- "scrapeo cada 5 min" --> A["⚙️ API<br/>Node · Express"]
+    A <--> R[("🧠 Redis")]
+    A -- "email si hay<br/>comercios nuevos" --> M["✉️ SMTP / Resend"]
+    A -- "REST /api/comercios" --> F["🖥️ Front<br/>Angular (este repo)"]
+    F --> U(["👤 Ciudadanía"])
+
+    style F fill:#1E4D2B,color:#FBFAF0,stroke:#123524
+    style A fill:#F9CBA0,stroke:#C25E00
+```
+
+| Repositorio | Qué hace | Documentación |
+|---|---|---|
+| 🖥️ **Front** (este) | Web Angular con las ediciones 2025 y 2026 | [`docs/`](docs) · [`CLAUDE.md`](CLAUDE.md) |
+| ⚙️ [**API**](https://github.com/ElMaxter99/castellon-comercio-notificator-api) | Scraper, Redis, histórico, avisos por correo y REST | [`docs/`](https://github.com/ElMaxter99/castellon-comercio-notificator-api/tree/develop/docs) |
+
+## 📸 Capturas
+
+> Todas las capturas usan **datos ficticios** (comercios, fotos, teléfonos y fechas inventados); no se muestran datos reales del programa. Se regeneran con [`tools/readme-screenshots.cjs`](tools/readme-screenshots.cjs).
+
+### Selector de edición
+
+<p align="center"><img src="docs/assets/landing.png" alt="Pantalla de entrada con las ediciones 2026 y 2025" width="88%"></p>
+
+### Edición 2026
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/assets/ed2026-inicio.png" alt="Inicio de la edición 2026"><br><sub><b>Inicio</b> · buscador, cifras, sectores y novedades</sub></td>
+    <td width="50%"><img src="docs/assets/ed2026-comercios.png" alt="Directorio de comercios agrupado por sector"><br><sub><b>Comercios</b> · filtros laterales y lista por sector</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/assets/ed2026-mapa.png" alt="Mapa con clústeres numerados"><br><sub><b>Mapa</b> · clústeres numerados y filtros</sub></td>
+    <td width="50%"><img src="docs/assets/ed2026-novedades.png" alt="Línea de tiempo de altas y bajas"><br><sub><b>Novedades</b> · línea de tiempo de altas y bajas</sub></td>
+  </tr>
+</table>
+
+### En el móvil
+
+<p align="center"><img src="docs/assets/movil.png" alt="Edición 2026 en el móvil: inicio, comercios y mapa" width="92%"></p>
+
+### Edición 2025 (demo)
+
+<p align="center"><img src="docs/assets/ed2025-demo.png" alt="Edición 2025 en modo demostración" width="88%"><br><sub>Las vistas originales, congeladas y siempre con datos de ejemplo.</sub></p>
+
+## 🗓️ Ediciones
+
+| Ruta | Edición | Datos |
+|---|---|---|
+| `/` | Selector de edición | — |
+| `/2026` · `/2026/comercios` · `/2026/novedades` | **2026** — vistas renovadas | API real (configurable) |
+| `/2025` · `/2025/history` | **2025** — vistas originales | **Siempre demo** (`public/mockup/`) |
+
+Cómo se fuerza el modo demo en 2025 y cómo está montado el diseño 2026: [`docs/EDITIONS.md`](docs/EDITIONS.md).
+
+## 🚀 Arranque rápido
+
+**Requisitos:** Node.js ≥ 20.19 (o 22.12+) y npm.
 
 ```bash
+git clone https://github.com/ElMaxter99/castellon-comercio-notificator-front.git
+cd castellon-comercio-notificator-front
 npm install
+
+npm start                      # http://localhost:4200 contra el API en http://localhost:12001
+npm start -- --live=false      # sin API: datos mock de public/mockup (solo afecta a 2026)
+npm test                       # Karma + Jasmine
+npm run build -- --configuration=production
 ```
 
-## Scripts disponibles
+### 🔌 Apuntar a tu propio API
 
-| Comando | Descripción |
-| --- | --- |
-| `npm start` | Inicia el servidor de desarrollo en `http://localhost:4200/` con recarga en caliente. |
-| `npm run build` | Genera el artefacto de producción optimizado en `dist/`. |
-| `npm test` | Ejecuta la suite de pruebas unitarias mediante Karma + Jasmine. |
-| `npm run watch` | Compila en modo desarrollo y permanece atento a cambios de archivos. |
-
-## Configuración y entorno
-
-- **Base de datos remota**: no se requiere backend propio; los datos se consumen desde la API pública.
-- **Variables de entorno**: no son necesarias para la ejecución local (API por defecto en `http://localhost:12001`). Para apuntar a otro API define `API_BASE_URL` (o `--api-url=`) al compilar; ver [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md).
-- **Mapas**: Leaflet se carga desde CDN (definido en `src/index.html`). Es necesario disponer de conexión a internet para visualizar los mapas.
-
-## Modo mock (datos ficticios)
-
-Para facilitar las demostraciones una vez finalizado el programa «Abonem Castelló», la aplicación incorpora un modo *mock* que simula las respuestas de la API con fixtures almacenados en `public/mockup/`. Cuando este modo está activo, se muestra un aviso persistente indicando que los datos son meramente ilustrativos.
-
-### ¿Cuándo usarlo?
-
-- **Periodo oficial finalizado**: permite seguir enseñando la interfaz sin depender de la API real.
-- **Entornos de pruebas o ferias**: garantiza datos estables y controlados que no caducan.
-
-### Cómo activarlo
-
-Todas las órdenes de `npm` delegan en el envoltorio `tools/ng-live.cjs`, que acepta el flag `--live`. Por defecto la aplicación se ejecuta en modo real (`--live=true`). Para forzar el modo mock indica `--live=false` tras un doble guion (`--`):
+La URL se fija **al compilar**, sin tocar código:
 
 ```bash
-# Servidor de desarrollo con datos mock
-npm start -- --live=false
+# variable de entorno (también en Vercel: Project Settings → Environment Variables)
+API_BASE_URL=https://mi-api.onrender.com npm run build -- --configuration=production
 
-# Build de producción simulada
-npm run build -- --configuration=production --live=false
+# o con flag
+npm start -- --api-url=http://localhost:3000
 ```
 
-> Si necesitas el comportamiento original, omite el flag o establece `--live=true`.
+Prioridad: `--api-url` › `API_BASE_URL` › valor por defecto del entorno. Detalles en [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md). Para montar tu propio backend gratis: [guía de hosting del API](https://github.com/ElMaxter99/castellon-comercio-notificator-api/blob/develop/docs/HOSTING.md).
 
-Tras `npm install` el script de *postinstall* sustituye el binario local de Angular CLI por dicho envoltorio, de modo que **los comandos directos** (`ng build`, `ng serve`, etc.) también aceptan el flag `--live`. Esto permite reutilizar el mismo parámetro en pipelines o despliegues como `ng build --configuration=$NG_BUILD_CONFIG --live=false` sin errores.
+## 🧱 Arquitectura
 
-## Estructura de rutas
+```
+src/app/
+├── app.ts · app.routes.ts          raíz: router-outlet + toasts, rutas por edición
+├── pages/landing/                  selector de edición (/)
+├── editions/
+│   ├── edition-2025/               layout original (siempre demo)
+│   └── edition-2026/               shell, store, páginas (inicio · comercios · novedades), tema, mapa
+├── components/                     UI de la edición 2025 y compartida
+├── services/                       CommerceService (único acceso a datos), idioma, toasts, DATA_MODE
+├── models/                         Commerce · CommerceStatus · CommerceHistoryEntry
+└── utils/                          búsqueda sin acentos, coordenadas, fechas
+```
 
-| Ruta | Descripción |
-| --- | --- |
-| `/` | Selector de edición (2025 / 2026). |
-| `/2025` | Explorador original (filtros, mapa y listado paginado) en **modo demo**. |
-| `/2025/history` | Historial de cambios (demo). |
-| `/2026` | Inicio renovado: buscador, cifras, sectores y novedades. |
-| `/2026/comercios` | Directorio con búsqueda, sectores, lista/mapa y favoritos. |
-| `/2026/novedades` | Línea de tiempo de altas y bajas. |
-| `**` | Cualquier otra ruta redirige al selector. |
+Angular 20 con componentes *standalone*, `signal`/`computed`, `OnPush` y rutas perezosas. Mapa con Leaflet + `markercluster`; traducciones con ngx-translate. Más en [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
-## Buenas prácticas implementadas
+## 📚 Documentación
 
-- Uso de `takeUntilDestroyed()` para evitar fugas de memoria en suscripciones.
-- Normalización de URLs inseguras (HTTP → HTTPS) antes de mostrarlas en la interfaz.
-- Componentes accesibles con roles ARIA, mensajes de estado y navegación por teclado.
-- Separación clara entre lógica de presentación y consumo de datos.
-- Internacionalización básica con `Intl.DateTimeFormat` para mostrar fechas en español.
+| Documento | Contenido |
+|---|---|
+| [`docs/EDITIONS.md`](docs/EDITIONS.md) | Ediciones 2025/2026, modo demo forzado, diseño, animaciones y footers |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Árbol de componentes, estado, datos, mapa, i18n |
+| [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md) | Entornos, `--live`, `API_BASE_URL`, mock y builds |
+| [`docs/REUSE-2026.md`](docs/REUSE-2026.md) | Checklist para reutilizar el proyecto en una nueva edición |
+| [`CHANGELOG.md`](CHANGELOG.md) | Historial de versiones |
+| [`CLAUDE.md`](CLAUDE.md) | Guía del proyecto para trabajar con Claude Code |
 
-## Desarrollo y contribución
+La documentación del backend (endpoints, scraper, operación, hosting) está en el [repositorio del API](https://github.com/ElMaxter99/castellon-comercio-notificator-api#-documentaci%C3%B3n).
 
-1. Realiza un fork del repositorio y crea una rama para tu cambio.
-2. Instala dependencias (`npm install`).
-3. Ejecuta `npm start` (o directamente `ng serve`) y desarrolla en local.
-4. Asegúrate de que `npm test` se ejecuta sin errores antes de enviar la contribución.
-5. Abre una pull request describiendo claramente el cambio propuesto.
+## 🤝 Contribuir
 
-Las sugerencias y mejoras son bienvenidas para seguir evolucionando la experiencia de los comercios adheridos.
+1. Haz un *fork* y crea una rama desde `develop` (flujo gitflow).
+2. `npm install`, desarrolla con `npm start` y comprueba `npm test`.
+3. Todo texto visible va en **ambos** idiomas (`public/i18n/`).
+4. Abre una *pull request* explicando el cambio.
 
-## Licencia
+## 📝 Licencia
 
-Este proyecto se distribuye bajo los términos establecidos por sus autores. Revisa el repositorio original para más información sobre la licencia aplicable.
+Uso informativo y sin fines comerciales. Respeta siempre las condiciones de uso de los datos oficiales del Ayuntamiento de Castelló de la Plana.
+
+<div align="center"><sub>Hecho con 💚 en Castelló · colores y formas inspirados en el cartel de la edición 2026</sub></div>
