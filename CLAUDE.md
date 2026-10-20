@@ -33,6 +33,7 @@ Proyecto independiente y sin ánimo de lucro; sin relación oficial con el Ayunt
 - [`docs/EDITIONS.md`](docs/EDITIONS.md) — **ediciones 2025/2026**, modo demo forzado y diseño 2026.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — componentes, estado, flujos de datos, i18n, mapa.
 - [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md) — entornos, `--live`, modo mock, builds.
+- [`docs/DEPENDENCIES.md`](docs/DEPENDENCIES.md) — Dependabot: qué se ignora a propósito (Angular 22, ngx-translate 18, jasmine 7…) y cómo revisar sus PRs.
 - [`docs/REUSE-2026.md`](docs/REUSE-2026.md) — **checklist para reutilizar el proyecto en la edición 2026**.
 
 ## Comandos

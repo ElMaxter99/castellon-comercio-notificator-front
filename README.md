@@ -152,6 +152,7 @@ Angular 20 con componentes *standalone*, `signal`/`computed`, `OnPush` y rutas p
 | [`docs/EDITIONS.md`](docs/EDITIONS.md) | Ediciones 2025/2026, modo demo forzado, diseño, animaciones y footers |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Árbol de componentes, estado, datos, mapa, i18n |
 | [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md) | Entornos, `--live`, `API_BASE_URL`, mock y builds |
+| [`docs/DEPENDENCIES.md`](docs/DEPENDENCIES.md) | Dependabot: subidas ignoradas a propósito, ruta de migración y cómo revisar sus PRs |
 | [`docs/REUSE-2026.md`](docs/REUSE-2026.md) | Checklist para reutilizar el proyecto en una nueva edición |
 | [`CHANGELOG.md`](CHANGELOG.md) | Historial de versiones |
 | [`CLAUDE.md`](CLAUDE.md) | Guía del proyecto para trabajar con Claude Code |

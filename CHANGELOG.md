@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.4.1 - 2026-10-20
+
+### Cambio
+- `@vercel/analytics` 1.5 → 2.0.1: mismo comportamiento verificado en navegador (misma petición `/_vercel/insights/script.js`, mismo `<script>` inyectado, sin errores).
+- GitHub Actions: `actions/checkout` y `actions/setup-node` a la v7.
+
+### Añadido
+- `docs/DEPENDENCIES.md`: política de dependencias, subidas ignoradas a propósito y método para revisar PRs de Dependabot.
+- Dependabot ignora las subidas mayores que requieren migración manual: Angular (y TypeScript/zone.js, que dicta Angular), `@ngx-translate/core` 18 (elimina `TranslateModule`) y `jasmine-core`/`@types/jasmine` 7 (incompatibles con `karma-jasmine-html-reporter`).
+
 ## v2.4.0 - 2026-10-20
 
 ### Añadido
