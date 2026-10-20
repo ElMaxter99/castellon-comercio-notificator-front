@@ -142,9 +142,28 @@
   }
 }
 
-.landing__footer {
-  padding-block: 1.5rem 2rem;
+.landing__mini {
+  padding-block: 1.25rem 1.75rem;
+  border-top: 1px solid var(--line);
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--muted);
+
+  p {
+    margin: 0;
+  }
+}
+
+.landing__mini-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1.25rem;
+  margin-top: 0.4rem !important;
+
+  a {
+    color: var(--forest);
+    font-weight: 600;
+    text-underline-offset: 0.2em;
+  }
 }

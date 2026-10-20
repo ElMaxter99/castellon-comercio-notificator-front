@@ -9,13 +9,16 @@
 
       <nav class="shell__nav" [attr.aria-label]="'ed26.nav.ariaLabel' | translate">
         <a routerLink="/2026" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">
-          <span aria-hidden="true">⌂</span> {{ 'ed26.nav.home' | translate }}
+          <svg class="shell__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5a1 1 0 0 0 1 1H10v-5.5h4v5.5h3.5a1 1 0 0 0 1-1V10"/></svg>
+          <span class="shell__label">{{ 'ed26.nav.home' | translate }}</span>
         </a>
         <a routerLink="/2026/comercios" routerLinkActive="is-active">
-          <span aria-hidden="true">⌕</span> {{ 'ed26.nav.shops' | translate }}
+          <svg class="shell__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 9.5 5.5 4h13L20 9.5"/><path d="M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0"/><path d="M5.5 12.5V20h13v-7.5"/><path d="M10 20v-4.5h4V20"/></svg>
+          <span class="shell__label">{{ 'ed26.nav.shops' | translate }}</span>
         </a>
         <a routerLink="/2026/novedades" routerLinkActive="is-active">
-          <span aria-hidden="true">✦</span> {{ 'ed26.nav.news' | translate }}
+          <svg class="shell__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 16.5V11a6 6 0 1 1 12 0v5.5l1.5 2h-15l1.5-2Z"/><path d="M10 21a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="shell__label">{{ 'ed26.nav.news' | translate }}</span>
         </a>
       </nav>
 
@@ -28,13 +31,46 @@
   </main>
 
   <footer class="shell__footer">
-    <div class="ed26-container shell__footer-inner">
+    <div class="ed26-container shell__footer-grid">
+      <div class="shell__footer-brand">
+        <p class="shell__footer-name">
+          <img src="/public/logo.png" alt="" width="32" height="32" />
+          {{ 'navigation.brand.title' | translate }} <span class="shell__year">2026</span>
+        </p>
+        <p>{{ 'ed26.footer.tagline' | translate }}</p>
+      </div>
+
+      <div>
+        <h2 class="shell__footer-title">{{ 'ed26.footer.dataTitle' | translate }}</h2>
+        <ul class="shell__footer-list">
+          <li>
+            <a href="https://bonoscastellodelaplana.es/establecimientos-adheridos-al-programa" target="_blank" rel="noopener noreferrer">
+              {{ 'ed26.footer.source' | translate }} ↗
+            </a>
+          </li>
+          @if (lastUpdate()) {
+            <li>{{ 'ed26.footer.updated' | translate: { date: lastUpdate() } }}</li>
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="shell__footer-title">{{ 'ed26.footer.moreTitle' | translate }}</h2>
+        <ul class="shell__footer-list">
+          <li><a routerLink="/">{{ 'landing.switch' | translate }}</a></li>
+          <li><a routerLink="/2025">{{ 'ed26.footer.demo2025' | translate }}</a></li>
+          <li>
+            <a href="https://github.com/ElMaxter99/castellon-comercio-notificator-front" target="_blank" rel="noopener noreferrer">
+              {{ 'ed26.footer.code' | translate }} ↗
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ed26-container shell__footer-legal">
       <p>{{ 'ed26.footer.disclaimer' | translate }}</p>
-      <p class="shell__footer-links">
-        <a routerLink="/">{{ 'landing.switch' | translate }}</a>
-        <a routerLink="/2025">{{ 'ed26.footer.demo2025' | translate }}</a>
-        <span>v{{ version }}</span>
-      </p>
+      <span>v{{ version }}</span>
     </div>
   </footer>
 </div>
