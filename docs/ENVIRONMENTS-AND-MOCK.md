@@ -7,9 +7,9 @@
 |---|---|---|---|---|
 | `development` (por defecto) | — (`environment.ts`) | development | `http://localhost:12001` | true |
 | `development-mock` | `environment.mock.ts` | development-mock | `http://localhost:12001` | false |
-| `production` | `environment.prod.ts` | production | `https://bcc-api.alvaromaxter.es` | true |
+| `production` | `environment.prod.ts` | production | `https://castellon-comercio-notificator-api.onrender.com` | true |
 | `production-mock` | `environment.mock.prod.ts` | production-mock | idem | false |
-| `test` | `environment.test.ts` | test | `https://bcc-api.alvaromaxter.es` | true |
+| `test` | `environment.test.ts` | test | `https://castellon-comercio-notificator-api.onrender.com` | true |
 | `test-mock` | `environment.mock.test.ts` | test-mock | idem | false |
 
 > **Desde la v2.0.0** la edición 2025 (`/2025`) fuerza siempre el modo demo con el token `DATA_MODE`, ignorando `isLive`. Ver [EDITIONS.md](EDITIONS.md). `isLive` y `--live` solo gobiernan la edición 2026.
