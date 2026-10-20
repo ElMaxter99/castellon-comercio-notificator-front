@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.4.2 - 2026-10-20
+
+### Cambio
+- La URL del API por defecto (sin `API_BASE_URL`/`--api-url`) pasa de `https://bcc-api.alvaromaxter.es` (API antigua, respondía 526) a `https://castellon-comercio-notificator-api.onrender.com`. Docs actualizadas.
+
 ## v2.4.1 - 2026-10-20
 
 ### Cambio
