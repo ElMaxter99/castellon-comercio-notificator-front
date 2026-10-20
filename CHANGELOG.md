@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.4.3 - 2026-10-20
+
+### Cambio
+- `jasmine-core` 5.9 → 5.13 y `karma-jasmine-html-reporter` 2.1 → 2.3 (sustituye a los PRs de Dependabot #49 y #50). Tests 22/22 y build de producción correctos.
+- `jasmine-core` 7 sigue ignorado: aunque el reporter 2.3 ya lo admite, el parche de `zone.js` 0.15 para Jasmine falla (`Cannot assign to read only property 'describe'`) y no arrancan los tests.
+
 ## v2.4.2 - 2026-10-20
 
 ### Cambio

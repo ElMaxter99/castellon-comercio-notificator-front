@@ -15,7 +15,7 @@ Esta guía recoge **qué se acepta, qué se ignora a propósito y cómo revisar 
 | `typescript` | 5.9 → 7 | Lo fija Angular (Angular 20: `>=5.8 <6.0`) | Se sube con Angular |
 | `zone.js` | 0.15 → 0.16 | Angular 20 tiene como peer `~0.15` | Se sube con Angular |
 | `@ngx-translate/core` | 17 → 18 | La v18 **elimina `TranslateModule`**: el build falla (`TS2724`) en todos los componentes que lo importan | Migrar a la API standalone (`TranslatePipe`/`TranslateDirective` en `imports`, `provideTranslateService(...)` en lugar de `TranslateModule.forRoot`) en todo el proyecto |
-| `jasmine-core` | 5.9 → 7 | `karma-jasmine-html-reporter@2.1` exige `jasmine-core ^4 \|\| ^5`: `npm install` falla | Esperar a una versión del reporter compatible (o cambiar de reporter) |
+| `jasmine-core` | 5.13 → 7 | `karma-jasmine-html-reporter@2.3` ya lo admite, pero el parche de Jasmine de `zone.js` 0.15 falla con Jasmine 7 (`Cannot assign to read only property 'describe'`) y los tests no arrancan (comprobado) | Subir `zone.js` junto con Angular (21/22) y repetir la prueba |
 | `@types/jasmine` | 5 → 7 | Tipos de la v7 contra el runtime 5.9: desalineados, sin ganancia | Se sube junto con `jasmine-core` |
 
 > **Soporte de Angular**: según la política de Angular, cada mayor tiene 18 meses de soporte (6 activos + 12 de LTS). Angular 20 salió en mayo de 2025, así que su soporte termina hacia finales de noviembre de 2026 (compruébalo en <https://angular.dev/reference/releases>). Conviene planificar la migración a 21/22 junto con `ngx-translate` 18.
@@ -31,4 +31,5 @@ No te fíes solo del CI: el CI del front prueba con Node 22 y el entorno real pu
 
 ## Actualizaciones aceptadas
 - `@vercel/analytics` 1.5 → 2.0 (2.0.1): mismo comportamiento verificado en navegador.
+- `jasmine-core` 5.13 y `karma-jasmine-html-reporter` 2.3 (menores; tests y build correctos).
 - `actions/checkout` y `actions/setup-node`: v4 → v7 (el CI pasa con ellas).
