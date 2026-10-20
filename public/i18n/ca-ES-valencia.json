@@ -167,5 +167,99 @@
       "versionLabel": "Versió:"
     },
     "historyLink": "Historial de canvis"
+  },
+  "landing": {
+    "title": "Tria l'edició",
+    "subtitle": "Explora els comerços adherits als bons de Castelló de la Plana. Consulta la nova edició 2026 o revisa la versió original de 2025.",
+    "enter": "Entrar",
+    "switch": "Canviar d'edició",
+    "e2026": {
+      "badge": "Nou",
+      "title": "Edició 2026",
+      "body": "Una web més simple i útil: cercador ràpid, sectors, mapa, preferits i novetats d'altes i baixes."
+    },
+    "e2025": {
+      "badge": "Demo",
+      "title": "Edició 2025",
+      "body": "La versió original, ara en mode demostració amb dades d'exemple, tal com funcionava durant la campanya."
+    }
+  },
+  "ed26": {
+    "nav": {
+      "ariaLabel": "Navegació 2026",
+      "home": "Inici",
+      "shops": "Comerços",
+      "news": "Novetats"
+    },
+    "home": {
+      "eyebrow": "Abonem Castelló 2026",
+      "title": "Troba on gastar el teu bo",
+      "subtitle": "Cerca per nom, carrer o sector, guarda els teus preferits i descobreix els comerços que s'hi van sumant.",
+      "searchPlaceholder": "Fleca, carrer Major, calçat…",
+      "searchCta": "Cercar",
+      "stats": {
+        "shops": "Comerços adherits",
+        "sectors": "Sectors",
+        "newLast30": "Nous (30 dies)",
+        "updated": "Última actualització"
+      },
+      "sectorsTitle": "Explora per sector",
+      "sectorsAll": "Veure'ls tots",
+      "newsTitle": "Últimes novetats",
+      "newsAll": "Veure-les totes",
+      "newsEmpty": "Encara no hi ha altes ni baixes registrades.",
+      "mapCta": {
+        "title": "Mira-ho al mapa",
+        "body": "Localitza els comerços prop de tu i obri la ruta amb un toc.",
+        "button": "Obrir el mapa"
+      }
+    },
+    "shops": {
+      "title": "Comerços",
+      "searchLabel": "Cercar comerços",
+      "searchPlaceholder": "Nom, adreça o sector",
+      "resultsOne": "{{count}} comerç",
+      "resultsMany": "{{count}} comerços",
+      "viewLabel": "Tipus de vista",
+      "viewList": "Llista",
+      "viewMap": "Mapa",
+      "favoritesOnly": "Preferits",
+      "sectorsLabel": "Filtrar per sector",
+      "directions": "Com arribar",
+      "favAdd": "Guardar {{name}} als preferits",
+      "favRemove": "Llevar {{name}} dels preferits",
+      "loadMore": "Mostrar-ne més ({{shown}} de {{total}})",
+      "mapLabel": "Mapa de comerços adherits",
+      "mapMissing": "{{missing}} comerços no tenen ubicació i només apareixen a la llista.",
+      "empty": {
+        "title": "Sense resultats",
+        "body": "Prova amb un altre nom o lleva algun filtre.",
+        "reset": "Llevar filtres"
+      }
+    },
+    "news": {
+      "eyebrow": "Altes i baixes",
+      "title": "Novetats",
+      "subtitle": "Cada vegada que el llistat oficial canvia, queda registrat ací.",
+      "added": "nous",
+      "removed": "deixen de participar",
+      "total": "{{count}} comerços en total",
+      "empty": {
+        "title": "Encara sense novetats",
+        "body": "Quan se sumen o deixen de participar comerços apareixeran ací."
+      }
+    },
+    "state": {
+      "loading": "Carregant comerços…",
+      "error": "No hem pogut carregar les dades. Torna-ho a provar d'ací a uns minuts.",
+      "noData": {
+        "title": "Encara no hi ha comerços publicats",
+        "body": "Quan el programa 2026 publique el llistat, ho veuràs ací automàticament."
+      }
+    },
+    "footer": {
+      "disclaimer": "Iniciativa independent i sense ànim de lucre, sense relació amb l'Ajuntament de Castelló de la Plana ni CONFECOMERÇ. Les dades provenen de la web oficial del programa i s'ofereixen només amb finalitat informativa.",
+      "demo2025": "Veure edició 2025 (demo)"
+    }
   }
 }

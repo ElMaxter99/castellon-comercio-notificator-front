@@ -143,3 +143,14 @@
     order: 2;
   }
 }
+
+.layout__editions {
+  display: block;
+  padding: 0 0 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #93c5fd;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}

@@ -3,15 +3,19 @@
 Guía para Claude Code. Léela entera antes de tocar nada.
 
 ## Qué es
-SPA **Angular 20** (standalone + signals + OnPush) para explorar los comercios adheridos al programa de bonos de Castelló de la Plana: filtros por nombre/sector/dirección, vista cuadrícula/lista, paginación, mapa Leaflet con leyenda por sectores, panel de estado y página de histórico de altas/bajas. Bilingüe (castellano / valencià). Consume el API del repo `castellon-comercio-notificator-api`. Despliegue de referencia: Vercel (usa `@vercel/analytics`).
+SPA **Angular 20** (standalone + signals + OnPush) con **dos ediciones**: `/2025` (vistas originales, siempre demo) y `/2026` (vistas renovadas, ver `docs/EDITIONS.md`). Sirve para explorar los comercios adheridos al programa de bonos de Castelló de la Plana: filtros por nombre/sector/dirección, vista cuadrícula/lista, paginación, mapa Leaflet con leyenda por sectores, panel de estado y página de histórico de altas/bajas. Bilingüe (castellano / valencià). Consume el API del repo `castellon-comercio-notificator-api`. Despliegue de referencia: Vercel (usa `@vercel/analytics`).
 
 Proyecto independiente y sin ánimo de lucro; sin relación oficial con el Ayuntamiento ni CONFECOMERÇ.
 
 ## Mapa rápido (`src/app/`)
 | Ruta | Rol |
 |---|---|
-| `app.ts` / `app.html` | Layout: aviso mock, cabecera con `commerce-status`, `router-outlet`, toasts |
-| `app.routes.ts` | `''` → `CommerceGridComponent`; `history` → `HistoryPageComponent`; `**` → `''` (lazy) |
+| `app.ts` | Solo `<router-outlet>` + toasts |
+| `pages/landing/` | Selector de edición (`/`) |
+| `editions/edition-2025/` | Shell del layout original (aviso demo, cabecera, estado). **No tocar el diseño** |
+| `editions/edition-2026/` | Edición renovada: shell, store, páginas `home`/`shops`/`news`, tema `.ed26`, mapa propio |
+| `services/data-mode.ts` | Token `DATA_MODE` que fuerza demo en el árbol 2025 |
+| `app.routes.ts` | `''` landing; `2025` (demo forzado) con grid e historial; `2026` (lazy `edition2026Routes`); `history` → `2025/history` |
 | `app.config.ts` | HttpClient(fetch), router, ngx-translate (loader propio desde `/public/i18n/`) |
 | `services/commerce.service.ts` | **Único punto de acceso a datos**; alterna API real / mock con `environment.isLive` |
 | `services/language.service.ts` | Idioma activo (signals), persistencia en `localStorage` |
@@ -26,6 +30,7 @@ Proyecto independiente y sin ánimo de lucro; sin relación oficial con el Ayunt
 | `tools/ng-live.cjs`, `tools/setup-ng-live.cjs` | Wrapper del CLI con flag `--live` |
 
 ## Documentación detallada (`docs/`)
+- [`docs/EDITIONS.md`](docs/EDITIONS.md) — **ediciones 2025/2026**, modo demo forzado y diseño 2026.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — componentes, estado, flujos de datos, i18n, mapa.
 - [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md) — entornos, `--live`, modo mock, builds.
 - [`docs/REUSE-2026.md`](docs/REUSE-2026.md) — **checklist para reutilizar el proyecto en la edición 2026**.
@@ -34,7 +39,7 @@ Proyecto independiente y sin ánimo de lucro; sin relación oficial con el Ayunt
 ```bash
 npm install                      # postinstall instala el wrapper de `ng`
 npm start                        # dev contra API real (http://localhost:12001)
-npm start -- --live=false        # dev con datos mock (public/mockup)
+npm start -- --live=false        # dev con datos mock (solo afecta a 2026; 2025 siempre es demo)
 npm run build                    # build (config development por defecto)
 npm run build -- --configuration=production
 npm run build -- --configuration=production --live=false   # prod con mock
@@ -49,6 +54,7 @@ npm test                         # Karma + Jasmine (solo hay un spec mínimo: ap
 - Cada release: `CHANGELOG.md` + `version` en `package.json` (se muestra en el panel de estado). Gitflow (`develop`, `release/x.y.z`, `master`).
 
 ## Trampas conocidas
+0. **2025 es intocable y siempre demo** (`DATA_MODE`). Los estilos de 2026 viven bajo `.ed26`; no mezclar con los de 2025. No usar `DatePipe` (sin locale data): usar `utils/format-date.ts`.
 1. El mapa extrae lat/lng del parámetro `query=lat,lng` de `mapsUrl`; si el origen cambia el formato, desaparecen los marcadores (sin error visible).
 2. `commerce-map.buildPopupContent` interpola `name/address/sector/mapsUrl` **sin escapar** en HTML (riesgo XSS si el origen se corrompe). Mejora pendiente.
 3. Leaflet viene de `unpkg.com` en `src/index.html` (necesita internet) y se usa como `any`.

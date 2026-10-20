@@ -1,0 +1,146 @@
+// Tema edición 2026 — paleta extraída del cartel promocional:
+// crema de fondo, verde bosque, oliva/salvia, naranja intenso y un toque de azul.
+.ed26 {
+  --cream: #fbfaf0;
+  --paper: #ffffff;
+  --forest: #1e4d2b;
+  --forest-deep: #123524;
+  --olive: #8e9b3a;
+  --sage: #cbd8b0;
+  --sage-soft: #e9efd9;
+  --orange: #f77f00;
+  --orange-deep: #c25e00;
+  --blue: #1f4e9e;
+  --peach: #f9cba0;
+  --ink: #17301f;
+  --muted: #566a5a;
+  --line: rgba(30, 77, 43, 0.16);
+  --radius: 1.25rem;
+  --shadow: 0 10px 28px rgba(18, 53, 36, 0.12);
+
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.5;
+
+  h1,
+  h2,
+  h3 {
+    color: var(--forest-deep);
+    line-height: 1.15;
+    margin: 0;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--blue);
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+  }
+
+  .ed26-container {
+    width: min(72rem, 100% - 2.5rem);
+    margin-inline: auto;
+  }
+
+  .ed26-eyebrow {
+    margin: 0 0 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+  }
+
+  .ed26-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .ed26-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 1.25rem;
+    border: 2px solid transparent;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    cursor: pointer;
+    background: var(--forest);
+    color: var(--cream);
+    transition: transform 0.15s ease, background 0.15s ease;
+
+    &:hover {
+      background: var(--forest-deep);
+      transform: translateY(-1px);
+    }
+
+    &--accent {
+      background: var(--orange);
+      color: var(--forest-deep);
+
+      &:hover {
+        background: #ff9021;
+      }
+    }
+
+    &--ghost {
+      background: transparent;
+      color: var(--forest);
+      border-color: var(--forest);
+
+      &:hover {
+        background: var(--sage-soft);
+      }
+    }
+  }
+
+  .ed26-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    border: 1.5px solid var(--line);
+    background: var(--paper);
+    color: var(--forest-deep);
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+
+    &[aria-pressed='true'],
+    &--active {
+      background: var(--forest);
+      border-color: var(--forest);
+      color: var(--cream);
+    }
+  }
+
+  .ed26-state {
+    padding: 2rem 1.25rem;
+    text-align: center;
+    color: var(--muted);
+
+    &--error {
+      color: #9a2c10;
+    }
+
+    strong {
+      display: block;
+      color: var(--forest-deep);
+      font-size: 1.15rem;
+      margin-bottom: 0.35rem;
+    }
+  }
+}

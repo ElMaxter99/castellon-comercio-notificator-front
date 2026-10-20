@@ -1,0 +1,56 @@
+<div class="ed26-container news">
+  <header class="news__head">
+    <p class="ed26-eyebrow">{{ 'ed26.news.eyebrow' | translate }}</p>
+    <h1>{{ 'ed26.news.title' | translate }}</h1>
+    <p class="news__subtitle">{{ 'ed26.news.subtitle' | translate }}</p>
+  </header>
+
+  @if (groups().length === 0) {
+    <div class="ed26-card ed26-state">
+      <strong>{{ 'ed26.news.empty.title' | translate }}</strong>
+      {{ 'ed26.news.empty.body' | translate }}
+    </div>
+  } @else {
+    @for (group of groups(); track group.key) {
+      <section class="news__group">
+        <h2 class="news__month">{{ month(group.month) }}</h2>
+
+        <ol class="news__timeline">
+          @for (entry of group.entries; track entry.timestamp) {
+            <li class="news__entry">
+              <span class="news__marker" aria-hidden="true"></span>
+              <article class="ed26-card news__card">
+                <header class="news__card-head">
+                  <time [attr.datetime]="entry.timestamp">{{ dateTime(entry.timestamp) }}</time>
+                  <span>{{ 'ed26.news.total' | translate: { count: entry.countAfter } }}</span>
+                </header>
+
+                @if (entry.added.length > 0) {
+                  <div class="news__block">
+                    <h3 class="news__label news__label--add">+{{ entry.added.length }} {{ 'ed26.news.added' | translate }}</h3>
+                    <ul class="news__names">
+                      @for (name of entry.added; track name) {
+                        <li>{{ name }}</li>
+                      }
+                    </ul>
+                  </div>
+                }
+
+                @if (entry.removed.length > 0) {
+                  <div class="news__block">
+                    <h3 class="news__label news__label--remove">−{{ entry.removed.length }} {{ 'ed26.news.removed' | translate }}</h3>
+                    <ul class="news__names news__names--removed">
+                      @for (name of entry.removed; track name) {
+                        <li>{{ name }}</li>
+                      }
+                    </ul>
+                  </div>
+                }
+              </article>
+            </li>
+          }
+        </ol>
+      </section>
+    }
+  }
+</div>

@@ -1,0 +1,40 @@
+<div class="ed26 shell">
+  <header class="shell__header">
+    <div class="ed26-container shell__bar">
+      <a class="shell__brand" routerLink="/2026" [attr.aria-label]="'ed26.nav.home' | translate">
+        <img class="shell__logo" src="/public/logo.png" alt="" width="40" height="40" />
+        <span class="shell__name">{{ 'navigation.brand.title' | translate }}</span>
+        <span class="shell__year">2026</span>
+      </a>
+
+      <nav class="shell__nav" [attr.aria-label]="'ed26.nav.ariaLabel' | translate">
+        <a routerLink="/2026" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">
+          <span aria-hidden="true">⌂</span> {{ 'ed26.nav.home' | translate }}
+        </a>
+        <a routerLink="/2026/comercios" routerLinkActive="is-active">
+          <span aria-hidden="true">⌕</span> {{ 'ed26.nav.shops' | translate }}
+        </a>
+        <a routerLink="/2026/novedades" routerLinkActive="is-active">
+          <span aria-hidden="true">✦</span> {{ 'ed26.nav.news' | translate }}
+        </a>
+      </nav>
+
+      <app-language-switcher class="shell__lang" variant="select"></app-language-switcher>
+    </div>
+  </header>
+
+  <main class="shell__main">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="shell__footer">
+    <div class="ed26-container shell__footer-inner">
+      <p>{{ 'ed26.footer.disclaimer' | translate }}</p>
+      <p class="shell__footer-links">
+        <a routerLink="/">{{ 'landing.switch' | translate }}</a>
+        <a routerLink="/2025">{{ 'ed26.footer.demo2025' | translate }}</a>
+        <span>v{{ version }}</span>
+      </p>
+    </div>
+  </footer>
+</div>
