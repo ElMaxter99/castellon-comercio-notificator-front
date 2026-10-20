@@ -1,0 +1,49 @@
+<div class="legal">
+  <header class="legal__top">
+    <a class="legal__back" routerLink="/">← {{ 'legal.back' | translate }}</a>
+    <app-language-switcher></app-language-switcher>
+  </header>
+
+  <main class="legal__main">
+    <h1>{{ 'legal.title' | translate }}</h1>
+    <p class="legal__updated">{{ 'legal.updated' | translate }}</p>
+    <p>{{ 'legal.intro' | translate }}</p>
+
+    @for (id of sections; track id) {
+      <section class="legal__section" [id]="id === 'storage' ? 'cookies' : id">
+        <h2>{{ 'legal.' + id + '.title' | translate }}</h2>
+        @for (paragraph of ('legal.' + id + '.body' | translate); track $index) {
+          <p>{{ paragraph }}</p>
+        }
+
+        @if (id === 'storage') {
+          <div class="legal__table" role="region" tabindex="0" [attr.aria-label]="'legal.storage.title' | translate">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">{{ 'legal.storage.colName' | translate }}</th>
+                  <th scope="col">{{ 'legal.storage.colPurpose' | translate }}</th>
+                  <th scope="col">{{ 'legal.storage.colKind' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (row of ('legal.storage.rows' | translate); track $index) {
+                  <tr>
+                    <td><code>{{ row.name }}</code></td>
+                    <td>{{ row.purpose }}</td>
+                    <td>{{ row.kind }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <p class="legal__consent" role="status">
+            {{ (choice() === 'granted' ? 'legal.consent.granted' : choice() === 'denied' ? 'legal.consent.denied' : 'legal.consent.none') | translate }}
+          </p>
+          <button type="button" class="legal__btn" (click)="consent.reopen()">{{ 'legal.manage' | translate }}</button>
+        }
+      </section>
+    }
+  </main>
+</div>

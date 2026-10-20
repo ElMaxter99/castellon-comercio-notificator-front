@@ -186,7 +186,9 @@
     "mini": {
       "text": "Projecte independent i sense ànim de lucre, sense relació amb l'Ajuntament de Castelló ni CONFECOMERÇ.",
       "source": "Dades: bonoscastellodelaplana.es",
-      "code": "Codi a GitHub"
+      "code": "Codi a GitHub",
+      "legal": "Privacitat i galetes",
+      "cookies": "Gestionar galetes"
     }
   },
   "ed26": {
@@ -285,7 +287,95 @@
       "source": "Web oficial del programa",
       "updated": "Actualitzat: {{date}}",
       "moreTitle": "Més",
-      "code": "Codi a GitHub"
+      "code": "Codi a GitHub",
+      "legal": "Privacitat i galetes",
+      "cookies": "Gestionar galetes"
     }
+  },
+  "legal": {
+    "back": "Tornar a l'inici",
+    "title": "Avís legal, privacitat i galetes",
+    "updated": "Última actualització: 20 d'octubre de 2026",
+    "intro": "Aquesta web és una iniciativa independent i sense ànim de lucre per a consultar els comerços adherits al programa de bons de Castelló de la Plana. No té cap relació oficial amb l'Ajuntament ni amb CONFECOMERÇ.",
+    "manage": "Canviar la meua elecció de galetes",
+    "consent": {
+      "none": "Encara no has triat sobre les galetes opcionals.",
+      "granted": "Has acceptat l'analítica de visites.",
+      "denied": "Has rebutjat l'analítica de visites."
+    },
+    "controller": {
+      "title": "1. Responsable del lloc",
+      "body": [
+        "El responsable del lloc és el titular del projecte, que figura a GitHub com ElMaxter99 (persona física, sense activitat comercial ni publicitat).",
+        "Per a qualsevol consulta, sol·licitud de drets o petició de correcció o retirada de dades, escriu obrint una incidència a https://github.com/ElMaxter99/castellon-comercio-notificator-front/issues."
+      ]
+    },
+    "data": {
+      "title": "2. Quines dades tractem",
+      "body": [
+        "Aquesta web no té comptes d'usuari, formularis ni comentaris: no et demanem cap dada personal.",
+        "Com qualsevol servidor, l'API registra per motius de seguretat i bon funcionament les dades tècniques de cada petició (adreça IP, data, URL i navegador). Es guarden en fitxers de registre amb rotació automàtica (com a màxim uns 50 MB) i no s'usen per a identificar-te ni se cedeixen a tercers. Base jurídica: interés legítim en la seguretat del servei (art. 6.1.f RGPD).",
+        "Les dades dels comerços (nom, adreça, telèfon, sector) procedeixen de la web oficial del programa (bonoscastellodelaplana.es), són dades públiques d'establiments i es mostren només amb finalitats informatives. Si eres titular d'un comerç i vols corregir o retirar-ne les dades, la font és la web oficial; també pots escriure'ns i els ocultarem d'aquest lloc."
+      ]
+    },
+    "storage": {
+      "title": "3. Galetes i emmagatzematge local",
+      "body": [
+        "Aquesta web no usa galetes pròpies. Guarda al teu navegador (emmagatzematge local) només el necessari per a recordar les teues preferències; no requereix consentiment perquè l'has demanat tu en usar-lo (art. 22.2 LSSI).",
+        "L'analítica de visites (Vercel Web Analytics) és opcional: només es carrega si l'acceptes a l'avís de galetes. No usa galetes ni t'identifica personalment; mesura de manera agregada quines pàgines es visiten. Pots canviar la teua decisió en qualsevol moment amb el botó de sota."
+      ],
+      "colName": "Nom",
+      "colPurpose": "Per a què serveix",
+      "colKind": "Tipus",
+      "rows": [
+        {
+          "name": "castellon-comercio-language",
+          "purpose": "Recordar l'idioma triat.",
+          "kind": "Tècnic · emmagatzematge local · fins que ho esborres"
+        },
+        {
+          "name": "castellon-comercio-favorites-2026",
+          "purpose": "Guardar els teus comerços preferits (només al teu dispositiu).",
+          "kind": "Tècnic · emmagatzematge local · fins que ho esborres"
+        },
+        {
+          "name": "castellon-comercio-consent-v1",
+          "purpose": "Recordar la teua elecció sobre les galetes.",
+          "kind": "Tècnic · emmagatzematge local · fins que ho esborres"
+        },
+        {
+          "name": "Vercel Web Analytics (/_vercel/insights)",
+          "purpose": "Estadístiques agregades de visites, sense galetes.",
+          "kind": "Analítica · de tercer (Vercel Inc.) · només amb el teu consentiment"
+        }
+      ]
+    },
+    "third": {
+      "title": "4. Serveis de tercers",
+      "body": [
+        "Per a funcionar, la web carrega recursos de tercers, cosa que implica que la teua adreça IP arriba als seus servidors: Vercel (allotjament de la web), Render (allotjament de l'API), unpkg.com (llibreria de mapes Leaflet) i OpenStreetMap (tessel·les del mapa).",
+        "Si prems «Com arribar», s'obri Google Maps en una altra pestanya i s'apliquen les seues pròpies condicions. Aquests serveis tracten les dades segons les seues polítiques de privacitat."
+      ]
+    },
+    "rights": {
+      "title": "5. Els teus drets",
+      "body": [
+        "Pots exercir els teus drets d'accés, rectificació, supressió, oposició, limitació i portabilitat (RGPD i LOPDGDD) escrivint al contacte indicat dalt.",
+        "Si consideres que s'han vulnerat els teus drets, pots reclamar davant l'Agència Espanyola de Protecció de Dades (www.aepd.es)."
+      ]
+    },
+    "changes": {
+      "title": "6. Canvis",
+      "body": [
+        "Podem actualitzar aquest text si canvia el funcionament de la web. La data de dalt indica l'última revisió."
+      ]
+    }
+  },
+  "cookies": {
+    "title": "Galetes i privacitat",
+    "text": "Usem emmagatzematge tècnic per a recordar el teu idioma i els teus preferits. Si ho acceptes, també mesurem les visites de manera agregada (Vercel Analytics, sense galetes).",
+    "more": "Més informació",
+    "accept": "Acceptar",
+    "reject": "Rebutjar"
   }
 }

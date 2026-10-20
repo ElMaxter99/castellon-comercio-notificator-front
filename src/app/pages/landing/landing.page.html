@@ -37,6 +37,8 @@
     <p class="landing__mini-links">
       <a href="https://bonoscastellodelaplana.es/establecimientos-adheridos-al-programa" target="_blank" rel="noopener noreferrer">{{ 'landing.mini.source' | translate }}</a>
       <a href="https://github.com/ElMaxter99/castellon-comercio-notificator-front" target="_blank" rel="noopener noreferrer">{{ 'landing.mini.code' | translate }}</a>
+      <a routerLink="/privacidad">{{ 'landing.mini.legal' | translate }}</a>
+      <button type="button" class="landing__linkbtn" (click)="consent.reopen()">{{ 'landing.mini.cookies' | translate }}</button>
       <span>v{{ version }}</span>
     </p>
   </footer>

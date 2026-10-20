@@ -46,7 +46,7 @@ npm run build -- --configuration=production
 npm run build -- --configuration=production --live=false   # prod con mock
 API_BASE_URL=https://mi-api.onrender.com npm run build -- --configuration=production   # API propio
 npm start -- --api-url=http://localhost:3000                 # API local en otro puerto
-npm test                         # Karma + Jasmine (22 tests: utils, CommerceService, popup, api-url, app); CI en .github/workflows/ci.yml
+npm test                         # Karma + Jasmine (27 tests: utils, CommerceService, popup, api-url, consentimiento, app); CI en .github/workflows/ci.yml
 ```
 
 ## Convenciones
@@ -71,4 +71,5 @@ npm test                         # Karma + Jasmine (22 tests: utils, CommerceSer
 4. La URL del API se resuelve en compilación: `API_BASE_URL` (env) o `--api-url=` → `define` → `resolveApiBaseUrl()`; si no hay, el valor por defecto de `src/environments/*.ts` (`https://castellon-comercio-notificator-api.onrender.com` en prod). Es **build-time**: cambiarla exige recompilar/redesplegar. Solo la inyecta el wrapper `tools/ng-live.cjs` en `build|serve|dev-server`.
 5. `CommerceStatus.lastUpdate` es `string | null` (el API devuelve `null` si aún no hay scrapeos): las vistas deben tratarlo.
 6. `ng` en `node_modules/.bin` es sobrescrito por el postinstall; si el flag `--live` "no existe", repetir `npm install`.
+8. **Cookies/legal**: `ConsentService` es el único que puede cargar la analítica (`@vercel/analytics`); no la vuelvas a inyectar en `main.ts`. Si añades cualquier cookie, almacenamiento o recurso de terceros no técnico, requiere consentimiento: actualiza el banner y la tabla de `legal.storage.rows` (ambos JSON de i18n) y la página `/privacidad`.
 7. Las traducciones se cargan desde `/public/i18n/` (el `angular.json` publica `public/` bajo `/public`).
