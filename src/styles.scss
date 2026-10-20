@@ -9,6 +9,8 @@
 html,
 body {
   min-height: 100%;
+  // Sin zoom de pellizco ni doble toque en la app; los mapas Leaflet lo gestionan ellos mismos.
+  touch-action: pan-x pan-y;
 }
 
 body {

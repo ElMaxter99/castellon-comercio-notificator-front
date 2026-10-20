@@ -100,9 +100,12 @@
   font: inherit;
   font-size: 0.88rem;
   font-weight: 700;
-  white-space: nowrap;
+  // Los nombres de sector pueden ser largos: se parten en vez de salirse de la caja
+  white-space: normal;
   scroll-snap-align: start;
   cursor: pointer;
+  max-width: 100%;
+  text-align: left;
   transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
 
   small {
@@ -195,6 +198,8 @@ app-shops-map {
 
 .shops__layout {
   display: grid;
+  // minmax(0, …): sin esto un chip largo ensancha la columna más allá de la pantalla
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.25rem;
 
   @media (min-width: 960px) {
