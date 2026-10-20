@@ -27,7 +27,7 @@
     <app-geo-art class="hero__art"></app-geo-art>
   </header>
 
-  @if (store.sectors().length > 0) {
+  <ng-template #sectorChips>
     <nav class="chips" [attr.aria-label]="'ed26.shops.sectorLabel' | translate">
       <button type="button" class="chip" [attr.aria-pressed]="!sector()" (click)="setSector('')">
         {{ 'ed26.shops.allChip' | translate }}
@@ -47,43 +47,75 @@
         </button>
       }
     </nav>
+  </ng-template>
+
+  @if (store.sectors().length > 0) {
+    <div class="chips-desktop">
+      <ng-container *ngTemplateOutlet="sectorChips"></ng-container>
+    </div>
   }
 
   <div class="shops__layout" [class.shops__layout--map]="view() === 'map'">
     <aside class="ed26-card shops__filters" [attr.aria-label]="'ed26.shops.filtersTitle' | translate">
+      <button
+        type="button"
+        class="shops__filters-toggle"
+        [attr.aria-expanded]="filtersOpen()"
+        aria-controls="shops-filters-body"
+        (click)="filtersOpen.set(!filtersOpen())"
+      >
+        <span aria-hidden="true">🔍</span>
+        <span class="shops__filters-summary">
+          {{ 'ed26.shops.filtersTitle' | translate }}
+          @if (activeFilters() > 0) {
+            <span class="shops__filters-count">{{ activeFilters() }}</span>
+          }
+        </span>
+        <span class="shops__chevron" aria-hidden="true">▾</span>
+      </button>
+
       <h2 class="shops__filters-title"><span aria-hidden="true">🔍</span> {{ 'ed26.shops.filtersTitle' | translate }}</h2>
 
-      <label class="shops__field">
-        <span class="shops__label">{{ 'ed26.shops.nameLabel' | translate }}</span>
-        <input
-          type="search"
-          autocomplete="off"
-          [value]="query()"
-          (input)="onSearchInput($event)"
-          [placeholder]="'ed26.shops.searchPlaceholder' | translate"
-        />
-      </label>
+      <div class="shops__filters-body" id="shops-filters-body" [class.is-open]="filtersOpen()">
+        <label class="shops__field">
+          <span class="shops__label">{{ 'ed26.shops.nameLabel' | translate }}</span>
+          <input
+            type="search"
+            autocomplete="off"
+            [value]="query()"
+            (input)="onSearchInput($event)"
+            [placeholder]="'ed26.shops.searchPlaceholder' | translate"
+          />
+        </label>
 
-      <label class="shops__field">
-        <span class="shops__label">{{ 'ed26.shops.sectorLabel' | translate }}</span>
-        <select [value]="sector()" (change)="onSectorChange($event)">
-          <option value="">{{ 'ed26.shops.allSectors' | translate }}</option>
-          @for (item of store.sectors(); track item.name) {
-            <option [value]="item.name" [selected]="item.name === sector()">{{ item.name }} ({{ item.count }})</option>
-          }
-        </select>
-      </label>
+        <label class="shops__field shops__field--select">
+          <span class="shops__label">{{ 'ed26.shops.sectorLabel' | translate }}</span>
+          <select [value]="sector()" (change)="onSectorChange($event)">
+            <option value="">{{ 'ed26.shops.allSectors' | translate }}</option>
+            @for (item of store.sectors(); track item.name) {
+              <option [value]="item.name" [selected]="item.name === sector()">{{ item.name }} ({{ item.count }})</option>
+            }
+          </select>
+        </label>
 
-      <label class="shops__check">
-        <input type="checkbox" [checked]="onlyFavorites()" (change)="toggleFavoritesFilter()" />
-        <span>★ {{ 'ed26.shops.favoritesOnly' | translate }}
-          @if (store.favorites().size > 0) { <small>({{ store.favorites().size }})</small> }
-        </span>
-      </label>
+        @if (store.sectors().length > 0) {
+          <div class="shops__field shops__field--chips">
+            <span class="shops__label">{{ 'ed26.shops.sectorLabel' | translate }}</span>
+            <ng-container *ngTemplateOutlet="sectorChips"></ng-container>
+          </div>
+        }
 
-      <button type="button" class="ed26-btn ed26-btn--ghost shops__clear" (click)="reset()" [disabled]="!hasFilters()">
-        ✕ {{ 'ed26.shops.clear' | translate }}
-      </button>
+        <label class="shops__check">
+          <input type="checkbox" [checked]="onlyFavorites()" (change)="toggleFavoritesFilter()" />
+          <span>★ {{ 'ed26.shops.favoritesOnly' | translate }}
+            @if (store.favorites().size > 0) { <small>({{ store.favorites().size }})</small> }
+          </span>
+        </label>
+
+        <button type="button" class="ed26-btn ed26-btn--ghost shops__clear" (click)="reset()" [disabled]="!hasFilters()">
+          ✕ {{ 'ed26.shops.clear' | translate }}
+        </button>
+      </div>
     </aside>
 
     <section class="shops__results" id="shops-results">

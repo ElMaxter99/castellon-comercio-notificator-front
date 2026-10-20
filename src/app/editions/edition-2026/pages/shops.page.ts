@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,7 +31,7 @@ const PLACEHOLDER_IMAGE = '/public/commerce-placeholder.svg';
 @Component({
   selector: 'app-ed26-shops',
   standalone: true,
-  imports: [TranslateModule, ShopsMapComponent, GeoArtComponent],
+  imports: [TranslateModule, NgTemplateOutlet, ShopsMapComponent, GeoArtComponent],
   templateUrl: './shops.page.html',
   styleUrl: './shops.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -89,6 +89,12 @@ export class ShopsPageComponent implements AfterViewInit {
       });
   });
 
+  /** Panel de filtros desplegado (solo afecta a móvil: en escritorio siempre se ve). */
+  protected readonly filtersOpen = signal(false);
+
+  protected readonly activeFilters = computed(
+    () => Number(!!this.query()) + Number(!!this.sector()) + Number(this.onlyFavorites())
+  );
   protected readonly hasFilters = computed(() => !!(this.query() || this.sector() || this.onlyFavorites()));
   protected readonly mappableCount = computed(
     () => this.filtered().filter((commerce) => coordsFromMapsUrl(commerce.mapsUrl) !== null).length

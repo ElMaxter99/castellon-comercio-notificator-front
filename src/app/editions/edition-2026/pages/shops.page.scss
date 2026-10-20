@@ -69,21 +69,20 @@
   }
 }
 
-// Chips de sector: filtro rápido con scroll horizontal
+// Chips de sector: en escritorio van en una fila bajo la cabecera; en móvil viven dentro del
+// panel de filtros plegable (no hay una tira horizontal larga).
 .chips {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  margin: 0 -1.25rem 1.25rem;
-  padding: 0.25rem 1.25rem 0.5rem;
-  overflow-x: auto;
-  scroll-snap-type: x proximity;
-  scrollbar-width: thin;
+}
+
+.chips-desktop {
+  display: none;
+  margin-bottom: 1.25rem;
 
   @media (min-width: 960px) {
-    margin-inline: 0;
-    padding-inline: 0;
-    flex-wrap: wrap;
-    overflow: visible;
+    display: block;
   }
 }
 
@@ -214,8 +213,13 @@ app-shops-map {
 // Filtros
 .shops__filters {
   display: grid;
-  gap: 1rem;
-  padding: 1.25rem;
+  gap: 0;
+  padding: 0;
+
+  @media (min-width: 960px) {
+    gap: 1rem;
+    padding: 1.25rem;
+  }
 
   @media (min-width: 960px) {
     position: sticky;
@@ -223,7 +227,91 @@ app-shops-map {
   }
 }
 
+// Móvil: los filtros son un único botón plegable; escritorio: panel lateral siempre abierto.
+.shops__filters-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  color: var(--forest-deep);
+  font: inherit;
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+
+  @media (min-width: 960px) {
+    display: none;
+  }
+}
+
+.shops__filters-summary {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.shops__filters-count {
+  min-width: 1.5rem;
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  background: var(--orange);
+  color: var(--forest-deep);
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.shops__chevron {
+  color: var(--forest);
+  transition: transform 0.2s ease;
+}
+
+.shops__filters-toggle[aria-expanded='true'] .shops__chevron {
+  transform: rotate(180deg);
+}
+
+.shops__filters-body {
+  display: none;
+  gap: 1rem;
+  padding: 0 1rem 1rem;
+  animation: ed26-fade-up 0.25s ease both;
+
+  &.is-open {
+    display: grid;
+  }
+
+  @media (min-width: 960px) {
+    display: grid;
+    padding: 0;
+  }
+}
+
+// El selector solo en escritorio (en móvil mandan los chips); los chips del panel solo en móvil
+.shops__filters .shops__field--select {
+  display: none;
+
+  @media (min-width: 960px) {
+    display: grid;
+  }
+}
+
+.shops__filters .shops__field--chips {
+  @media (min-width: 960px) {
+    display: none;
+  }
+}
+
 .shops__filters-title {
+  display: none;
+
+  @media (min-width: 960px) {
+    display: block;
+  }
+
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--line);
   font-size: 1.1rem;

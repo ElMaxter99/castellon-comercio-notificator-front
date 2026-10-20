@@ -3,6 +3,7 @@
 ## v2.5.0 - 2026-10-20
 
 ### Cambio (edición 2026)
+- **Comercios en móvil**: se elimina la tira horizontal de sectores y el selector suelto. Los filtros son un único botón plegable «Filtros de búsqueda» (con contador de filtros activos) que al abrirse muestra búsqueda, sectores en chips que se reparten en varias líneas y favoritos. En escritorio se mantiene la fila de chips y el panel lateral.
 - **Comercios**: nueva cabecera con la composición geométrica del cartel, chips de sector (filtro rápido con recuento y scroll horizontal), tarjetas con franja del color del sector y botones de llamar / cómo llegar.
 - **Novedades**: el cronograma es plegable. Cada mes es una fila resumen (+altas / −bajas y nº de actualizaciones), solo se despliega el más reciente y su última entrada, y cada bloque muestra los 8 primeros nombres con «Ver N más». Botón «Desplegar/Plegar todo». Pensado para listados largos (p. ej. 200 altas de golpe).
 
