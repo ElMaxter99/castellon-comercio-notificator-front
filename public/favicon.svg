@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <title>Comerç Castelló 2026</title>
+  <defs><clipPath id="r"><rect width="240" height="240" rx="52"/></clipPath></defs>
+  <g clip-path="url(#r)">
+    <rect width="120" height="120" fill="#1E4D2B"/>
+    <circle cx="60" cy="60" r="44" fill="#8E9B3A"/>
+    <path d="M60 16A44 44 0 0 1 60 104Z" fill="#F77F00"/>
+    <rect x="120" width="120" height="120" fill="#CBD8B0"/>
+    <path d="M120 0H240V120Z" fill="#1F4E9E"/>
+    <circle cx="190" cy="60" r="22" fill="#FBFAF0"/>
+    <rect y="120" width="120" height="120" fill="#F77F00"/>
+    <path d="M0 120L120 240H0Z" fill="#1E4D2B"/>
+    <rect x="120" y="120" width="120" height="120" fill="#FBFAF0"/>
+    <path d="M120 240A120 120 0 0 1 240 120V240Z" fill="#8E9B3A"/>
+    <circle cx="180" cy="180" r="26" fill="#123524"/>
+    <circle cx="180" cy="180" r="12" fill="#FBFAF0"/>
+  </g>
+</svg>

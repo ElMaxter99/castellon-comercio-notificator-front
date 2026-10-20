@@ -62,6 +62,7 @@
 }
 
 .landing__card {
+  animation: ed26-fade-up 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   position: relative;
   display: grid;
   align-content: start;
@@ -72,7 +73,11 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
+  }
+
+  &--2025 {
+    animation-delay: 0.12s;
   }
 
   h2,
@@ -115,6 +120,7 @@
 }
 
 .landing__art {
+  animation: ed26-float 6s ease-in-out infinite;
   width: 6.5rem;
   margin-bottom: 0.25rem;
 }

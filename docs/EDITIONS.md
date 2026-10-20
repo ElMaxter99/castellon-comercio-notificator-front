@@ -43,6 +43,21 @@ Debe mantenerse fiel a como estaba. Solo se han cambiado enlaces para vivir bajo
 - `utils/commerce-utils.ts` (`normalizeText`, `commerceKey`, `coordsFromMapsUrl`) y `utils/format-date.ts` (Intl; **no usar `DatePipe`** con locales `es-ES`/`ca`: no hay datos de locale registrados y renderiza vacío).
 - i18n: claves `landing.*` y `ed26.*` en ambos JSON.
 
+## Animaciones y movimiento
+Definidas en `edition-2026.theme.scss` (keyframes globales `ed26-fade-up|pop|float|shimmer` y utilidad `.ed26-reveal` con `style="--i: N"` para escalonar):
+- Cada página entra con un fundido; grupos y tarjetas aparecen escalonados; el contenido de un acordeón se anima al abrirse.
+- Contador de establecimientos con "pop" cuando cambia; favoritos con "pop" al marcarse; hover elevado en tarjetas y estadísticas.
+- Arte geométrico flotante en Inicio y en el selector de edición.
+- Esqueletos de carga con brillo (`.ed26-skeleton`) en lugar de texto.
+- **Scroll animado**: al cambiar de Lista a Mapa (y al llegar con `?view=map`, p. ej. desde "Abrir el mapa") la página se desliza hasta los resultados dejando sitio a la cabecera (`scroll-margin-top` en `#shops-results`).
+- Todo se desactiva con `prefers-reduced-motion: reduce` (animaciones y transiciones; el scroll pasa a instantáneo).
+
+## Apilamiento (z-index) y móvil
+Los paneles de Leaflet usan `z-index` 400–1000. `ShopsMapComponent` crea su propio contexto de apilamiento (`position: relative; z-index: 0` en `:host`) para que el mapa nunca quede por encima de la cabecera fija (20) ni de la barra inferior móvil (30). Si añades otro widget con z-index alto, aíslalo igual.
+
+## Favicon
+`public/favicon.svg` (composición geométrica del cartel 2026: verde bosque, oliva, naranja y azul) más `favicon-32.png`, `favicon-192.png`, `favicon.ico` (16/32/48) y `apple-touch-icon.png` (180, sin esquinas redondeadas). Se declaran en `src/index.html`, junto con `theme-color` `#1E4D2B`. Es un icono propio inspirado en el cartel, no el logotipo oficial del programa: para sustituirlo, regenera esos ficheros desde el SVG nuevo.
+
 ## Estados vacíos
 Si el API aún no tiene comercios 2026 (programa sin publicar), 2026 muestra "Todavía no hay comercios publicados" en vez de un error.
 

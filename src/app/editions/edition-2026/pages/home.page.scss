@@ -69,6 +69,7 @@
 }
 
 .home__art {
+  animation: ed26-float 7s ease-in-out infinite;
   max-width: clamp(9rem, 40vw, 18rem);
   justify-self: center;
   width: 100%;
@@ -87,6 +88,11 @@
 
 .home__stat {
   padding: 1.1rem 1.25rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+  }
 
   dt {
     font-size: 0.82rem;

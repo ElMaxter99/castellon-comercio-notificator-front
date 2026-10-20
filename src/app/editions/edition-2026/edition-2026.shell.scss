@@ -55,6 +55,7 @@
     text-decoration: none;
     font-weight: 600;
     color: var(--muted);
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
 
     &:hover {
       background: var(--sage-soft);

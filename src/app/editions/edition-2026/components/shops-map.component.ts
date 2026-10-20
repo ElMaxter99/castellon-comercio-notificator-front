@@ -31,6 +31,10 @@ type LeafletGlobal = any;
     `
       :host {
         display: block;
+        /* Contexto de apilamiento propio: los paneles y controles de Leaflet (z-index 400-1000)
+           no deben quedar por encima de la cabecera fija ni de la barra inferior. */
+        position: relative;
+        z-index: 0;
       }
       .map {
         height: clamp(22rem, 65vh, 40rem);

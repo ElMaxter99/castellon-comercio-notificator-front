@@ -23,7 +23,11 @@
   </section>
 
   @if (store.loading()) {
-    <p class="ed26-state" role="status">{{ 'ed26.state.loading' | translate }}</p>
+    <div class="ed26-skeleton-grid" role="status" [attr.aria-label]="'ed26.state.loading' | translate">
+      @for (i of [1, 2, 3, 4]; track i) {
+        <div class="ed26-skeleton" style="height: 7rem"></div>
+      }
+    </div>
   } @else if (store.error()) {
     <p class="ed26-state ed26-state--error" role="alert">{{ 'ed26.state.error' | translate }}</p>
   } @else if (store.commerces().length === 0) {
@@ -33,19 +37,19 @@
     </div>
   } @else {
     <dl class="home__stats">
-      <div class="ed26-card home__stat">
+      <div class="ed26-card home__stat ed26-reveal" style="--i: 1">
         <dt>{{ 'ed26.home.stats.shops' | translate }}</dt>
         <dd>{{ store.commerces().length | number }}</dd>
       </div>
-      <div class="ed26-card home__stat">
+      <div class="ed26-card home__stat ed26-reveal" style="--i: 2">
         <dt>{{ 'ed26.home.stats.sectors' | translate }}</dt>
         <dd>{{ store.sectors().length | number }}</dd>
       </div>
-      <div class="ed26-card home__stat">
+      <div class="ed26-card home__stat ed26-reveal" style="--i: 3">
         <dt>{{ 'ed26.home.stats.newLast30' | translate }}</dt>
         <dd>+{{ store.recentAdded() | number }}</dd>
       </div>
-      <div class="ed26-card home__stat">
+      <div class="ed26-card home__stat ed26-reveal" style="--i: 4">
         <dt>{{ 'ed26.home.stats.updated' | translate }}</dt>
         <dd class="home__stat-date">
           {{ lastUpdate() || '—' }}

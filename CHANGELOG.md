@@ -1,9 +1,17 @@
 # Changelog
 
-## v2.1.1 - 2026-10-20
+## v2.2.0 - 2026-10-20
+
+### Añadido
+- Edición 2026: animaciones (entrada de páginas, grupos y tarjetas escalonados, contador y favoritos con "pop", hover, arte flotante, esqueletos de carga), desactivadas con `prefers-reduced-motion`.
+- Scroll animado hasta el mapa al cambiar a la vista Mapa y al llegar con `?view=map`.
+- Favicon nuevo de la edición 2026 (SVG, PNG, ICO y apple-touch-icon) y `theme-color` verde bosque.
 
 ### Cambiado
-- Edición 2026, móvil: con la vista de mapa abierta, el mapa aparece antes que el panel de filtros.
+- Móvil: con la vista de mapa abierta, el mapa aparece antes que el panel de filtros.
+
+### Corrección
+- El mapa de la edición 2026 ya no se pinta por encima de la cabecera fija ni de la barra de navegación inferior al hacer scroll (contexto de apilamiento propio).
 
 ## v2.1.0 - 2026-10-20
 
