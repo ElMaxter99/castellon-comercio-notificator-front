@@ -101,10 +101,21 @@
   color: var(--sage);
   font-size: 0.9rem;
 
-  a {
+  a,
+  .shell__linkbtn {
     color: var(--peach);
     font-weight: 600;
     text-underline-offset: 0.2em;
+  }
+
+  .shell__linkbtn {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
   }
 }
 

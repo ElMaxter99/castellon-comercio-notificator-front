@@ -186,7 +186,9 @@
     "mini": {
       "text": "Proyecto independiente y sin ánimo de lucro, sin relación con el Ayuntamiento de Castelló ni CONFECOMERÇ.",
       "source": "Datos: bonoscastellodelaplana.es",
-      "code": "Código en GitHub"
+      "code": "Código en GitHub",
+      "legal": "Privacidad y cookies",
+      "cookies": "Gestionar cookies"
     }
   },
   "ed26": {
@@ -246,7 +248,10 @@
       "clear": "Limpiar filtros",
       "expandAll": "Desplegar todo",
       "collapseAll": "Plegar todo",
-      "noSector": "Sin sector"
+      "noSector": "Sin sector",
+      "eyebrow": "Directorio",
+      "subtitle": "Todos los establecimientos adheridos al programa: filtra por sector, busca por nombre o calle y ábrelos en el mapa.",
+      "allChip": "Todos"
     },
     "news": {
       "eyebrow": "Altas y bajas",
@@ -258,7 +263,13 @@
       "empty": {
         "title": "Sin novedades todavía",
         "body": "Cuando se sumen o dejen de participar comercios aparecerán aquí."
-      }
+      },
+      "expandAll": "Desplegar todo",
+      "collapseAll": "Plegar todo",
+      "updates": "{{count}} actualizaciones",
+      "showMore": "Ver {{count}} más",
+      "showLess": "Ver menos",
+      "updatesOne": "1 actualización"
     },
     "state": {
       "loading": "Cargando comercios…",
@@ -276,7 +287,95 @@
       "source": "Web oficial del programa",
       "updated": "Actualizado: {{date}}",
       "moreTitle": "Más",
-      "code": "Código en GitHub"
+      "code": "Código en GitHub",
+      "legal": "Privacidad y cookies",
+      "cookies": "Gestionar cookies"
     }
+  },
+  "legal": {
+    "back": "Volver al inicio",
+    "title": "Aviso legal, privacidad y cookies",
+    "updated": "Última actualización: 20 de octubre de 2026",
+    "intro": "Esta web es una iniciativa independiente y sin ánimo de lucro para consultar los comercios adheridos al programa de bonos de Castelló de la Plana. No tiene relación oficial con el Ayuntamiento ni con CONFECOMERÇ.",
+    "manage": "Cambiar mi elección de cookies",
+    "consent": {
+      "none": "Todavía no has elegido sobre las cookies opcionales.",
+      "granted": "Has aceptado la analítica de visitas.",
+      "denied": "Has rechazado la analítica de visitas."
+    },
+    "controller": {
+      "title": "1. Responsable del sitio",
+      "body": [
+        "El responsable del sitio es el titular del proyecto, que figura en GitHub como ElMaxter99 (persona física, sin actividad comercial ni publicidad).",
+        "Para cualquier consulta, solicitud de derechos o petición de corrección o retirada de datos, escribe abriendo una incidencia en https://github.com/ElMaxter99/castellon-comercio-notificator-front/issues."
+      ]
+    },
+    "data": {
+      "title": "2. Qué datos tratamos",
+      "body": [
+        "Esta web no tiene cuentas de usuario, formularios ni comentarios: no te pedimos ningún dato personal.",
+        "Como cualquier servidor, el API registra por motivos de seguridad y buen funcionamiento los datos técnicos de cada petición (dirección IP, fecha, URL y navegador). Se guardan en ficheros de registro con rotación automática (como máximo unos 50 MB) y no se usan para identificarte ni se ceden a terceros. Base jurídica: interés legítimo en la seguridad del servicio (art. 6.1.f RGPD).",
+        "Los datos de los comercios (nombre, dirección, teléfono, sector) proceden de la web oficial del programa (bonoscastellodelaplana.es), son datos públicos de establecimientos y se muestran solo con fines informativos. Si eres titular de un comercio y quieres corregir o retirar sus datos, la fuente es la web oficial; también puedes escribirnos y los ocultaremos de este sitio."
+      ]
+    },
+    "storage": {
+      "title": "3. Cookies y almacenamiento local",
+      "body": [
+        "Esta web no usa cookies propias. Guarda en tu navegador (almacenamiento local) solo lo necesario para recordar tus preferencias; no requiere consentimiento porque lo has pedido tú al usarlo (art. 22.2 LSSI).",
+        "La analítica de visitas (Vercel Web Analytics) es opcional: solo se carga si la aceptas en el aviso de cookies. No usa cookies ni te identifica personalmente; mide de forma agregada qué páginas se visitan. Puedes cambiar tu decisión en cualquier momento con el botón de abajo."
+      ],
+      "colName": "Nombre",
+      "colPurpose": "Para qué sirve",
+      "colKind": "Tipo",
+      "rows": [
+        {
+          "name": "castellon-comercio-language",
+          "purpose": "Recordar el idioma elegido.",
+          "kind": "Técnico · almacenamiento local · hasta que lo borres"
+        },
+        {
+          "name": "castellon-comercio-favorites-2026",
+          "purpose": "Guardar tus comercios favoritos (solo en tu dispositivo).",
+          "kind": "Técnico · almacenamiento local · hasta que lo borres"
+        },
+        {
+          "name": "castellon-comercio-consent-v1",
+          "purpose": "Recordar tu elección sobre las cookies.",
+          "kind": "Técnico · almacenamiento local · hasta que lo borres"
+        },
+        {
+          "name": "Vercel Web Analytics (/_vercel/insights)",
+          "purpose": "Estadísticas agregadas de visitas, sin cookies.",
+          "kind": "Analítica · de tercero (Vercel Inc.) · solo con tu consentimiento"
+        }
+      ]
+    },
+    "third": {
+      "title": "4. Servicios de terceros",
+      "body": [
+        "Para funcionar, la web carga recursos de terceros, lo que implica que tu dirección IP llega a sus servidores: Vercel (alojamiento de la web), Render (alojamiento del API), unpkg.com (librería de mapas Leaflet) y OpenStreetMap (teselas del mapa).",
+        "Si pulsas «Cómo llegar», abres Google Maps en otra pestaña y se aplican sus propias condiciones. Estos servicios tratan los datos según sus políticas de privacidad."
+      ]
+    },
+    "rights": {
+      "title": "5. Tus derechos",
+      "body": [
+        "Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad (RGPD y LOPDGDD) escribiendo al contacto indicado arriba.",
+        "Si consideras que se han vulnerado tus derechos, puedes reclamar ante la Agencia Española de Protección de Datos (www.aepd.es)."
+      ]
+    },
+    "changes": {
+      "title": "6. Cambios",
+      "body": [
+        "Podemos actualizar este texto si cambia el funcionamiento de la web. La fecha de arriba indica la última revisión."
+      ]
+    }
+  },
+  "cookies": {
+    "title": "Cookies y privacidad",
+    "text": "Usamos almacenamiento técnico para recordar tu idioma y tus favoritos. Si lo aceptas, también medimos las visitas de forma agregada (Vercel Analytics, sin cookies).",
+    "more": "Más información",
+    "accept": "Aceptar",
+    "reject": "Rechazar"
   }
 }

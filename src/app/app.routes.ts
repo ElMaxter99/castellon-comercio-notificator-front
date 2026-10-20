@@ -34,6 +34,11 @@ export const routes: Routes = [
     title: 'Comerç Castelló · Edición 2026',
     loadChildren: () => import('./editions/edition-2026/edition-2026.routes').then((m) => m.edition2026Routes)
   },
+  {
+    path: 'privacidad',
+    title: 'Comerç Castelló · Privacidad y cookies',
+    loadComponent: () => import('./pages/legal/legal.page').then((m) => m.LegalPageComponent)
+  },
   { path: 'history', redirectTo: '2025/history' },
   { path: '**', redirectTo: '' }
 ];

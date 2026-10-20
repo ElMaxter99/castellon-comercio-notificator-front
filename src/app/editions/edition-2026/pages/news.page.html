@@ -11,45 +11,96 @@
       {{ 'ed26.news.empty.body' | translate }}
     </div>
   } @else {
+    <div class="news__toolbar">
+      <button type="button" class="news__expand" (click)="toggleAll()">
+        {{ (allOpen() ? 'ed26.news.collapseAll' : 'ed26.news.expandAll') | translate }}
+      </button>
+    </div>
+
     @for (group of groups(); track group.key) {
-      <section class="news__group">
-        <h2 class="news__month">{{ month(group.month) }}</h2>
+      <section class="news__group" [class.is-open]="isMonthOpen(group.key)">
+        <h2 class="news__month">
+          <button
+            type="button"
+            class="news__month-toggle"
+            [attr.aria-expanded]="isMonthOpen(group.key)"
+            (click)="toggleMonth(group.key)"
+          >
+            <span class="news__month-name">{{ month(group.month) }}</span>
+            @if (group.added > 0) {
+              <span class="news__badge news__badge--add">+{{ group.added }}</span>
+            }
+            @if (group.removed > 0) {
+              <span class="news__badge news__badge--remove">−{{ group.removed }}</span>
+            }
+            <span class="news__month-count">{{ (group.entries.length === 1 ? 'ed26.news.updatesOne' : 'ed26.news.updates') | translate: { count: group.entries.length } }}</span>
+            <span class="news__chevron" aria-hidden="true">▾</span>
+          </button>
+        </h2>
 
-        <ol class="news__timeline">
-          @for (entry of group.entries; track entry.timestamp) {
-            <li class="news__entry">
-              <span class="news__marker" aria-hidden="true"></span>
-              <article class="ed26-card news__card">
-                <header class="news__card-head">
-                  <time [attr.datetime]="entry.timestamp">{{ dateTime(entry.timestamp) }}</time>
-                  <span>{{ 'ed26.news.total' | translate: { count: entry.countAfter } }}</span>
-                </header>
+        @if (isMonthOpen(group.key)) {
+          <ol class="news__timeline">
+            @for (entry of group.entries; track entry.timestamp) {
+              <li class="news__entry">
+                <span class="news__marker" aria-hidden="true"></span>
+                <article class="ed26-card news__card">
+                  <button
+                    type="button"
+                    class="news__card-head"
+                    [attr.aria-expanded]="isEntryOpen(entry)"
+                    (click)="toggleEntry(entry)"
+                  >
+                    <time [attr.datetime]="entry.timestamp">{{ dateTime(entry.timestamp) }}</time>
+                    @if (entry.added.length > 0) {
+                      <span class="news__badge news__badge--add">+{{ entry.added.length }}</span>
+                    }
+                    @if (entry.removed.length > 0) {
+                      <span class="news__badge news__badge--remove">−{{ entry.removed.length }}</span>
+                    }
+                    <span class="news__total">{{ 'ed26.news.total' | translate: { count: entry.countAfter } }}</span>
+                    <span class="news__chevron" aria-hidden="true">▾</span>
+                  </button>
 
-                @if (entry.added.length > 0) {
-                  <div class="news__block">
-                    <h3 class="news__label news__label--add">+{{ entry.added.length }} {{ 'ed26.news.added' | translate }}</h3>
-                    <ul class="news__names">
-                      @for (name of entry.added; track name) {
-                        <li>{{ name }}</li>
+                  @if (isEntryOpen(entry)) {
+                    <div class="news__body">
+                      @if (entry.added.length > 0) {
+                        <div class="news__block">
+                          <h3 class="news__label news__label--add">+{{ entry.added.length }} {{ 'ed26.news.added' | translate }}</h3>
+                          <ul class="news__names">
+                            @for (name of visible(entry.added, entry, 'add'); track name) {
+                              <li>{{ name }}</li>
+                            }
+                          </ul>
+                          @if (entry.added.length > previewNames) {
+                            <button type="button" class="news__more" (click)="toggleList(entry, 'add')">
+                              {{ (isListOpen(entry, 'add') ? 'ed26.news.showLess' : 'ed26.news.showMore') | translate: { count: entry.added.length - previewNames } }}
+                            </button>
+                          }
+                        </div>
                       }
-                    </ul>
-                  </div>
-                }
 
-                @if (entry.removed.length > 0) {
-                  <div class="news__block">
-                    <h3 class="news__label news__label--remove">−{{ entry.removed.length }} {{ 'ed26.news.removed' | translate }}</h3>
-                    <ul class="news__names news__names--removed">
-                      @for (name of entry.removed; track name) {
-                        <li>{{ name }}</li>
+                      @if (entry.removed.length > 0) {
+                        <div class="news__block">
+                          <h3 class="news__label news__label--remove">−{{ entry.removed.length }} {{ 'ed26.news.removed' | translate }}</h3>
+                          <ul class="news__names news__names--removed">
+                            @for (name of visible(entry.removed, entry, 'remove'); track name) {
+                              <li>{{ name }}</li>
+                            }
+                          </ul>
+                          @if (entry.removed.length > previewNames) {
+                            <button type="button" class="news__more" (click)="toggleList(entry, 'remove')">
+                              {{ (isListOpen(entry, 'remove') ? 'ed26.news.showLess' : 'ed26.news.showMore') | translate: { count: entry.removed.length - previewNames } }}
+                            </button>
+                          }
+                        </div>
                       }
-                    </ul>
-                  </div>
-                }
-              </article>
-            </li>
-          }
-        </ol>
+                    </div>
+                  }
+                </article>
+              </li>
+            }
+          </ol>
+        }
       </section>
     }
   }

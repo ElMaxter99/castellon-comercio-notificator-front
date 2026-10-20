@@ -161,9 +161,20 @@
   gap: 0.25rem 1.25rem;
   margin-top: 0.4rem !important;
 
-  a {
+  a,
+  .landing__linkbtn {
     color: var(--forest);
     font-weight: 600;
     text-underline-offset: 0.2em;
+  }
+
+  .landing__linkbtn {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
   }
 }

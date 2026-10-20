@@ -21,21 +21,109 @@
   color: var(--muted);
 }
 
+.news__toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.75rem;
+}
+
+.news__expand,
+.news__more {
+  padding: 0.3rem 0.2rem;
+  border: 0;
+  background: none;
+  color: var(--forest);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.news__more {
+  margin-top: 0.35rem;
+}
+
+// Cada mes es una fila compacta con el resumen de altas y bajas
+.news__group {
+  margin-bottom: 0.9rem;
+}
+
 .news__month {
-  margin: 2rem 0 1rem;
-  font-size: 1.1rem;
-  color: var(--orange-deep);
+  margin: 0;
+}
+
+.news__month-toggle {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.65rem;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--sage-soft);
+  color: var(--forest-deep);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #dfe8c8;
+  }
+}
+
+.news__month-name {
+  flex: 1 1 auto;
+  font-size: 1.05rem;
+  font-weight: 800;
 
   &::first-letter {
     text-transform: uppercase;
   }
 }
 
+.news__month-count {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.news__badge {
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+
+  &--add {
+    background: var(--forest);
+    color: var(--cream);
+  }
+
+  &--remove {
+    background: var(--peach);
+    color: #7c2d12;
+  }
+}
+
+.news__chevron {
+  font-size: 1.2rem;
+  color: var(--forest);
+  transition: transform 0.2s ease;
+}
+
+.is-open > .news__month > .news__month-toggle .news__chevron,
+.news__card-head[aria-expanded='true'] .news__chevron {
+  transform: rotate(180deg);
+}
+
 .news__timeline {
   position: relative;
   display: grid;
-  gap: 1rem;
-  margin: 0;
+  gap: 0.6rem;
+  margin: 0.75rem 0 0;
+  animation: ed26-fade-up 0.3s ease both;
   padding: 0 0 0 1.5rem;
   list-style: none;
   border-left: 3px solid var(--sage);
@@ -57,17 +145,38 @@
 }
 
 .news__card {
-  padding: 1rem 1.25rem;
+  overflow: hidden;
 }
 
 .news__card-head {
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.6rem;
-  font-size: 0.85rem;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.65rem;
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.88rem;
   font-weight: 700;
+  color: var(--forest-deep);
+  text-align: left;
+  cursor: pointer;
+
+  time {
+    flex: 1 1 auto;
+  }
+}
+
+.news__total {
+  font-weight: 600;
   color: var(--muted);
+}
+
+.news__body {
+  padding: 0 1.25rem 1rem;
+  animation: ed26-fade-up 0.25s ease both;
 }
 
 .news__block + .news__block {
