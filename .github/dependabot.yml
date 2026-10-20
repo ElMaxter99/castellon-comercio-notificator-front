@@ -11,8 +11,28 @@ updates:
         patterns:
           - "@angular/*"
           - "@angular-devkit/*"
-          - "zone.js"
-          - "typescript"
+    # Subidas que NO se pueden aceptar tal cual y requieren una migración manual.
+    # Motivos y ruta de actualización en docs/DEPENDENCIES.md.
+    ignore:
+      # Angular se sube de versión mayor con `ng update` (de una en una: 20 → 21 → 22).
+      - dependency-name: "@angular/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@angular-devkit/*"
+        update-types: ["version-update:semver-major"]
+      # La versión de TypeScript la dicta cada versión de Angular (Angular 20: >=5.8 <6.0).
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      # zone.js lo fija Angular (peer `~0.15` en Angular 20).
+      - dependency-name: "zone.js"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+      # ngx-translate 18 elimina TranslateModule (migración de código pendiente).
+      - dependency-name: "@ngx-translate/core"
+        update-types: ["version-update:semver-major"]
+      # Karma/Jasmine: karma-jasmine-html-reporter solo admite jasmine-core 4-5.
+      - dependency-name: "jasmine-core"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/jasmine"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     target-branch: develop
