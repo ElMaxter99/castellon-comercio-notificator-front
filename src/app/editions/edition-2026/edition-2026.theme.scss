@@ -1,3 +1,42 @@
+@keyframes ed26-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes ed26-pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.4) rotate(-10deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes ed26-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1.5deg);
+  }
+}
+
+@keyframes ed26-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
 // Tema edición 2026 — paleta extraída del cartel promocional:
 // crema de fondo, verde bosque, oliva/salvia, naranja intenso y un toque de azul.
 .ed26 {
@@ -127,6 +166,54 @@
     }
   }
 
+  // Entrada escalonada: <el class="ed26-reveal" style="--i: N">
+  .ed26-reveal {
+    animation: ed26-fade-up 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--i, 0) * 45ms);
+  }
+
+  // Cada página entra con un fundido (el router inserta el componente junto al router-outlet)
+  .shell__main > :not(router-outlet) {
+    animation: ed26-fade-up 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  // Esqueletos de carga
+  .ed26-skeleton-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  }
+
+  .ed26-skeleton {
+    height: 15rem;
+    border-radius: 1rem;
+    background: linear-gradient(100deg, var(--sage-soft) 30%, #f5f8ea 50%, var(--sage-soft) 70%);
+    background-size: 200% 100%;
+    animation: ed26-shimmer 1.3s linear infinite;
+  }
+
+  .ed26-btn,
+  .ed26-chip {
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+
+  // Clústeres del mapa (L.divIcon vive fuera del encapsulado de Angular)
+  .ed26-cluster span {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 3px solid var(--cream);
+    background: var(--forest);
+    box-shadow: 0 4px 12px rgba(18, 53, 36, 0.35);
+    color: var(--cream);
+    font-weight: 800;
+    font-size: 0.9rem;
+  }
+
   .ed26-state {
     padding: 2rem 1.25rem;
     text-align: center;
@@ -142,5 +229,17 @@
       font-size: 1.15rem;
       margin-bottom: 0.35rem;
     }
+  }
+}
+
+// Accesibilidad: sin animaciones si el sistema lo pide
+@media (prefers-reduced-motion: reduce) {
+  .ed26 *,
+  .ed26 *::before,
+  .ed26 *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
 }

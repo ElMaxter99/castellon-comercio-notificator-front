@@ -5,7 +5,7 @@
   <title>Comerç Castelló Notificator</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0F172A">
+  <meta name="theme-color" content="#1E4D2B">
   <meta name="application-name" content="Comerç Castelló Notificator">
   <meta name="description" content="Iniciativa independent i sense ànim de lucre que ofereix avisos ciutadans sobre els bons d'Abonem Castelló per als comerços locals.">
   <meta name="author" content="Projecte independent sense relació amb l'Ajuntament de Castelló ni CONFECOMERÇ">
@@ -28,13 +28,21 @@
   <meta name="twitter:image:alt" content="Comerç Castelló Notificator, avís ciutadà sense ànim de lucre.">
   <meta name="twitter:creator" content="@castellon-notificator">
   <meta name="twitter:site" content="@castellon-notificator">
-  <link rel="icon" type="image/svg+xml" href="/public/logo.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/public/logo.png">
-  <link rel="mask-icon" href="/public/logo.png" color="#0F172A">
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/public/favicon-192.png">
+  <link rel="icon" href="/public/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w=="
+    crossorigin=""
+  >
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"
+    integrity="sha512-mQ77VzAakzdpWdgfL/lM1ksNy89uFgibRQANsNneSTMD/bj0Y/8+94XMwYhnbzx8eki2hrbPpDm0vD0CiT2lcg=="
     crossorigin=""
   >
 </head>
@@ -43,6 +51,12 @@
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg=="
+    crossorigin=""
+    defer
+  ></script>
+  <script
+    src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"
+    integrity="sha512-OFs3W4DIZ5ZkrDhBFtsCP6JXtMEDGmhl0QPlmWYBJay40TT1n3gt2Xuw8Pf/iezgW9CdabjkNChRqozl/YADmg=="
     crossorigin=""
     defer
   ></script>

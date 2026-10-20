@@ -1,5 +1,34 @@
 # Changelog
 
+## v2.3.0 - 2026-10-20
+
+### Añadido
+- Minifooter en el selector de edición (`/`): aviso de proyecto independiente, fuente de los datos, código y versión.
+- Footer en la edición 2026: marca, enlace a la web oficial con fecha de última actualización, accesos (cambiar de edición, edición 2025, código) y aviso legal con versión.
+
+### Cambiado
+- Iconos de navegación de la edición 2026 (Inicio, Comercios, Novedades): SVG propios en lugar de glifos de texto.
+
+## v2.2.0 - 2026-10-20
+
+### Añadido
+- Edición 2026: animaciones (entrada de páginas, grupos y tarjetas escalonados, contador y favoritos con "pop", hover, arte flotante, esqueletos de carga), desactivadas con `prefers-reduced-motion`.
+- Scroll animado hasta el mapa al cambiar a la vista Mapa y al llegar con `?view=map`.
+- Favicon nuevo de la edición 2026 (SVG, PNG, ICO y apple-touch-icon) y `theme-color` verde bosque.
+
+### Cambiado
+- Móvil: con la vista de mapa abierta, el mapa aparece antes que el panel de filtros.
+
+### Corrección
+- El mapa de la edición 2026 ya no se pinta por encima de la cabecera fija ni de la barra de navegación inferior al hacer scroll (contexto de apilamiento propio).
+
+## v2.1.0 - 2026-10-20
+
+### Cambiado
+- Edición 2026, página de comercios rediseñada (patrón de listado tipo bonocomerciovlc.com): contador de establecimientos con selector Lista/Mapa, panel lateral de filtros, lista agrupada por sector en acordeones con tarjetas con imagen, y mapa con clústeres numerados (`leaflet.markercluster`).
+- El mapa 2026 encuadra la zona principal e ignora, para el zoom inicial, los comercios con coordenadas erróneas.
+- Se eliminan las claves i18n `ed26.shops.resultsOne|resultsMany|sectorsLabel|loadMore` y se añaden las de los nuevos filtros (es / ca-ES-valencia).
+
 ## v2.0.0 - 2026-10-20
 
 Nueva versión mayor por el cambio de edición: la edición 2026 pasa a ser la versión principal y la 2025 queda como demo.

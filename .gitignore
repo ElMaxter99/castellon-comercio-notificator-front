@@ -41,3 +41,6 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Capturas intermedias del montaje de móviles (se regeneran con tools/readme-screenshots.cjs)
+docs/assets/movil-*.png

@@ -182,6 +182,11 @@
       "badge": "Demo",
       "title": "Edició 2025",
       "body": "La versió original, ara en mode demostració amb dades d'exemple, tal com funcionava durant la campanya."
+    },
+    "mini": {
+      "text": "Projecte independent i sense ànim de lucre, sense relació amb l'Ajuntament de Castelló ni CONFECOMERÇ.",
+      "source": "Dades: bonoscastellodelaplana.es",
+      "code": "Codi a GitHub"
     }
   },
   "ed26": {
@@ -218,24 +223,30 @@
       "title": "Comerços",
       "searchLabel": "Cercar comerços",
       "searchPlaceholder": "Nom, adreça o sector",
-      "resultsOne": "{{count}} comerç",
-      "resultsMany": "{{count}} comerços",
       "viewLabel": "Tipus de vista",
       "viewList": "Llista",
       "viewMap": "Mapa",
       "favoritesOnly": "Preferits",
-      "sectorsLabel": "Filtrar per sector",
       "directions": "Com arribar",
       "favAdd": "Guardar {{name}} als preferits",
       "favRemove": "Llevar {{name}} dels preferits",
-      "loadMore": "Mostrar-ne més ({{shown}} de {{total}})",
       "mapLabel": "Mapa de comerços adherits",
       "mapMissing": "{{missing}} comerços no tenen ubicació i només apareixen a la llista.",
       "empty": {
         "title": "Sense resultats",
         "body": "Prova amb un altre nom o lleva algun filtre.",
         "reset": "Llevar filtres"
-      }
+      },
+      "counterOne": "establiment",
+      "counterMany": "establiments",
+      "filtersTitle": "Filtres de cerca",
+      "nameLabel": "Nom o adreça",
+      "sectorLabel": "Sector",
+      "allSectors": "Tots els sectors",
+      "clear": "Netejar filtres",
+      "expandAll": "Desplegar-ho tot",
+      "collapseAll": "Plegar-ho tot",
+      "noSector": "Sense sector"
     },
     "news": {
       "eyebrow": "Altes i baixes",
@@ -259,7 +270,13 @@
     },
     "footer": {
       "disclaimer": "Iniciativa independent i sense ànim de lucre, sense relació amb l'Ajuntament de Castelló de la Plana ni CONFECOMERÇ. Les dades provenen de la web oficial del programa i s'ofereixen només amb finalitat informativa.",
-      "demo2025": "Veure edició 2025 (demo)"
+      "demo2025": "Veure edició 2025 (demo)",
+      "tagline": "Els comerços adherits als bons de Castelló, sempre a mà.",
+      "dataTitle": "Dades",
+      "source": "Web oficial del programa",
+      "updated": "Actualitzat: {{date}}",
+      "moreTitle": "Més",
+      "code": "Codi a GitHub"
     }
   }
 }
