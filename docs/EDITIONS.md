@@ -26,13 +26,20 @@ Debe mantenerse fiel a como estaba. Solo se han cambiado enlaces para vivir bajo
 
 **Páginas**
 - **Inicio** (`pages/home.*`): buscador grande que lleva al directorio, 4 cifras (comercios, sectores, nuevos 30 días, última actualización), sectores principales, últimas novedades y acceso al mapa.
-- **Comercios** (`pages/shops.*`): barra sticky con búsqueda (nombre+dirección+sector, **sin acentos**), chips de sector con contador, vista **Lista/Mapa**, filtro **Favoritos** (★, en `localStorage`), "Mostrar más" en lugar de paginación, acciones directas *llamar* y *cómo llegar*. **Los filtros viven en la URL** (`?q=&sector=&view=map&fav=1`): enlaces compartibles y botón atrás coherente.
+- **Comercios** (`pages/shops.*`), con el patrón de listado de [bonocomerciovlc.com](https://bonocomerciovlc.com/comercios-adheridos/) adaptado a nuestra identidad:
+  - Barra superior con el **contador** de establecimientos (se actualiza con los filtros) y selector **Lista / Mapa**.
+  - **Panel lateral de filtros** (arriba en móvil): nombre o dirección (**sin acentos**), sector (desplegable con contadores), solo favoritos y *Limpiar filtros*. Filtra en vivo, sin botón "aplicar".
+  - **Lista agrupada por sector** en acordeones (icono de color, nombre, contador). Sin filtros solo se abre el primer grupo; con filtros se abren todos; *Desplegar/Plegar todo*. Los grupos cerrados no se renderizan.
+  - **Tarjetas** con imagen del comercio (con respaldo si falla), dirección, teléfono (`tel:`), *cómo llegar* y favorito (★, en `localStorage`).
+  - **Mapa** Leaflet con **clústeres numerados** (`leaflet.markercluster` desde unpkg en `index.html`). Encuadra la zona donde está la mayoría de comercios: los de coordenadas erróneas (mal geocodificados en la web oficial) siguen en el mapa pero no alejan el zoom.
+  - **Los filtros viven en la URL** (`?q=&sector=&view=map&fav=1`): enlaces compartibles y botón atrás coherente.
 - **Novedades** (`pages/news.*`): línea de tiempo de altas/bajas agrupada por mes.
 - **Móvil**: la navegación pasa a barra inferior.
 
 **Piezas**
 - `edition-2026.store.ts`: `Edition2026Store` (provisto a nivel de ruta) carga comercios, estado e histórico **una sola vez** para todas las páginas; calcula sectores, color estable por sector, novedades recientes y favoritos.
-- `components/shops-map.component.ts`: mapa Leaflet con popup construido con nodos DOM (sin HTML interpolado → sin el riesgo XSS del mapa de 2025).
+- `components/shops-map.component.ts`: mapa Leaflet con clústeres y popup construido con nodos DOM (sin HTML interpolado → sin el riesgo XSS del mapa de 2025).
+- `sector-icon.ts`: emoji decorativo por sector (coincidencia por palabra clave; `🏪` por defecto).
 - `utils/commerce-utils.ts` (`normalizeText`, `commerceKey`, `coordsFromMapsUrl`) y `utils/format-date.ts` (Intl; **no usar `DatePipe`** con locales `es-ES`/`ca`: no hay datos de locale registrados y renderiza vacío).
 - i18n: claves `landing.*` y `ed26.*` en ambos JSON.
 

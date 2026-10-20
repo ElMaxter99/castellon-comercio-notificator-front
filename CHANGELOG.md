@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.1.0 - 2026-10-20
+
+### Cambiado
+- Edición 2026, página de comercios rediseñada (patrón de listado tipo bonocomerciovlc.com): contador de establecimientos con selector Lista/Mapa, panel lateral de filtros, lista agrupada por sector en acordeones con tarjetas con imagen, y mapa con clústeres numerados (`leaflet.markercluster`).
+- El mapa 2026 encuadra la zona principal e ignora, para el zoom inicial, los comercios con coordenadas erróneas.
+- Se eliminan las claves i18n `ed26.shops.resultsOne|resultsMany|sectorsLabel|loadMore` y se añaden las de los nuevos filtros (es / ca-ES-valencia).
+
 ## v2.0.0 - 2026-10-20
 
 Nueva versión mayor por el cambio de edición: la edición 2026 pasa a ser la versión principal y la 2025 queda como demo.

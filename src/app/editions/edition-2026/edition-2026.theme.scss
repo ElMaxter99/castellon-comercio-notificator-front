@@ -127,6 +127,21 @@
     }
   }
 
+  // Clústeres del mapa (L.divIcon vive fuera del encapsulado de Angular)
+  .ed26-cluster span {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 3px solid var(--cream);
+    background: var(--forest);
+    box-shadow: 0 4px 12px rgba(18, 53, 36, 0.35);
+    color: var(--cream);
+    font-weight: 800;
+    font-size: 0.9rem;
+  }
+
   .ed26-state {
     padding: 2rem 1.25rem;
     text-align: center;

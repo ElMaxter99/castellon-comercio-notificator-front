@@ -59,7 +59,7 @@ npm test                         # Karma + Jasmine (solo hay un spec mínimo: ap
 0. **2025 es intocable y siempre demo** (`DATA_MODE`). Los estilos de 2026 viven bajo `.ed26`; no mezclar con los de 2025. No usar `DatePipe` (sin locale data): usar `utils/format-date.ts`.
 1. El mapa extrae lat/lng del parámetro `query=lat,lng` de `mapsUrl`; si el origen cambia el formato, desaparecen los marcadores (sin error visible).
 2. `commerce-map.buildPopupContent` interpola `name/address/sector/mapsUrl` **sin escapar** en HTML (riesgo XSS si el origen se corrompe). Mejora pendiente.
-3. Leaflet viene de `unpkg.com` en `src/index.html` (necesita internet) y se usa como `any`.
+3. Leaflet y `leaflet.markercluster` (clústeres de la edición 2026) vienen de `unpkg.com` en `src/index.html` con SRI (necesita internet) y se usan como `any`. Si el plugin no carga, el mapa 2026 funciona sin clústeres.
 4. La URL del API se resuelve en compilación: `API_BASE_URL` (env) o `--api-url=` → `define` → `resolveApiBaseUrl()`; si no hay, el valor por defecto de `src/environments/*.ts` (`https://bcc-api.alvaromaxter.es` en prod). Es **build-time**: cambiarla exige recompilar/redesplegar. Solo la inyecta el wrapper `tools/ng-live.cjs` en `build|serve|dev-server`.
 5. `CommerceStatus.lastUpdate` se tipa `string` pero el API puede devolver `null` (si no hay scrapeos aún).
 6. `ng` en `node_modules/.bin` es sobrescrito por el postinstall; si el flag `--live` "no existe", repetir `npm install`.

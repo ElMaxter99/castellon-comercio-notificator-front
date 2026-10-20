@@ -16,6 +16,8 @@ import { coordsFromMapsUrl } from '../../../utils/commerce-utils';
 
 const DEFAULT_CENTER: [number, number] = [39.986359, -0.037652];
 const DEFAULT_ZOOM = 14;
+/** Radio (en grados, ≈ 28 km) alrededor de la mediana dentro del cual se encuadra el mapa. */
+const FIT_RADIUS_DEGREES = 0.25;
 
 type LeafletGlobal = any;
 
@@ -62,7 +64,21 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(this.map);
-    this.layer = L.layerGroup().addTo(this.map);
+    // Con el plugin markercluster (cargado desde index.html) los comercios cercanos se agrupan.
+    this.layer = (
+      L.markerClusterGroup
+        ? L.markerClusterGroup({
+            showCoverageOnHover: false,
+            maxClusterRadius: 50,
+            iconCreateFunction: (cluster: any) =>
+              L.divIcon({
+                html: `<span>${cluster.getChildCount()}</span>`,
+                className: 'ed26-cluster',
+                iconSize: L.point(42, 42)
+              })
+          })
+        : L.layerGroup()
+    ).addTo(this.map);
     this.render();
   }
 
@@ -82,7 +98,7 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
       return;
     }
     this.layer.clearLayers();
-    const bounds = L.latLngBounds([]);
+    const allCoords: Array<[number, number]> = [];
 
     for (const commerce of this.commerces) {
       const coords = coordsFromMapsUrl(commerce.mapsUrl);
@@ -100,16 +116,38 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
       marker.bindPopup(this.popup(commerce));
       marker.on('click', () => this.commerceSelected.emit(commerce));
       marker.addTo(this.layer);
-      bounds.extend(coords);
+      allCoords.push(coords);
     }
 
-    if (bounds.isValid()) {
-      this.map.fitBounds(bounds, { padding: [40, 40], maxZoom: 17 });
+    const fitCoords = this.mainArea(allCoords);
+    if (fitCoords.length > 0) {
+      this.map.fitBounds(L.latLngBounds(fitCoords), { padding: [40, 40], maxZoom: 17 });
     } else {
       this.map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
     }
     // El contenedor puede haber cambiado de tamaño al mostrarse.
     setTimeout(() => this.map?.invalidateSize(), 0);
+  }
+
+  /**
+   * Puntos que rodean a la mediana. Unos pocos comercios con coordenadas erróneas
+   * (mal geocodificados en el origen) no deben alejar el zoom de la zona principal;
+   * siguen dibujados en el mapa, solo quedan fuera del encuadre inicial.
+   */
+  private mainArea(coords: Array<[number, number]>): Array<[number, number]> {
+    if (coords.length === 0) {
+      return coords;
+    }
+    const median = (values: number[]): number => {
+      const sorted = [...values].sort((a, b) => a - b);
+      return sorted[Math.floor(sorted.length / 2)];
+    };
+    const centerLat = median(coords.map(([lat]) => lat));
+    const centerLng = median(coords.map(([, lng]) => lng));
+    const near = coords.filter(
+      ([lat, lng]) => Math.abs(lat - centerLat) <= FIT_RADIUS_DEGREES && Math.abs(lng - centerLng) <= FIT_RADIUS_DEGREES
+    );
+    return near.length > 0 ? near : coords;
   }
 
   private popup(commerce: Commerce): HTMLElement {
