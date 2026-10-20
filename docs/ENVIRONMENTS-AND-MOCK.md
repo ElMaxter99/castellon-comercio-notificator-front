@@ -12,6 +12,8 @@
 | `test` | `environment.test.ts` | test | `https://bcc-api.alvaromaxter.es` | true |
 | `test-mock` | `environment.mock.test.ts` | test-mock | idem | false |
 
+> **Desde la v1.3.0** la edición 2025 (`/2025`) fuerza siempre el modo demo con el token `DATA_MODE`, ignorando `isLive`. Ver [EDITIONS.md](EDITIONS.md). `isLive` y `--live` solo gobiernan la edición 2026.
+
 `isLive` decide en `CommerceService` si se llama al API o se leen los JSON de `public/mockup/`. Con `isLive=false` el layout muestra un aviso persistente ("datos ilustrativos").
 
 ## El flag `--live`

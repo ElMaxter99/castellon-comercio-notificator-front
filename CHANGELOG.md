@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.3.0 - 2026-10-20
+
+### Añadido
+- Selector de edición en la entrada (`/`).
+- Edición 2026 (`/2026`): inicio con buscador y cifras, directorio de comercios (búsqueda sin acentos, sectores, lista/mapa, favoritos, filtros en la URL) y línea de tiempo de novedades. Estilo basado en la paleta del cartel 2026 y navegación inferior en móvil.
+- Documentación `docs/EDITIONS.md`.
+
+### Cambiado
+- La edición 2025 pasa a `/2025` y funciona siempre en modo demo (`DATA_MODE`), con las vistas originales.
+- `/history` redirige a `/2025/history`.
+
 ## [v1.2.0](https://github.com/ElMaxter99/castellon-comercio-notificator-front/releases/tag/v1.2.0) - 2025-11-07
 
 ### Añadido

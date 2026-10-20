@@ -5,6 +5,7 @@ import { Commerce } from '../models/commerce.model';
 import { CommerceStatus } from '../models/commerce-status.model';
 import { CommerceHistoryEntry } from '../models/commerce-history-entry.model';
 import { environment } from '../../environments/environment';
+import { DATA_MODE } from './data-mode';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class CommerceService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiBaseUrl}/api/comercios`;
   private readonly mockBaseUrl = 'public/mockup';
-  private readonly isLive = environment.isLive;
+  private readonly dataMode = inject(DATA_MODE, { optional: true });
+  private readonly isLive = this.dataMode ? this.dataMode === 'live' : environment.isLive;
 
   getCommerces(): Observable<Commerce[]> {
     const request$ = this.isLive

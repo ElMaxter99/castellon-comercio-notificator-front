@@ -19,6 +19,7 @@ Aplicación web desarrollada con Angular para consultar, filtrar y visualizar so
 ## Documentación para desarrolladores (y para Claude)
 
 - [`CLAUDE.md`](CLAUDE.md): guía rápida del proyecto para Claude Code.
+- [`docs/EDITIONS.md`](docs/EDITIONS.md): ediciones 2025 (demo) y 2026 (renovada).
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): arquitectura y flujos.
 - [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md): entornos, flag `--live` y modo mock.
 - [`docs/REUSE-2026.md`](docs/REUSE-2026.md): checklist para reutilizarlo en la edición 2026.
@@ -90,9 +91,13 @@ Tras `npm install` el script de *postinstall* sustituye el binario local de Angu
 
 | Ruta | Descripción |
 | --- | --- |
-| `/` | Explorador principal de comercios con filtros, mapa y listado paginado. |
-| `/history` | Página con el historial completo de cambios registrados en la API. |
-| `**` | Cualquier otra ruta redirige al explorador principal. |
+| `/` | Selector de edición (2025 / 2026). |
+| `/2025` | Explorador original (filtros, mapa y listado paginado) en **modo demo**. |
+| `/2025/history` | Historial de cambios (demo). |
+| `/2026` | Inicio renovado: buscador, cifras, sectores y novedades. |
+| `/2026/comercios` | Directorio con búsqueda, sectores, lista/mapa y favoritos. |
+| `/2026/novedades` | Línea de tiempo de altas y bajas. |
+| `**` | Cualquier otra ruta redirige al selector. |
 
 ## Buenas prácticas implementadas
 

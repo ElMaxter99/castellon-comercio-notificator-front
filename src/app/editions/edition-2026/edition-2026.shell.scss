@@ -1,0 +1,133 @@
+:host {
+  display: block;
+}
+
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.shell__header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--cream);
+  border-bottom: 1px solid var(--line);
+}
+
+.shell__bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 4rem;
+}
+
+.shell__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  font-weight: 800;
+  color: var(--forest-deep);
+}
+
+.shell__logo {
+  border-radius: 0.6rem;
+}
+
+.shell__year {
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  background: var(--orange);
+  color: var(--forest-deep);
+  font-size: 0.8rem;
+}
+
+.shell__nav {
+  display: flex;
+  gap: 0.25rem;
+  margin-inline: auto;
+
+  a {
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--muted);
+
+    &:hover {
+      background: var(--sage-soft);
+    }
+
+    &.is-active {
+      background: var(--forest);
+      color: var(--cream);
+    }
+  }
+}
+
+.shell__lang {
+  font-size: 0.85rem;
+}
+
+.shell__main {
+  flex: 1;
+}
+
+.shell__footer {
+  margin-top: 3rem;
+  padding: 2rem 0 5.5rem;
+  background: var(--forest-deep);
+  color: var(--sage);
+  font-size: 0.88rem;
+}
+
+.shell__footer-inner p {
+  margin: 0 0 0.75rem;
+  max-width: 70ch;
+}
+
+.shell__footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+
+  a {
+    color: var(--peach);
+    font-weight: 600;
+  }
+}
+
+// Móvil: la navegación pasa a barra inferior fija (más cómoda con el pulgar).
+@media (max-width: 719px) {
+  .shell__lang {
+    margin-left: auto;
+  }
+
+  .shell__lang ::ng-deep .language-switcher__label {
+    display: none;
+  }
+
+  .shell__nav {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 30;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0.4rem 0.5rem calc(0.4rem + env(safe-area-inset-bottom));
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -6px 20px rgba(18, 53, 36, 0.1);
+
+    a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      gap: 0.1rem;
+      font-size: 0.75rem;
+      border-radius: 0.9rem;
+    }
+  }
+}

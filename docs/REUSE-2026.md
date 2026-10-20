@@ -2,6 +2,8 @@
 
 Para trabajar con Claude: "sigue `docs/REUSE-2026.md` del repo front". Haz antes el equivalente del API (`castellon-comercio-notificator-api/docs/REUSE-2026.md`), porque el front depende de sus datos.
 
+> **Estado (v1.3.0)**: la edición 2026 ya tiene vistas renovadas (`/2026`) y 2025 queda congelada en demo (`/2025`). Ver [EDITIONS.md](EDITIONS.md). Los puntos 4 (aviso de fin de programa) y 5 (mock) de abajo ya no aplican a 2025; 2026 usa el API real. Quedan por hacer: apuntar `apiBaseUrl` al backend 2026 y revisar textos/mapa con datos reales.
+
 ## 1. Checklist
 1. **API**: tener el backend 2026 desplegado y devolviendo datos. Anotar su URL.
 2. `src/environments/environment.prod.ts`, `environment.test.ts`, `environment.mock.prod.ts`, `environment.mock.test.ts`: cambiar `apiBaseUrl` (hoy `https://bcc-api.alvaromaxter.es`). Dev: `http://localhost:12001`.
@@ -15,11 +17,9 @@ Para trabajar con Claude: "sigue `docs/REUSE-2026.md` del repo front". Haz antes
 10. Vercel: revisar variables (`NG_BUILD_CONFIG`), dominio y analytics.
 
 ## 2. Mejoras recomendadas (no implementadas)
-1. **Escapar HTML** en `buildPopupContent` (XSS) o construir el popup con nodos DOM.
+1. **Escapar HTML** en `buildPopupContent` de la edición 2025 (XSS). La edición 2026 ya usa nodos DOM.
 2. Mover `apiBaseUrl` a un único sitio (los 6 ficheros de entorno lo duplican).
 3. Tipar `lastUpdate: string | null` y mostrar "sin datos" si es nulo.
-4. Normalizar acentos en filtros (`normalize('NFD')`) para que "cafeteria" encuentre "cafetería".
-5. Sincronizar filtros con la URL (query params) para compartir búsquedas.
 6. Instalar Leaflet vía npm en lugar de CDN (offline, SRI, tipos `@types/leaflet`).
 7. Agrupar marcadores (markercluster) si hay cientos de comercios.
 8. Tests unitarios de `CommerceGridComponent` (filtros/paginación) y `CommerceService` (normalización https).
