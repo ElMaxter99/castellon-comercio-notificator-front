@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.1.1 - 2026-10-20
+
+### Cambiado
+- Edición 2026, móvil: con la vista de mapa abierta, el mapa aparece antes que el panel de filtros.
+
 ## v2.1.0 - 2026-10-20
 
 ### Cambiado

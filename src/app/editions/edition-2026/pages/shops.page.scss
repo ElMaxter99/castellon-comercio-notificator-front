@@ -79,6 +79,13 @@
   }
 }
 
+// En móvil, con el mapa abierto, el mapa va antes que los filtros (los filtros quedan debajo).
+@media (max-width: 959px) {
+  .shops__layout--map .shops__results {
+    order: -1;
+  }
+}
+
 // Filtros
 .shops__filters {
   display: grid;

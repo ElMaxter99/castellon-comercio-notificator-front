@@ -18,7 +18,7 @@
     </div>
   </div>
 
-  <div class="shops__layout">
+  <div class="shops__layout" [class.shops__layout--map]="view() === 'map'">
     <aside class="ed26-card shops__filters" [attr.aria-label]="'ed26.shops.filtersTitle' | translate">
       <h2 class="shops__filters-title"><span aria-hidden="true">🔍</span> {{ 'ed26.shops.filtersTitle' | translate }}</h2>
 

@@ -28,7 +28,7 @@ Debe mantenerse fiel a como estaba. Solo se han cambiado enlaces para vivir bajo
 - **Inicio** (`pages/home.*`): buscador grande que lleva al directorio, 4 cifras (comercios, sectores, nuevos 30 días, última actualización), sectores principales, últimas novedades y acceso al mapa.
 - **Comercios** (`pages/shops.*`), con el patrón de listado de [bonocomerciovlc.com](https://bonocomerciovlc.com/comercios-adheridos/) adaptado a nuestra identidad:
   - Barra superior con el **contador** de establecimientos (se actualiza con los filtros) y selector **Lista / Mapa**.
-  - **Panel lateral de filtros** (arriba en móvil): nombre o dirección (**sin acentos**), sector (desplegable con contadores), solo favoritos y *Limpiar filtros*. Filtra en vivo, sin botón "aplicar".
+  - **Panel lateral de filtros** (arriba en móvil; con la vista de mapa abierta, en móvil el mapa va antes y los filtros debajo): nombre o dirección (**sin acentos**), sector (desplegable con contadores), solo favoritos y *Limpiar filtros*. Filtra en vivo, sin botón "aplicar".
   - **Lista agrupada por sector** en acordeones (icono de color, nombre, contador). Sin filtros solo se abre el primer grupo; con filtros se abren todos; *Desplegar/Plegar todo*. Los grupos cerrados no se renderizan.
   - **Tarjetas** con imagen del comercio (con respaldo si falla), dirección, teléfono (`tel:`), *cómo llegar* y favorito (★, en `localStorage`).
   - **Mapa** Leaflet con **clústeres numerados** (`leaflet.markercluster` desde unpkg en `index.html`). Encuadra la zona donde está la mayoría de comercios: los de coordenadas erróneas (mal geocodificados en la web oficial) siguen en el mapa pero no alejan el zoom.
