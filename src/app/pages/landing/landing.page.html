@@ -1,0 +1,36 @@
+<div class="ed26 landing">
+  <header class="ed26-container landing__bar">
+    <span class="landing__brand">
+      <img src="/public/logo.png" alt="" width="40" height="40" />
+      {{ 'navigation.brand.title' | translate }}
+    </span>
+    <app-language-switcher variant="select"></app-language-switcher>
+  </header>
+
+  <main class="ed26-container landing__main">
+    <section class="landing__intro">
+      <p class="ed26-eyebrow">Abonem Castelló</p>
+      <h1>{{ 'landing.title' | translate }}</h1>
+      <p class="landing__lead">{{ 'landing.subtitle' | translate }}</p>
+    </section>
+
+    <div class="landing__cards">
+      <a class="landing__card landing__card--2026" routerLink="/2026">
+        <app-geo-art class="landing__art"></app-geo-art>
+        <span class="landing__badge">{{ 'landing.e2026.badge' | translate }}</span>
+        <h2>{{ 'landing.e2026.title' | translate }}</h2>
+        <p>{{ 'landing.e2026.body' | translate }}</p>
+        <span class="ed26-btn ed26-btn--accent">{{ 'landing.enter' | translate }} →</span>
+      </a>
+
+      <a class="landing__card landing__card--2025" routerLink="/2025">
+        <span class="landing__badge landing__badge--demo">{{ 'landing.e2025.badge' | translate }}</span>
+        <h2>{{ 'landing.e2025.title' | translate }}</h2>
+        <p>{{ 'landing.e2025.body' | translate }}</p>
+        <span class="ed26-btn ed26-btn--ghost">{{ 'landing.enter' | translate }} →</span>
+      </a>
+    </div>
+  </main>
+
+  <footer class="ed26-container landing__footer">{{ 'ed26.footer.disclaimer' | translate }}</footer>
+</div>

@@ -1,0 +1,127 @@
+<div class="ed26-container shops">
+  <header class="shops__head">
+    <h1>{{ 'ed26.shops.title' | translate }}</h1>
+    @if (!store.loading() && !store.error()) {
+      <p class="shops__count" role="status">
+        {{ (filtered().length === 1 ? 'ed26.shops.resultsOne' : 'ed26.shops.resultsMany') | translate: { count: filtered().length } }}
+      </p>
+    }
+  </header>
+
+  <div class="shops__filters">
+    <div class="shops__row">
+      <label class="shops__search">
+        <span class="shops__sr">{{ 'ed26.shops.searchLabel' | translate }}</span>
+        <input
+          type="search"
+          autocomplete="off"
+          [value]="query()"
+          (input)="onSearchInput($event)"
+          [placeholder]="'ed26.shops.searchPlaceholder' | translate"
+        />
+      </label>
+
+      <div class="shops__toggle" role="group" [attr.aria-label]="'ed26.shops.viewLabel' | translate">
+        <button type="button" class="ed26-chip" [attr.aria-pressed]="view() === 'list'" (click)="setView('list')">
+          {{ 'ed26.shops.viewList' | translate }}
+        </button>
+        <button type="button" class="ed26-chip" [attr.aria-pressed]="view() === 'map'" (click)="setView('map')">
+          {{ 'ed26.shops.viewMap' | translate }}
+        </button>
+      </div>
+
+      <button type="button" class="ed26-chip" [attr.aria-pressed]="onlyFavorites()" (click)="toggleFavoritesFilter()">
+        ★ {{ 'ed26.shops.favoritesOnly' | translate }}
+        @if (store.favorites().size > 0) {
+          <small>{{ store.favorites().size }}</small>
+        }
+      </button>
+    </div>
+
+    <ul class="shops__sectors" [attr.aria-label]="'ed26.shops.sectorsLabel' | translate">
+      @for (item of store.sectors(); track item.name) {
+        <li>
+          <button type="button" class="ed26-chip" [attr.aria-pressed]="sector() === item.name" (click)="selectSector(item.name)">
+            <span class="shops__dot" [style.background]="item.color"></span>
+            {{ item.name }}
+            <small>{{ item.count }}</small>
+          </button>
+        </li>
+      }
+    </ul>
+  </div>
+
+  @if (store.loading()) {
+    <p class="ed26-state" role="status">{{ 'ed26.state.loading' | translate }}</p>
+  } @else if (store.error()) {
+    <p class="ed26-state ed26-state--error" role="alert">{{ 'ed26.state.error' | translate }}</p>
+  } @else if (store.commerces().length === 0) {
+    <div class="ed26-card ed26-state">
+      <strong>{{ 'ed26.state.noData.title' | translate }}</strong>
+      {{ 'ed26.state.noData.body' | translate }}
+    </div>
+  } @else if (filtered().length === 0) {
+    <div class="ed26-card ed26-state">
+      <strong>{{ 'ed26.shops.empty.title' | translate }}</strong>
+      {{ 'ed26.shops.empty.body' | translate }}
+      @if (hasFilters()) {
+        <div class="shops__reset"><button type="button" class="ed26-btn ed26-btn--ghost" (click)="reset()">{{ 'ed26.shops.empty.reset' | translate }}</button></div>
+      }
+    </div>
+  } @else if (view() === 'map') {
+    <app-shops-map
+      [commerces]="filtered()"
+      [colorFor]="colorFor"
+      [directionsLabel]="'ed26.shops.directions' | translate"
+      [ariaLabel]="'ed26.shops.mapLabel' | translate"
+    ></app-shops-map>
+    @if (mappableCount() < filtered().length) {
+      <p class="shops__hint">
+        {{ 'ed26.shops.mapMissing' | translate: { missing: filtered().length - mappableCount() } }}
+      </p>
+    }
+  } @else {
+    <ul class="shops__list">
+      @for (commerce of visible(); track trackByKey($index, commerce)) {
+        <li class="ed26-card shop">
+          <span class="shop__avatar" [style.background]="colorFor(commerce.sector)" aria-hidden="true">{{ initial(commerce) }}</span>
+
+          <div class="shop__body">
+            <h2 class="shop__name">{{ commerce.name }}</h2>
+            <p class="shop__sector">{{ commerce.sector }}</p>
+            <p class="shop__address">{{ commerce.address }}</p>
+            <p class="shop__actions">
+              @if (commerce.phone) {
+                <a class="shop__link" [href]="phoneHref(commerce.phone)">📞 {{ commerce.phone }}</a>
+              }
+              @if (commerce.mapsUrl) {
+                <a class="shop__link" [href]="commerce.mapsUrl" target="_blank" rel="noopener noreferrer">
+                  📍 {{ 'ed26.shops.directions' | translate }}
+                </a>
+              }
+            </p>
+          </div>
+
+          <button
+            type="button"
+            class="shop__fav"
+            [class.is-on]="store.isFavorite(commerce)"
+            [attr.aria-pressed]="store.isFavorite(commerce)"
+            [attr.aria-label]="(store.isFavorite(commerce) ? 'ed26.shops.favRemove' : 'ed26.shops.favAdd') | translate: { name: commerce.name }"
+            (click)="store.toggleFavorite(commerce)"
+          >
+            {{ store.isFavorite(commerce) ? '★' : '☆' }}
+          </button>
+        </li>
+      }
+    </ul>
+
+    @if (visible().length < filtered().length) {
+      <div class="shops__more">
+        <button type="button" class="ed26-btn ed26-btn--ghost" (click)="showMore()">
+          {{ 'ed26.shops.loadMore' | translate: { shown: visible().length, total: filtered().length } }}
+        </button>
+      </div>
+    }
+  }
+</div>

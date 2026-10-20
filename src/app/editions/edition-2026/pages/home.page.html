@@ -1,0 +1,112 @@
+<div class="ed26-container home">
+  <section class="home__hero">
+    <div class="home__intro">
+      <p class="ed26-eyebrow">{{ 'ed26.home.eyebrow' | translate }}</p>
+      <h1 class="home__title">{{ 'ed26.home.title' | translate }}</h1>
+      <p class="home__subtitle">{{ 'ed26.home.subtitle' | translate }}</p>
+
+      <form class="home__search" role="search" (submit)="onSearch($event, term.value)">
+        <label class="home__sr" for="home-search">{{ 'ed26.shops.searchLabel' | translate }}</label>
+        <input
+          #term
+          id="home-search"
+          type="search"
+          class="home__input"
+          autocomplete="off"
+          [placeholder]="'ed26.home.searchPlaceholder' | translate"
+        />
+        <button type="submit" class="ed26-btn ed26-btn--accent">{{ 'ed26.home.searchCta' | translate }}</button>
+      </form>
+    </div>
+
+    <app-geo-art class="home__art"></app-geo-art>
+  </section>
+
+  @if (store.loading()) {
+    <p class="ed26-state" role="status">{{ 'ed26.state.loading' | translate }}</p>
+  } @else if (store.error()) {
+    <p class="ed26-state ed26-state--error" role="alert">{{ 'ed26.state.error' | translate }}</p>
+  } @else if (store.commerces().length === 0) {
+    <div class="ed26-card ed26-state">
+      <strong>{{ 'ed26.state.noData.title' | translate }}</strong>
+      {{ 'ed26.state.noData.body' | translate }}
+    </div>
+  } @else {
+    <dl class="home__stats">
+      <div class="ed26-card home__stat">
+        <dt>{{ 'ed26.home.stats.shops' | translate }}</dt>
+        <dd>{{ store.commerces().length | number }}</dd>
+      </div>
+      <div class="ed26-card home__stat">
+        <dt>{{ 'ed26.home.stats.sectors' | translate }}</dt>
+        <dd>{{ store.sectors().length | number }}</dd>
+      </div>
+      <div class="ed26-card home__stat">
+        <dt>{{ 'ed26.home.stats.newLast30' | translate }}</dt>
+        <dd>+{{ store.recentAdded() | number }}</dd>
+      </div>
+      <div class="ed26-card home__stat">
+        <dt>{{ 'ed26.home.stats.updated' | translate }}</dt>
+        <dd class="home__stat-date">
+          {{ lastUpdate() || '—' }}
+        </dd>
+      </div>
+    </dl>
+
+    <section class="home__section">
+      <div class="home__section-head">
+        <h2>{{ 'ed26.home.sectorsTitle' | translate }}</h2>
+        <a routerLink="/2026/comercios" class="home__more">{{ 'ed26.home.sectorsAll' | translate }} →</a>
+      </div>
+      <ul class="home__chips">
+        @for (sector of topSectors(); track sector.name) {
+          <li>
+            <a
+              class="ed26-chip"
+              routerLink="/2026/comercios"
+              [queryParams]="{ sector: sector.name }"
+            >
+              <span class="home__dot" [style.background]="sector.color"></span>
+              {{ sector.name }}
+              <small>{{ sector.count }}</small>
+            </a>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <div class="home__split">
+      <section class="home__section">
+        <div class="home__section-head">
+          <h2>{{ 'ed26.home.newsTitle' | translate }}</h2>
+          <a routerLink="/2026/novedades" class="home__more">{{ 'ed26.home.newsAll' | translate }} →</a>
+        </div>
+        @if (latestNews().length === 0) {
+          <p class="home__empty">{{ 'ed26.home.newsEmpty' | translate }}</p>
+        } @else {
+          <ul class="home__news">
+            @for (entry of latestNews(); track entry.timestamp) {
+              <li class="ed26-card home__news-item">
+                <time [attr.datetime]="entry.timestamp">{{ day(entry.timestamp) }}</time>
+                @if (entry.added.length > 0) {
+                  <p><span class="home__pill home__pill--add">+{{ entry.added.length }}</span> {{ entry.added.slice(0, 3).join(', ') }}</p>
+                }
+                @if (entry.removed.length > 0) {
+                  <p><span class="home__pill home__pill--remove">−{{ entry.removed.length }}</span> {{ entry.removed.slice(0, 3).join(', ') }}</p>
+                }
+              </li>
+            }
+          </ul>
+        }
+      </section>
+
+      <section class="ed26-card home__map-cta">
+        <h2>{{ 'ed26.home.mapCta.title' | translate }}</h2>
+        <p>{{ 'ed26.home.mapCta.body' | translate }}</p>
+        <a class="ed26-btn" routerLink="/2026/comercios" [queryParams]="{ view: 'map' }">
+          {{ 'ed26.home.mapCta.button' | translate }}
+        </a>
+      </section>
+    </div>
+  }
+</div>

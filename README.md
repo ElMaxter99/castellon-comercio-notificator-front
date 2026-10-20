@@ -16,6 +16,15 @@ Aplicación web desarrollada con Angular para consultar, filtrar y visualizar so
 - **Indicadores de carga y error** accesibles en todas las secciones para mejorar la experiencia de usuario.
 - **Interfaz responsive** optimizada para dispositivos móviles, tabletas y escritorio.
 
+## Documentación para desarrolladores (y para Claude)
+
+- [`CLAUDE.md`](CLAUDE.md): guía rápida del proyecto para Claude Code.
+- [`docs/EDITIONS.md`](docs/EDITIONS.md): ediciones 2025 (demo) y 2026 (renovada).
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): arquitectura y flujos.
+- [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md): entornos, flag `--live` y modo mock.
+- [`docs/REUSE-2026.md`](docs/REUSE-2026.md): checklist para reutilizarlo en la edición 2026.
+- Backend: [castellon-comercio-notificator-api](https://github.com/ElMaxter99/castellon-comercio-notificator-api).
+
 ## Arquitectura
 
 - **Framework**: Angular 20 con componentes standalone, señales (`signal`) y detección de cambios `OnPush` para maximizar el rendimiento.
@@ -50,7 +59,7 @@ npm install
 ## Configuración y entorno
 
 - **Base de datos remota**: no se requiere backend propio; los datos se consumen desde la API pública.
-- **Variables de entorno**: no son necesarias para la ejecución local. El endpoint se encuentra configurado en `CommerceService`.
+- **Variables de entorno**: no son necesarias para la ejecución local (API por defecto en `http://localhost:12001`). Para apuntar a otro API define `API_BASE_URL` (o `--api-url=`) al compilar; ver [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md).
 - **Mapas**: Leaflet se carga desde CDN (definido en `src/index.html`). Es necesario disponer de conexión a internet para visualizar los mapas.
 
 ## Modo mock (datos ficticios)
@@ -82,9 +91,13 @@ Tras `npm install` el script de *postinstall* sustituye el binario local de Angu
 
 | Ruta | Descripción |
 | --- | --- |
-| `/` | Explorador principal de comercios con filtros, mapa y listado paginado. |
-| `/history` | Página con el historial completo de cambios registrados en la API. |
-| `**` | Cualquier otra ruta redirige al explorador principal. |
+| `/` | Selector de edición (2025 / 2026). |
+| `/2025` | Explorador original (filtros, mapa y listado paginado) en **modo demo**. |
+| `/2025/history` | Historial de cambios (demo). |
+| `/2026` | Inicio renovado: buscador, cifras, sectores y novedades. |
+| `/2026/comercios` | Directorio con búsqueda, sectores, lista/mapa y favoritos. |
+| `/2026/novedades` | Línea de tiempo de altas y bajas. |
+| `**` | Cualquier otra ruta redirige al selector. |
 
 ## Buenas prácticas implementadas
 

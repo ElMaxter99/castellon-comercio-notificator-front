@@ -1,5 +1,7 @@
+import { resolveApiBaseUrl } from './api-url';
+
 export const environment = {
   mode: 'production',
-  apiBaseUrl: 'https://bcc-api.alvaromaxter.es',
+  apiBaseUrl: resolveApiBaseUrl('https://bcc-api.alvaromaxter.es'),
   isLive: true
 };
