@@ -6,7 +6,7 @@ Para trabajar con Claude: "sigue `docs/REUSE-2026.md` del repo front". Haz antes
 
 ## 1. Checklist
 1. **API**: tener el backend 2026 desplegado y devolviendo datos. Anotar su URL.
-2. `src/environments/environment.prod.ts`, `environment.test.ts`, `environment.mock.prod.ts`, `environment.mock.test.ts`: cambiar `apiBaseUrl` (hoy `https://bcc-api.alvaromaxter.es`). Dev: `http://localhost:12001`.
+2. **URL del API**: define la variable de entorno `API_BASE_URL` (p. ej. en Vercel) o usa `--api-url=`; no hace falta editar código (ver [ENVIRONMENTS-AND-MOCK.md](ENVIRONMENTS-AND-MOCK.md)). Solo si quieres cambiar el valor por defecto, edita `apiBaseUrl` en `src/environments/*.ts` (hoy `https://bcc-api.alvaromaxter.es`; dev `http://localhost:12001`).
 3. **Textos de edición**: `grid.hero.highlight` ("Edición 2025") y otros; buscar "Abonem Castelló", "2025", "bonos" en `public/i18n/*.json`, `README.md`, `src/index.html` (título/metadatos sociales) y actualizar al nombre del programa 2026 en ambos idiomas.
 4. **Aviso de fin de programa**: el modo mock se creó porque el programa 2025 terminó. Mientras el 2026 esté activo, desplegar con `isLive=true` (build `production` sin `--live=false`). Si el Vercel de 2025 tenía `--live=false` en su comando de build, **quitarlo**.
 5. **Datos mock**: regenerar `public/mockup/*.json` con datos 2026 reales/representativos (copiar de `GET /api/comercios`).

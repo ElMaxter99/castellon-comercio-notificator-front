@@ -16,6 +16,25 @@
 
 `isLive` decide en `CommerceService` si se llama al API o se leen los JSON de `public/mockup/`. Con `isLive=false` el layout muestra un aviso persistente ("datos ilustrativos").
 
+## URL del API configurable (`API_BASE_URL` / `--api-url`)
+Los valores de `apiBaseUrl` de la tabla son los **por defecto**. Para apuntar a tu propio API sin editar código:
+
+```bash
+# variable de entorno (válido también en Vercel/Render/CI: Project Settings → Environment Variables)
+API_BASE_URL=https://mi-api.onrender.com npm run build -- --configuration=production
+
+# o flag
+npm start -- --api-url=http://localhost:3000
+npm run build -- --configuration=production --api-url=https://mi-api.onrender.com
+```
+- Prioridad: flag `--api-url` > variable `API_BASE_URL` > valor por defecto del entorno.
+- Debe ser una URL `http(s)://...` (si no, el wrapper aborta con un error). La barra final se elimina.
+- Funciona con `npm start|build|watch` y con `ng build|serve` (el wrapper `tools/ng-live.cjs` añade `--define=API_BASE_URL="..."`). No aplica a `test`.
+- Es **en tiempo de compilación**: tras cambiarla hay que volver a compilar/desplegar. En Vercel basta con definir `API_BASE_URL` y redesplegar.
+- Solo afecta a las vistas en modo live (edición 2026); `/2025` es siempre demo y no llama al API.
+- Cómo funciona: `angular.json` declara `define: { API_BASE_URL: "undefined" }`; `src/environments/api-url.ts` lee esa constante en `resolveApiBaseUrl(fallback)`.
+- El API (repo `castellon-comercio-notificator-api`) tiene CORS abierto; si lo restringes, permite el dominio del front.
+
 ## El flag `--live`
 `npm start|build|test` y los comandos `ng ...` pasan por `tools/ng-live.cjs`:
 - `--live` ausente o `--live=true` → no cambia nada.

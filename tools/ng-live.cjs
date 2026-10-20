@@ -13,6 +13,7 @@ const command = args[0];
 const commandArgs = args.slice(1);
 
 let liveFlag;
+let apiUrl = process.env.API_BASE_URL;
 const filteredArgs = [];
 
 for (let i = 0; i < commandArgs.length; i += 1) {
@@ -31,6 +32,17 @@ for (let i = 0; i < commandArgs.length; i += 1) {
     continue;
   }
 
+  if (current === '--api-url') {
+    apiUrl = commandArgs[i + 1];
+    i += 1;
+    continue;
+  }
+
+  if (current.startsWith('--api-url=')) {
+    apiUrl = current.slice('--api-url='.length);
+    continue;
+  }
+
   if (current.startsWith('--live=')) {
     const [, raw] = current.split('=');
     liveFlag = parseLiveValue(raw);
@@ -44,9 +56,11 @@ if (liveFlag === undefined) {
   liveFlag = true;
 }
 
+const configuredArgs = applyApiUrl(command, filteredArgs, apiUrl);
+
 const finalArgs = !liveFlag
-  ? [command, ...applyMockConfiguration(command, filteredArgs)]
-  : [command, ...filteredArgs];
+  ? [command, ...applyMockConfiguration(command, configuredArgs)]
+  : [command, ...configuredArgs];
 
 executeNg(finalArgs);
 
@@ -58,6 +72,26 @@ function parseLiveValue(value) {
   }
 
   return true;
+}
+
+/**
+ * Inyecta la URL del API (variable `API_BASE_URL` o flag `--api-url`) como
+ * constante de compilación para `src/environments/api-url.ts`.
+ */
+function applyApiUrl(commandName, args, url) {
+  const buildCommands = ['build', 'serve', 'dev-server'];
+  const value = (url ?? '').trim();
+
+  if (!value || !buildCommands.includes(commandName)) {
+    return args;
+  }
+
+  if (!/^https?:\/\/[^\s]+$/i.test(value)) {
+    throw new Error(`API_BASE_URL / --api-url debe ser una URL http(s) válida: "${value}"`);
+  }
+
+  console.log(`[ng-live] API base URL: ${value}`);
+  return [...args, `--define=API_BASE_URL=${JSON.stringify(value)}`];
 }
 
 function applyMockConfiguration(commandName, args) {
