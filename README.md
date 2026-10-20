@@ -16,6 +16,14 @@ Aplicación web desarrollada con Angular para consultar, filtrar y visualizar so
 - **Indicadores de carga y error** accesibles en todas las secciones para mejorar la experiencia de usuario.
 - **Interfaz responsive** optimizada para dispositivos móviles, tabletas y escritorio.
 
+## Documentación para desarrolladores (y para Claude)
+
+- [`CLAUDE.md`](CLAUDE.md): guía rápida del proyecto para Claude Code.
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): arquitectura y flujos.
+- [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md): entornos, flag `--live` y modo mock.
+- [`docs/REUSE-2026.md`](docs/REUSE-2026.md): checklist para reutilizarlo en la edición 2026.
+- Backend: [castellon-comercio-notificator-api](https://github.com/ElMaxter99/castellon-comercio-notificator-api).
+
 ## Arquitectura
 
 - **Framework**: Angular 20 con componentes standalone, señales (`signal`) y detección de cambios `OnPush` para maximizar el rendimiento.
