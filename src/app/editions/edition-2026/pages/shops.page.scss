@@ -6,24 +6,137 @@
   padding-block: clamp(1.25rem, 3vw, 2rem) 0;
 }
 
-.shops__title {
+// Cabecera: bloque verde con la composición geométrica del cartel
+.hero {
+  position: relative;
+  display: grid;
+  align-items: center;
+  gap: 1.5rem;
   margin-bottom: 1rem;
-  font-size: clamp(1.7rem, 5vw, 2.4rem);
-  font-weight: 800;
+  padding: clamp(1.25rem, 4vw, 2.25rem);
+  border-radius: calc(var(--radius) * 1.4);
+  background: linear-gradient(135deg, var(--forest) 0%, var(--forest-deep) 100%);
+  color: var(--cream);
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    right: -3rem;
+    bottom: -4rem;
+    width: 14rem;
+    height: 14rem;
+    border-radius: 50%;
+    background: var(--orange);
+    opacity: 0.18;
+  }
+
+  @media (min-width: 760px) {
+    grid-template-columns: minmax(0, 1fr) 9.5rem;
+  }
 }
 
-// Barra superior: contador + selector Lista/Mapa
+.hero__text {
+  position: relative;
+  z-index: 1;
+}
+
+.hero__eyebrow {
+  color: var(--peach);
+}
+
+.hero__title {
+  color: var(--cream);
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.hero__subtitle {
+  max-width: 34rem;
+  margin: 0.5rem 0 1.25rem;
+  color: var(--sage);
+}
+
+.hero__art {
+  display: none;
+  position: relative;
+  z-index: 1;
+  animation: ed26-float 7s ease-in-out infinite;
+
+  @media (min-width: 760px) {
+    display: block;
+  }
+}
+
+// Chips de sector: filtro rápido con scroll horizontal
+.chips {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0 -1.25rem 1.25rem;
+  padding: 0.25rem 1.25rem 0.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+
+  @media (min-width: 960px) {
+    margin-inline: 0;
+    padding-inline: 0;
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+}
+
+.chip {
+  --c: var(--forest);
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--forest-deep);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  white-space: nowrap;
+  scroll-snap-align: start;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+
+  small {
+    padding: 0.05rem 0.45rem;
+    border-radius: 999px;
+    background: var(--sage-soft);
+    font-size: 0.75rem;
+    font-weight: 800;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--c);
+  }
+
+  &[aria-pressed='true'] {
+    border-color: var(--forest-deep);
+    background: var(--forest);
+    color: var(--cream);
+    box-shadow: inset 0 -3px 0 var(--c);
+
+    small {
+      background: rgba(255, 255, 255, 0.18);
+    }
+  }
+}
+
+// Barra dentro de la cabecera: contador + selector Lista/Mapa
 .shops__bar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 1.25rem;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius);
-  background: var(--forest);
-  color: var(--cream);
+  gap: 0.75rem 1.25rem;
 }
 
 .shops__counter {
@@ -50,9 +163,10 @@
   display: inline-flex;
   padding: 0.25rem;
   border-radius: 0.9rem;
-  background: rgba(0, 0, 0, 0.22);
+  background: rgba(0, 0, 0, 0.28);
 
   button {
+    transition: background 0.15s ease, color 0.15s ease;
     padding: 0.45rem 1rem;
     border: 0;
     border-radius: 0.7rem;
@@ -232,6 +346,7 @@ app-shops-map {
 }
 
 .group__icon {
+  box-shadow: 0 3px 8px rgba(18, 53, 36, 0.18);
   display: grid;
   place-items: center;
   flex: none;
@@ -289,18 +404,20 @@ app-shops-map {
 
 // Tarjeta de comercio
 .shop {
+  --c: var(--olive);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.75rem;
   border: 1px solid var(--line);
+  border-top: 5px solid var(--c);
   border-radius: 1rem;
   background: var(--paper);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 
   &:hover {
     transform: translateY(-3px);
-    border-color: var(--olive);
+    border-color: var(--c);
     box-shadow: 0 10px 24px rgba(18, 53, 36, 0.14);
   }
 }
@@ -370,11 +487,41 @@ app-shops-map {
   }
 }
 
-.shop__directions {
+.shop__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-top: auto;
-  padding-top: 0.25rem;
-  font-weight: 700;
-  font-size: 0.9rem;
+  padding-top: 0.35rem;
+}
+
+.shop__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
   color: var(--forest);
-  text-underline-offset: 0.2em;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    background: var(--sage-soft);
+  }
+
+  &--go {
+    margin-left: auto;
+    border-color: var(--forest);
+    background: var(--forest);
+    color: var(--cream);
+
+    &:hover {
+      background: var(--forest-deep);
+    }
+  }
 }

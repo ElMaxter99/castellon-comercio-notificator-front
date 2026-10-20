@@ -246,7 +246,10 @@
       "clear": "Limpiar filtros",
       "expandAll": "Desplegar todo",
       "collapseAll": "Plegar todo",
-      "noSector": "Sin sector"
+      "noSector": "Sin sector",
+      "eyebrow": "Directorio",
+      "subtitle": "Todos los establecimientos adheridos al programa: filtra por sector, busca por nombre o calle y ábrelos en el mapa.",
+      "allChip": "Todos"
     },
     "news": {
       "eyebrow": "Altas y bajas",
@@ -258,7 +261,13 @@
       "empty": {
         "title": "Sin novedades todavía",
         "body": "Cuando se sumen o dejen de participar comercios aparecerán aquí."
-      }
+      },
+      "expandAll": "Desplegar todo",
+      "collapseAll": "Plegar todo",
+      "updates": "{{count}} actualizaciones",
+      "showMore": "Ver {{count}} más",
+      "showLess": "Ver menos",
+      "updatesOne": "1 actualización"
     },
     "state": {
       "loading": "Cargando comercios…",

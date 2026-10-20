@@ -1,24 +1,53 @@
 <div class="ed26-container shops">
-  <h1 class="shops__title">{{ 'ed26.shops.title' | translate }}</h1>
+  <header class="hero">
+    <div class="hero__text">
+      <p class="ed26-eyebrow hero__eyebrow">{{ 'ed26.shops.eyebrow' | translate }}</p>
+      <h1 class="hero__title">{{ 'ed26.shops.title' | translate }}</h1>
+      <p class="hero__subtitle">{{ 'ed26.shops.subtitle' | translate }}</p>
 
-  <div class="shops__bar">
-    <p class="shops__counter" role="status">
-      <span class="shops__counter-icon" aria-hidden="true">📍</span>
-      @for (n of [filtered().length]; track n) {
-        <strong class="shops__counter-number">{{ n }}</strong>
-      }
-      {{ (filtered().length === 1 ? 'ed26.shops.counterOne' : 'ed26.shops.counterMany') | translate }}
-    </p>
+      <div class="shops__bar">
+        <p class="shops__counter" role="status">
+          <span class="shops__counter-icon" aria-hidden="true">📍</span>
+          @for (n of [filtered().length]; track n) {
+            <strong class="shops__counter-number">{{ n }}</strong>
+          }
+          {{ (filtered().length === 1 ? 'ed26.shops.counterOne' : 'ed26.shops.counterMany') | translate }}
+        </p>
 
-    <div class="shops__toggle" role="group" [attr.aria-label]="'ed26.shops.viewLabel' | translate">
-      <button type="button" [attr.aria-pressed]="view() === 'list'" (click)="setView('list')">
-        <span aria-hidden="true">📋</span> {{ 'ed26.shops.viewList' | translate }}
-      </button>
-      <button type="button" [attr.aria-pressed]="view() === 'map'" (click)="setView('map')">
-        <span aria-hidden="true">🗺️</span> {{ 'ed26.shops.viewMap' | translate }}
-      </button>
+        <div class="shops__toggle" role="group" [attr.aria-label]="'ed26.shops.viewLabel' | translate">
+          <button type="button" [attr.aria-pressed]="view() === 'list'" (click)="setView('list')">
+            <span aria-hidden="true">📋</span> {{ 'ed26.shops.viewList' | translate }}
+          </button>
+          <button type="button" [attr.aria-pressed]="view() === 'map'" (click)="setView('map')">
+            <span aria-hidden="true">🗺️</span> {{ 'ed26.shops.viewMap' | translate }}
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
+    <app-geo-art class="hero__art"></app-geo-art>
+  </header>
+
+  @if (store.sectors().length > 0) {
+    <nav class="chips" [attr.aria-label]="'ed26.shops.sectorLabel' | translate">
+      <button type="button" class="chip" [attr.aria-pressed]="!sector()" (click)="setSector('')">
+        {{ 'ed26.shops.allChip' | translate }}
+        <small>{{ store.commerces().length }}</small>
+      </button>
+      @for (item of store.sectors(); track item.name) {
+        <button
+          type="button"
+          class="chip"
+          [style.--c]="item.color"
+          [attr.aria-pressed]="sector() === item.name"
+          (click)="setSector(item.name)"
+        >
+          <span class="chip__icon" aria-hidden="true">{{ sectorIcon(item.name) }}</span>
+          {{ item.name }}
+          <small>{{ item.count }}</small>
+        </button>
+      }
+    </nav>
+  }
 
   <div class="shops__layout" [class.shops__layout--map]="view() === 'map'">
     <aside class="ed26-card shops__filters" [attr.aria-label]="'ed26.shops.filtersTitle' | translate">
@@ -117,7 +146,7 @@
             @if (isOpen(group.name)) {
               <ul class="group__grid">
                 @for (commerce of group.items; track trackByKey($index, commerce); let c = $index) {
-                  <li class="shop ed26-reveal" [style.--i]="c % 9">
+                  <li class="shop ed26-reveal" [style.--i]="c % 9" [style.--c]="group.color">
                     <div class="shop__media">
                       <img
                         [src]="commerce.img || placeholder"
@@ -139,16 +168,18 @@
                     <h3 class="shop__name">{{ commerce.name }}</h3>
 
                     <p class="shop__row"><span aria-hidden="true">📍</span> {{ commerce.address }}</p>
-                    @if (commerce.phone) {
-                      <p class="shop__row"><span aria-hidden="true">📞</span>
-                        <a [href]="phoneHref(commerce.phone)">{{ commerce.phone }}</a>
-                      </p>
-                    }
-                    @if (commerce.mapsUrl) {
-                      <a class="shop__directions" [href]="commerce.mapsUrl" target="_blank" rel="noopener noreferrer">
-                        {{ 'ed26.shops.directions' | translate }} →
-                      </a>
-                    }
+                    <div class="shop__actions">
+                      @if (commerce.phone) {
+                        <a class="shop__pill" [href]="phoneHref(commerce.phone)">
+                          <span aria-hidden="true">📞</span> {{ commerce.phone }}
+                        </a>
+                      }
+                      @if (commerce.mapsUrl) {
+                        <a class="shop__pill shop__pill--go" [href]="commerce.mapsUrl" target="_blank" rel="noopener noreferrer">
+                          {{ 'ed26.shops.directions' | translate }} →
+                        </a>
+                      }
+                    </div>
                   </li>
                 }
               </ul>

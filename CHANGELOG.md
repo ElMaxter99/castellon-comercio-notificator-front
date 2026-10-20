@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.5.0 - 2026-10-20
+
+### Cambio (edición 2026)
+- **Comercios**: nueva cabecera con la composición geométrica del cartel, chips de sector (filtro rápido con recuento y scroll horizontal), tarjetas con franja del color del sector y botones de llamar / cómo llegar.
+- **Novedades**: el cronograma es plegable. Cada mes es una fila resumen (+altas / −bajas y nº de actualizaciones), solo se despliega el más reciente y su última entrada, y cada bloque muestra los 8 primeros nombres con «Ver N más». Botón «Desplegar/Plegar todo». Pensado para listados largos (p. ej. 200 altas de golpe).
+
 ## v2.4.3 - 2026-10-20
 
 ### Cambio

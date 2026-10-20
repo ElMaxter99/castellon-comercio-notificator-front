@@ -246,7 +246,10 @@
       "clear": "Netejar filtres",
       "expandAll": "Desplegar-ho tot",
       "collapseAll": "Plegar-ho tot",
-      "noSector": "Sense sector"
+      "noSector": "Sense sector",
+      "eyebrow": "Directori",
+      "subtitle": "Tots els establiments adherits al programa: filtra per sector, cerca per nom o carrer i obri'ls al mapa.",
+      "allChip": "Tots"
     },
     "news": {
       "eyebrow": "Altes i baixes",
@@ -258,7 +261,13 @@
       "empty": {
         "title": "Encara sense novetats",
         "body": "Quan se sumen o deixen de participar comerços apareixeran ací."
-      }
+      },
+      "expandAll": "Desplegar-ho tot",
+      "collapseAll": "Plegar-ho tot",
+      "updates": "{{count}} actualitzacions",
+      "showMore": "Veure'n {{count}} més",
+      "showLess": "Veure'n menys",
+      "updatesOne": "1 actualització"
     },
     "state": {
       "loading": "Carregant comerços…",
