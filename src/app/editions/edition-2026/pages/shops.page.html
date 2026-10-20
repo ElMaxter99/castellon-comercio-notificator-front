@@ -4,7 +4,9 @@
   <div class="shops__bar">
     <p class="shops__counter" role="status">
       <span class="shops__counter-icon" aria-hidden="true">📍</span>
-      <strong class="shops__counter-number">{{ filtered().length }}</strong>
+      @for (n of [filtered().length]; track n) {
+        <strong class="shops__counter-number">{{ n }}</strong>
+      }
       {{ (filtered().length === 1 ? 'ed26.shops.counterOne' : 'ed26.shops.counterMany') | translate }}
     </p>
 
@@ -18,7 +20,7 @@
     </div>
   </div>
 
-  <div class="shops__layout">
+  <div class="shops__layout" [class.shops__layout--map]="view() === 'map'">
     <aside class="ed26-card shops__filters" [attr.aria-label]="'ed26.shops.filtersTitle' | translate">
       <h2 class="shops__filters-title"><span aria-hidden="true">🔍</span> {{ 'ed26.shops.filtersTitle' | translate }}</h2>
 
@@ -55,9 +57,13 @@
       </button>
     </aside>
 
-    <section class="shops__results">
+    <section class="shops__results" id="shops-results">
       @if (store.loading()) {
-        <p class="ed26-state" role="status">{{ 'ed26.state.loading' | translate }}</p>
+        <div class="ed26-skeleton-grid" role="status" [attr.aria-label]="'ed26.state.loading' | translate">
+          @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+            <div class="ed26-skeleton"></div>
+          }
+        </div>
       } @else if (store.error()) {
         <p class="ed26-state ed26-state--error" role="alert">{{ 'ed26.state.error' | translate }}</p>
       } @else if (store.commerces().length === 0) {
@@ -92,8 +98,8 @@
           </button>
         </div>
 
-        @for (group of groups(); track group.name) {
-          <section class="group" [class.is-open]="isOpen(group.name)">
+        @for (group of groups(); track group.name; let g = $index) {
+          <section class="group ed26-reveal" [style.--i]="g" [class.is-open]="isOpen(group.name)">
             <h2 class="group__heading">
               <button
                 type="button"
@@ -110,8 +116,8 @@
 
             @if (isOpen(group.name)) {
               <ul class="group__grid">
-                @for (commerce of group.items; track trackByKey($index, commerce)) {
-                  <li class="shop">
+                @for (commerce of group.items; track trackByKey($index, commerce); let c = $index) {
+                  <li class="shop ed26-reveal" [style.--i]="c % 9">
                     <div class="shop__media">
                       <img
                         [src]="commerce.img || placeholder"

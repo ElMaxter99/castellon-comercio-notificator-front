@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -34,10 +35,11 @@ const PLACEHOLDER_IMAGE = '/public/commerce-placeholder.svg';
   styleUrl: './shops.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ShopsPageComponent {
+export class ShopsPageComponent implements AfterViewInit {
   protected readonly store = inject(Edition2026Store);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly document = inject(DOCUMENT);
 
   private readonly params = toSignal(this.route.queryParamMap, { initialValue: this.route.snapshot.queryParamMap });
   private readonly searchInput$ = new Subject<string>();
@@ -136,8 +138,17 @@ export class ShopsPageComponent {
     this.update({ sector: (event.target as HTMLSelectElement).value || null });
   }
 
+  ngAfterViewInit(): void {
+    // Al llegar directamente a la vista de mapa (p. ej. desde "Abrir el mapa") se desliza hasta él.
+    if (this.view() === 'map') {
+      setTimeout(() => this.scrollToResults(), 350);
+    }
+  }
+
   protected setView(view: ViewMode): void {
-    this.update({ view: view === 'map' ? 'map' : null });
+    void this.update({ view: view === 'map' ? 'map' : null }).then(() =>
+      requestAnimationFrame(() => this.scrollToResults())
+    );
   }
 
   protected toggleFavoritesFilter(): void {
@@ -163,8 +174,18 @@ export class ShopsPageComponent {
     return commerceKey(commerce);
   }
 
-  private update(queryParams: Record<string, string | null>): void {
-    void this.router.navigate([], {
+  /** Desplazamiento suave hasta los resultados (instantáneo si el usuario prefiere menos movimiento). */
+  private scrollToResults(): void {
+    const target = this.document.getElementById('shops-results');
+    if (!target) {
+      return;
+    }
+    const reduce = this.document.defaultView?.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  private update(queryParams: Record<string, string | null>): Promise<boolean> {
+    return this.router.navigate([], {
       relativeTo: this.route,
       queryParams,
       queryParamsHandling: 'merge',

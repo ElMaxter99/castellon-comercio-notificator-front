@@ -35,6 +35,8 @@
 }
 
 .shops__counter-number {
+  display: inline-block;
+  animation: ed26-pop 0.4s ease;
   min-width: 2.75rem;
   padding: 0.1rem 0.7rem;
   border-radius: 999px;
@@ -69,6 +71,15 @@
   }
 }
 
+app-shops-map {
+  animation: ed26-fade-up 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.shops__results {
+  // Al saltar al resultado se deja espacio para la cabecera fija
+  scroll-margin-top: 4.75rem;
+}
+
 .shops__layout {
   display: grid;
   gap: 1.25rem;
@@ -76,6 +87,13 @@
   @media (min-width: 960px) {
     grid-template-columns: 19rem minmax(0, 1fr);
     align-items: start;
+  }
+}
+
+// En móvil, con el mapa abierto, el mapa va antes que los filtros (los filtros quedan debajo).
+@media (max-width: 959px) {
+  .shops__layout--map .shops__results {
+    order: -1;
   }
 }
 
@@ -181,6 +199,10 @@
 }
 
 // Acordeones por sector
+.group__toggle:hover {
+  background: #dfe8c8;
+}
+
 .group {
   margin-bottom: 0.9rem;
   border: 1px solid var(--line);
@@ -195,6 +217,7 @@
 }
 
 .group__toggle {
+  transition: background 0.2s ease;
   display: flex;
   align-items: center;
   gap: 0.85rem;
@@ -248,6 +271,7 @@
 }
 
 .group__grid {
+  animation: ed26-fade-up 0.35s ease both;
   display: grid;
   gap: 1rem;
   margin: 0;
@@ -272,6 +296,13 @@
   border: 1px solid var(--line);
   border-radius: 1rem;
   background: var(--paper);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: var(--olive);
+    box-shadow: 0 10px 24px rgba(18, 53, 36, 0.14);
+  }
 }
 
 .shop__media {
@@ -303,8 +334,16 @@
   font-size: 1.3rem;
   cursor: pointer;
 
+  transition: transform 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    transform: scale(1.12);
+    background: #fff;
+  }
+
   &.is-on {
     color: var(--orange);
+    animation: ed26-pop 0.4s ease;
   }
 }
 
