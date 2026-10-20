@@ -2,7 +2,7 @@
 
 Para trabajar con Claude: "sigue `docs/REUSE-2026.md` del repo front". Haz antes el equivalente del API (`castellon-comercio-notificator-api/docs/REUSE-2026.md`), porque el front depende de sus datos.
 
-> **Estado (v1.3.0)**: la edición 2026 ya tiene vistas renovadas (`/2026`) y 2025 queda congelada en demo (`/2025`). Ver [EDITIONS.md](EDITIONS.md). Los puntos 4 (aviso de fin de programa) y 5 (mock) de abajo ya no aplican a 2025; 2026 usa el API real. Quedan por hacer: apuntar `apiBaseUrl` al backend 2026 y revisar textos/mapa con datos reales.
+> **Estado (v2.0.0)**: la edición 2026 ya tiene vistas renovadas (`/2026`), 2025 queda congelada en demo (`/2025`) y la URL del API se configura con `API_BASE_URL` / `--api-url` sin editar código. Ver [EDITIONS.md](EDITIONS.md) y [ENVIRONMENTS-AND-MOCK.md](ENVIRONMENTS-AND-MOCK.md). Los puntos 4 (aviso de fin de programa) y 5 (mock) de abajo ya no aplican a 2025; 2026 usa el API real. Quedan por hacer: definir `API_BASE_URL` con el backend 2026 y revisar textos/mapa con datos reales.
 
 ## 1. Checklist
 1. **API**: tener el backend 2026 desplegado y devolviendo datos. Anotar su URL.
@@ -12,7 +12,7 @@ Para trabajar con Claude: "sigue `docs/REUSE-2026.md` del repo front". Haz antes
 5. **Datos mock**: regenerar `public/mockup/*.json` con datos 2026 reales/representativos (copiar de `GET /api/comercios`).
 6. **Mapa**: con datos 2026 comprobar que los `mapsUrl` siguen teniendo `query=lat,lng`. Si no, adaptar `extractCoordinates` en `commerce-map.component.ts` (o normalizar en el API).
 7. **Versión**: subir `package.json` + `CHANGELOG.md`.
-8. `npm install && npm start`, revisar a mano: carga, filtros, mapa, cambio de idioma, `/history`, estado en cabecera.
+8. `npm install && npm start`, revisar a mano: carga, filtros, mapa, cambio de idioma, `/2025/history`, `/2026/novedades`, estado en cabecera de `/2025`.
 9. `npm audit`, y actualizar Angular si procede (`ng update`); la versión 20 sigue la rama LTS en 2026 pero conviene revisar.
 10. Vercel: revisar variables (`NG_BUILD_CONFIG`), dominio y analytics.
 

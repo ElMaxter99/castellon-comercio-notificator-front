@@ -8,17 +8,27 @@ Angular 20.3 (builder `@angular/build:application`, esbuild), TypeScript 5.9 str
 
 ## Árbol de componentes
 ```
-App (app.ts)  ── layout
-├─ aside .layout__disclaimer      (solo si !environment.isLive)
-├─ header: marca + CommerceStatusComponent (+ LanguageSwitcher)
-├─ <router-outlet>
-│   ├─ ''         CommerceGridComponent
-│   │    ├─ formulario de filtros (name, sector con dropdown buscable, address)
-│   │    ├─ CommerceMapComponent  (recibe commerces filtrados + leyenda base)
-│   │    └─ lista paginada de CommerceCardComponent (grid | list)
-│   └─ 'history'  HistoryPageComponent → CommerceHistoryComponent
-└─ ToastContainerComponent
+App (app.ts)  ── solo <router-outlet> + ToastContainerComponent
+├─ ''        LandingPageComponent             (selector de edición)
+├─ '2025'    Edition2025ShellComponent        (layout original, DATA_MODE='demo')
+│   ├─ aside .layout__disclaimer              (aviso de datos de demostración)
+│   ├─ header: marca + LanguageSwitcher
+│   ├─ <router-outlet>
+│   │   ├─ ''         CommerceGridComponent
+│   │   │    ├─ formulario de filtros (name, sector con dropdown buscable, address)
+│   │   │    ├─ CommerceMapComponent  (recibe commerces filtrados + leyenda base)
+│   │   │    └─ lista paginada de CommerceCardComponent (grid | list)
+│   │   └─ 'history'  HistoryPageComponent → CommerceHistoryComponent
+│   └─ footer: CommerceStatusComponent + enlace "Cambiar de edición"
+└─ '2026'    Edition2026ShellComponent        (Edition2026Store provisto en la ruta)
+    ├─ header: marca + navegación (barra inferior en móvil) + LanguageSwitcher
+    ├─ <router-outlet>
+    │   ├─ ''           HomePageComponent     (buscador, cifras, sectores, novedades)
+    │   ├─ 'comercios'  ShopsPageComponent    (filtros en la URL, lista/mapa, favoritos → ShopsMapComponent)
+    │   └─ 'novedades'  NewsPageComponent     (línea de tiempo de altas/bajas)
+    └─ footer
 ```
+Detalle de ediciones, modo demo forzado y diseño 2026 en [EDITIONS.md](EDITIONS.md). El resto de este documento describe sobre todo la edición 2025 (`CommerceGridComponent`, `CommerceMapComponent`, `CommerceStatusComponent`).
 
 ## Datos
 `CommerceService` (`providedIn: 'root'`):
@@ -61,7 +71,7 @@ Pipeline derivado con `computed`:
 SCSS global `styles.scss` + SCSS por componente (BEM), presupuestos de componente 10/15 KB en producción. Roles/ARIA en estados de carga/error, toasts accesibles.
 
 ## Build y despliegue
-Ver [ENVIRONMENTS-AND-MOCK.md](ENVIRONMENTS-AND-MOCK.md). Salida estática en `dist/`; despliegue de referencia en Vercel (comando de build parametrizable con `NG_BUILD_CONFIG` y `--live`).
+Ver [ENVIRONMENTS-AND-MOCK.md](ENVIRONMENTS-AND-MOCK.md). Salida estática en `dist/`; despliegue de referencia en Vercel (comando de build parametrizable con `NG_BUILD_CONFIG` y `--live`). La URL del API se fija al compilar con `API_BASE_URL` o `--api-url` (ver [ENVIRONMENTS-AND-MOCK.md](ENVIRONMENTS-AND-MOCK.md)).
 
 ## Tests
 Solo `src/app/app.spec.ts` (plantilla de Angular). No hay cobertura real; ver mejoras en [REUSE-2026.md](REUSE-2026.md).
