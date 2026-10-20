@@ -9,6 +9,8 @@
 **Encuentra, filtra y sigue en un mapa los comercios adheridos a los bonos de Castelló de la Plana.**
 <br>Dos ediciones en una sola web: la **2025** (demo) y la **2026** (renovada).
 
+[![Web pública](https://img.shields.io/badge/%F0%9F%8C%90%20web%20p%C3%BAblica-bono--castellon.alvaromaxter.es-1E4D2B?style=for-the-badge)](https://bono-castellon.alvaromaxter.es/)
+
 [![Versión](https://img.shields.io/github/package-json/v/ElMaxter99/castellon-comercio-notificator-front?style=flat-square&color=1E4D2B&label=versi%C3%B3n)](CHANGELOG.md)
 [![Angular](https://img.shields.io/badge/Angular-20-DD0031?style=flat-square&logo=angular&logoColor=white)](https://angular.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -16,7 +18,7 @@
 [![Vercel](https://img.shields.io/badge/despliegue-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com)
 [![Idiomas](https://img.shields.io/badge/idiomas-castellano%20%C2%B7%20valenci%C3%A0-F77F00?style=flat-square)](public/i18n)
 
-[Capturas](#-capturas) · [Ecosistema](#-ecosistema) · [Arranque rápido](#-arranque-rápido) · [Documentación](#-documentación) · [⚙️ API](https://github.com/ElMaxter99/castellon-comercio-notificator-api)
+[🌐 Web pública](https://bono-castellon.alvaromaxter.es/) · [Capturas](#-capturas) · [Ecosistema](#-ecosistema) · [Arranque rápido](#-arranque-rápido) · [Documentación](#-documentación) · [⚙️ API](https://github.com/ElMaxter99/castellon-comercio-notificator-api)
 
 </div>
 
@@ -54,6 +56,7 @@ flowchart LR
 | Repositorio | Qué hace | Documentación |
 |---|---|---|
 | 🖥️ **Front** (este) | Web Angular con las ediciones 2025 y 2026 | [`docs/`](docs) · [`CLAUDE.md`](CLAUDE.md) |
+| 🌐 **Web pública** | La web en producción ([alternativa en Vercel](https://castellon-comercio-notificator-fron.vercel.app/)) | [bono-castellon.alvaromaxter.es](https://bono-castellon.alvaromaxter.es/) |
 | ⚙️ [**API**](https://github.com/ElMaxter99/castellon-comercio-notificator-api) | Scraper, Redis, histórico, avisos por correo y REST | [`docs/`](https://github.com/ElMaxter99/castellon-comercio-notificator-api/tree/develop/docs) |
 
 ## 📸 Capturas
