@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.3.0 - 2026-10-20
+
+### Añadido
+- Minifooter en el selector de edición (`/`): aviso de proyecto independiente, fuente de los datos, código y versión.
+- Footer en la edición 2026: marca, enlace a la web oficial con fecha de última actualización, accesos (cambiar de edición, edición 2025, código) y aviso legal con versión.
+
+### Cambiado
+- Iconos de navegación de la edición 2026 (Inicio, Comercios, Novedades): SVG propios en lugar de glifos de texto.
+
 ## v2.2.0 - 2026-10-20
 
 ### Añadido

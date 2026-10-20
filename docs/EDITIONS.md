@@ -43,6 +43,11 @@ Debe mantenerse fiel a como estaba. Solo se han cambiado enlaces para vivir bajo
 - `utils/commerce-utils.ts` (`normalizeText`, `commerceKey`, `coordsFromMapsUrl`) y `utils/format-date.ts` (Intl; **no usar `DatePipe`** con locales `es-ES`/`ca`: no hay datos de locale registrados y renderiza vacío).
 - i18n: claves `landing.*` y `ed26.*` en ambos JSON.
 
+## Footers e iconos
+- **`/` (selector)**: minifooter con lo justo: aviso de proyecto independiente, enlace a la web oficial (fuente de los datos), código en GitHub y versión (`landing.mini.*`).
+- **Edición 2026** (`edition-2026.shell.*`): footer con tres bloques — marca y descripción de una línea; *Datos* (enlace a la web oficial y fecha de la última actualización, tomada de `/api/comercios/status`); *Más* (cambiar de edición, edición 2025 demo, código) — y una línea legal con el aviso y la versión. El margen inferior extra solo existe en móvil (barra de navegación fija).
+- **Iconos de navegación**: SVG inline con trazo `currentColor` (casa, tienda, campana) en lugar de glifos de texto; en móvil se muestran más grandes sobre la etiqueta.
+
 ## Animaciones y movimiento
 Definidas en `edition-2026.theme.scss` (keyframes globales `ed26-fade-up|pop|float|shimmer` y utilidad `.ed26-reveal` con `style="--i: N"` para escalonar):
 - Cada página entra con un fundido; grupos y tarjetas aparecen escalonados; el contenido de un acordeón se anima al abrirse.

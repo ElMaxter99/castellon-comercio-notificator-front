@@ -182,6 +182,11 @@
       "badge": "Demo",
       "title": "Edició 2025",
       "body": "La versió original, ara en mode demostració amb dades d'exemple, tal com funcionava durant la campanya."
+    },
+    "mini": {
+      "text": "Projecte independent i sense ànim de lucre, sense relació amb l'Ajuntament de Castelló ni CONFECOMERÇ.",
+      "source": "Dades: bonoscastellodelaplana.es",
+      "code": "Codi a GitHub"
     }
   },
   "ed26": {
@@ -265,7 +270,13 @@
     },
     "footer": {
       "disclaimer": "Iniciativa independent i sense ànim de lucre, sense relació amb l'Ajuntament de Castelló de la Plana ni CONFECOMERÇ. Les dades provenen de la web oficial del programa i s'ofereixen només amb finalitat informativa.",
-      "demo2025": "Veure edició 2025 (demo)"
+      "demo2025": "Veure edició 2025 (demo)",
+      "tagline": "Els comerços adherits als bons de Castelló, sempre a mà.",
+      "dataTitle": "Dades",
+      "source": "Web oficial del programa",
+      "updated": "Actualitzat: {{date}}",
+      "moreTitle": "Més",
+      "code": "Codi a GitHub"
     }
   }
 }

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import packageInfo from '../../../../package.json';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageSwitcherComponent } from '../../components/language-switcher/language-switcher.component';
 import { GeoArtComponent } from '../../editions/edition-2026/components/geo-art.component';
@@ -13,4 +14,6 @@ import { GeoArtComponent } from '../../editions/edition-2026/components/geo-art.
   styleUrl: './landing.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LandingPageComponent {}
+export class LandingPageComponent {
+  protected readonly version = packageInfo.version ?? '';
+}
