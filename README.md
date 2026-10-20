@@ -11,6 +11,7 @@
 
 [![Web pública](https://img.shields.io/badge/%F0%9F%8C%90%20web%20p%C3%BAblica-bono--castellon.alvaromaxter.es-1E4D2B?style=for-the-badge)](https://bono-castellon.alvaromaxter.es/)
 
+[![CI](https://github.com/ElMaxter99/castellon-comercio-notificator-front/actions/workflows/ci.yml/badge.svg)](https://github.com/ElMaxter99/castellon-comercio-notificator-front/actions/workflows/ci.yml)
 [![Versión](https://img.shields.io/github/package-json/v/ElMaxter99/castellon-comercio-notificator-front?style=flat-square&color=1E4D2B&label=versi%C3%B3n)](CHANGELOG.md)
 [![Angular](https://img.shields.io/badge/Angular-20-DD0031?style=flat-square&logo=angular&logoColor=white)](https://angular.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -109,7 +110,7 @@ npm install
 
 npm start                      # http://localhost:4200 contra el API en http://localhost:12001
 npm start -- --live=false      # sin API: datos mock de public/mockup (solo afecta a 2026)
-npm test                       # Karma + Jasmine
+npm test                       # Karma + Jasmine (el CI lo ejecuta en cada PR)
 npm run build -- --configuration=production
 ```
 

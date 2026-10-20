@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      <p class="status__update">
+      <p class="status__update" *ngIf="formattedLastUpdate()">
         {{ 'status.lastUpdate' | translate: { value: formattedLastUpdate() } }}
       </p>
     </div>

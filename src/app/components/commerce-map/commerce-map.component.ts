@@ -17,6 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Commerce } from '../../models/commerce.model';
 import { LanguageService } from '../../services/language.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
+import { buildMapPopupHtml } from '../../utils/map-popup';
 
 const DEFAULT_CENTER: [number, number] = [39.986359, -0.037652];
 const DEFAULT_ZOOM = 14;
@@ -257,20 +258,7 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
   }
 
   private buildPopupContent(commerce: Commerce): string {
-    const safeAddress = commerce.address ? `<p class="map-popup__address">${commerce.address}</p>` : '';
-    const safeSector = commerce.sector
-      ? `<p class="map-popup__sector">${commerce.sector}</p>`
-      : '';
-
-    return `
-      <article class="map-popup">
-        <a class="map-popup__link" href="${commerce.mapsUrl}" target="_blank" rel="noopener noreferrer">
-          <h3 class="map-popup__title">${commerce.name}</h3>
-          ${safeSector}
-          ${safeAddress}
-        </a>
-      </article>
-    `;
+    return buildMapPopupHtml(commerce);
   }
 
   private getLeafletInstance(): any | null {

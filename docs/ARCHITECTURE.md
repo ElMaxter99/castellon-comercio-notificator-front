@@ -74,4 +74,4 @@ SCSS global `styles.scss` + SCSS por componente (BEM), presupuestos de component
 Ver [ENVIRONMENTS-AND-MOCK.md](ENVIRONMENTS-AND-MOCK.md). Salida estática en `dist/`; despliegue de referencia en Vercel (comando de build parametrizable con `NG_BUILD_CONFIG` y `--live`). La URL del API se fija al compilar con `API_BASE_URL` o `--api-url` (ver [ENVIRONMENTS-AND-MOCK.md](ENVIRONMENTS-AND-MOCK.md)).
 
 ## Tests
-Solo `src/app/app.spec.ts` (plantilla de Angular). No hay cobertura real; ver mejoras en [REUSE-2026.md](REUSE-2026.md).
+Karma + Jasmine (`npm test`): `utils/` (búsqueda sin acentos, coordenadas, escapado HTML, popup del mapa, fechas), `CommerceService` (modo demo/live y normalización) y `api-url`. Aún faltan tests de los componentes (filtros, paginación) y del store 2026. El **CI** (`.github/workflows/ci.yml`) ejecuta los tests y los builds de producción (API real y mock) en cada PR; Dependabot propone actualizaciones semanales a `develop`.
