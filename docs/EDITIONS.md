@@ -25,7 +25,7 @@ Debe mantenerse fiel a como estaba. Solo se han cambiado enlaces para vivir bajo
 **Estilo**: paleta tomada del cartel promocional 2026 (crema `#FBFAF0` de fondo, verde bosque `#1E4D2B`/`#123524`, oliva `#8E9B3A`, salvia `#CBD8B0`, naranja `#F77F00`, azul `#1F4E9E`, melocotón `#F9CBA0`) y composición geométrica (`geo-art.component.ts`, SVG). Tokens CSS en `edition-2026.theme.scss` bajo la clase `.ed26` (importado desde `styles.scss`): `--forest`, `--orange`, `--cream`… más clases compartidas `ed26-btn`, `ed26-chip`, `ed26-card`, `ed26-state`. El naranja se usa como relleno con texto verde oscuro (contraste); para texto naranja se usa `--orange-deep`.
 
 **Páginas**
-- **Inicio** (`pages/home.*`): buscador grande que lleva al directorio, 4 cifras (comercios, sectores, nuevos 30 días, última actualización), sectores principales, últimas novedades y acceso al mapa.
+- **Inicio** (`pages/home.*`): buscador grande que lleva al directorio, 5 cifras (comercios, sectores, nuevos y bajas de los últimos 7 días, última actualización), sectores principales, últimas novedades y acceso al mapa.
 - **Comercios** (`pages/shops.*`), con el patrón de listado de [bonocomerciovlc.com](https://bonocomerciovlc.com/comercios-adheridos/) adaptado a nuestra identidad:
   - Barra superior con el **contador** de establecimientos (se actualiza con los filtros) y selector **Lista / Mapa**.
   - **Panel lateral de filtros** (arriba en móvil; con la vista de mapa abierta, en móvil el mapa va antes y los filtros debajo): nombre o dirección (**sin acentos**), sector (desplegable con contadores), solo favoritos y *Limpiar filtros*. Filtra en vivo, sin botón "aplicar".

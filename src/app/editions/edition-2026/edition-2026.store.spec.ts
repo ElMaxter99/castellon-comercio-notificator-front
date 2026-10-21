@@ -92,15 +92,16 @@ describe('Edition2026Store', () => {
     expect([...setup().favorites()]).toEqual(['a', 'b']);
   });
 
-  it('cuenta las altas de los últimos 30 días', () => {
+  it('cuenta las altas y las bajas de los últimos 7 días', () => {
     const day = 24 * 60 * 60 * 1000;
-    const entry = (ago: number, added: number) => ({
+    const entry = (ago: number, added: number, removed = 0) => ({
       timestamp: new Date(Date.now() - ago * day).toISOString(),
       countAfter: 0,
       added: Array.from({ length: added }, (_, i) => `n${i}`),
-      removed: []
+      removed: Array.from({ length: removed }, (_, i) => `b${i}`)
     });
-    const store = setup({ history: [entry(2, 5), entry(29, 3), entry(45, 100)] });
+    const store = setup({ history: [entry(1, 5, 1), entry(6, 3, 2), entry(10, 100, 50)] });
     expect(store.recentAdded()).toBe(8);
+    expect(store.recentRemoved()).toBe(3);
   });
 });

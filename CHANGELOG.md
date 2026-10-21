@@ -1,5 +1,13 @@
 # Changelog
 
+## v2.7.0 - 2026-10-21
+
+### Cambio (edición 2026)
+- **Inicio**: nueva cifra **«Bajas (7 días)»** junto a las altas, para que las métricas cuadren con el total (p. ej. 77 altas y 1 baja = 76 comercios). Son 5 cifras: comercios, sectores, nuevos, bajas y última actualización.
+- La ventana de «Nuevos» y «Bajas» pasa de **30 a 7 días**: el programa de bonos dura poco más de un mes y 30 días no tenían sentido.
+- **Novedades**: el cronograma se agrupa **por semanas** (lunes a domingo, «Semana del 19 oct al 25 oct 2026») en vez de por meses; con una semana abierta por defecto, cada una resume sus altas y bajas.
+- Claves i18n: `newLast7`, `removedLast7` y `ed26.news.week`. Tests: 54 en total (store, Inicio y Novedades).
+
 ## v2.6.0 - 2026-10-21
 
 ### Cambio

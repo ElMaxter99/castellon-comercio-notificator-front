@@ -24,7 +24,7 @@
 
   @if (store.loading()) {
     <div class="ed26-skeleton-grid" role="status" [attr.aria-label]="'ed26.state.loading' | translate">
-      @for (i of [1, 2, 3, 4]; track i) {
+      @for (i of [1, 2, 3, 4, 5]; track i) {
         <div class="ed26-skeleton" style="height: 7rem"></div>
       }
     </div>
@@ -46,10 +46,14 @@
         <dd>{{ store.sectors().length | number }}</dd>
       </div>
       <div class="ed26-card home__stat ed26-reveal" style="--i: 3">
-        <dt>{{ 'ed26.home.stats.newLast30' | translate }}</dt>
+        <dt>{{ 'ed26.home.stats.newLast7' | translate }}</dt>
         <dd>+{{ store.recentAdded() | number }}</dd>
       </div>
-      <div class="ed26-card home__stat ed26-reveal" style="--i: 4">
+      <div class="ed26-card home__stat home__stat--removed ed26-reveal" style="--i: 4">
+        <dt>{{ 'ed26.home.stats.removedLast7' | translate }}</dt>
+        <dd>−{{ store.recentRemoved() | number }}</dd>
+      </div>
+      <div class="ed26-card home__stat home__stat--date ed26-reveal" style="--i: 5">
         <dt>{{ 'ed26.home.stats.updated' | translate }}</dt>
         <dd class="home__stat-date">
           {{ lastUpdate() || '—' }}

@@ -5,12 +5,21 @@ import { LanguageService } from '../../../services/language.service';
 import { formatDate } from '../../../utils/format-date';
 import { Edition2026Store } from '../edition-2026.store';
 
-interface MonthGroup {
+interface WeekGroup {
   key: string;
-  month: Date;
+  /** Lunes de la semana. */
+  start: Date;
+  /** Domingo de la semana. */
+  end: Date;
   entries: CommerceHistoryEntry[];
   added: number;
   removed: number;
+}
+
+/** Lunes (00:00, hora local) de la semana de una fecha. */
+function weekStart(date: Date): Date {
+  const daysSinceMonday = (date.getDay() + 6) % 7;
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() - daysSinceMonday);
 }
 
 /** Nombres que se muestran por bloque antes de pedir "ver todos". */
@@ -28,30 +37,42 @@ export class NewsPageComponent {
   protected readonly store = inject(Edition2026Store);
   protected readonly locale = inject(LanguageService).currentLocale;
 
-  protected month(value: Date): string {
-    return formatDate(value, this.locale(), { month: 'long', year: 'numeric' });
+  /** «19 oct» (sin año: va en el extremo final del rango). */
+  protected shortDay(value: Date): string {
+    return formatDate(value, this.locale(), { day: 'numeric', month: 'short' });
+  }
+
+  protected dayWithYear(value: Date): string {
+    return formatDate(value, this.locale(), { day: 'numeric', month: 'short', year: 'numeric' });
   }
 
   protected dateTime(value: string): string {
     return formatDate(value, this.locale(), { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
   }
 
-  /** Aperturas manuales (clave: `m:<mes>`, `e:<timestamp>`, `n:<timestamp>:add|remove`). */
+  /** Aperturas manuales (clave: `m:<semana>`, `e:<timestamp>`, `n:<timestamp>:add|remove`). */
   private readonly overrides = signal<ReadonlyMap<string, boolean>>(new Map());
 
   protected readonly previewNames = PREVIEW_NAMES;
 
-  /** Entradas con cambios reales, agrupadas por mes (más reciente primero). */
-  protected readonly groups = computed<MonthGroup[]>(() => {
-    const groups = new Map<string, MonthGroup>();
+  /** Entradas con cambios reales, agrupadas por semana (lunes a domingo, la más reciente primero). */
+  protected readonly groups = computed<WeekGroup[]>(() => {
+    const groups = new Map<string, WeekGroup>();
     const entries = [...this.store.history()]
       .filter((entry) => entry.added.length > 0 || entry.removed.length > 0)
       .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
     for (const entry of entries) {
-      const date = new Date(entry.timestamp);
-      const key = `${date.getFullYear()}-${date.getMonth()}`;
-      const group = groups.get(key) ?? { key, month: new Date(date.getFullYear(), date.getMonth(), 1), entries: [], added: 0, removed: 0 };
+      const start = weekStart(new Date(entry.timestamp));
+      const key = `${start.getFullYear()}-${start.getMonth() + 1}-${start.getDate()}`;
+      const group = groups.get(key) ?? {
+        key,
+        start,
+        end: new Date(start.getFullYear(), start.getMonth(), start.getDate() + 6),
+        entries: [],
+        added: 0,
+        removed: 0
+      };
       group.entries.push(entry);
       group.added += entry.added.length;
       group.removed += entry.removed.length;
@@ -60,10 +81,10 @@ export class NewsPageComponent {
     return [...groups.values()];
   });
 
-  protected readonly allOpen = computed(() => this.groups().every((group) => this.isMonthOpen(group.key)));
+  protected readonly allOpen = computed(() => this.groups().every((group) => this.isWeekOpen(group.key)));
 
-  /** Por defecto solo el mes más reciente y su última entrada están desplegados. */
-  protected isMonthOpen(key: string): boolean {
+  /** Por defecto solo la semana más reciente y su última entrada están desplegados. */
+  protected isWeekOpen(key: string): boolean {
     return this.overrides().get(`m:${key}`) ?? this.groups()[0]?.key === key;
   }
 
@@ -75,8 +96,8 @@ export class NewsPageComponent {
     return this.overrides().get(`n:${entry.timestamp}:${kind}`) ?? false;
   }
 
-  protected toggleMonth(key: string): void {
-    this.flip(`m:${key}`, this.isMonthOpen(key));
+  protected toggleWeek(key: string): void {
+    this.flip(`m:${key}`, this.isWeekOpen(key));
   }
 
   protected toggleEntry(entry: CommerceHistoryEntry): void {

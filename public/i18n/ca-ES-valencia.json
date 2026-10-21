@@ -207,8 +207,9 @@
       "stats": {
         "shops": "Comerços adherits",
         "sectors": "Sectors",
-        "newLast30": "Nous (30 dies)",
-        "updated": "Última actualització"
+        "newLast7": "Nous (7 dies)",
+        "updated": "Última actualització",
+        "removedLast7": "Baixes (7 dies)"
       },
       "sectorsTitle": "Explora per sector",
       "sectorsAll": "Veure'ls tots",
@@ -269,7 +270,8 @@
       "updates": "{{count}} actualitzacions",
       "showMore": "Veure'n {{count}} més",
       "showLess": "Veure'n menys",
-      "updatesOne": "1 actualització"
+      "updatesOne": "1 actualització",
+      "week": "Setmana del {{start}} al {{end}}"
     },
     "state": {
       "loading": "Carregant comerços…",
