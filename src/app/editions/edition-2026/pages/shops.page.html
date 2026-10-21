@@ -146,7 +146,20 @@
         <app-shops-map
           [commerces]="filtered()"
           [colorFor]="colorFor"
-          [directionsLabel]="'ed26.shops.directions' | translate"
+          [favorites]="store.favorites()"
+          [selectedKey]="selectedKey()"
+          [popupLabels]="popupLabels()"
+          (commerceSelected)="onMapSelect($event)"
+          [sectors]="store.sectors()"
+          [activeSector]="sector()"
+          [onlyFavorites]="onlyFavorites()"
+          [favoritesCount]="store.favorites().size"
+          [legendLabels]="legendLabels()"
+          (sectorPicked)="setSector($event)"
+          (favoritesToggled)="toggleFavoritesFilter()"
+          (selectionCleared)="onMapDeselect()"
+          (favoriteToggled)="store.toggleFavorite($event)"
+          (viewInList)="showInList($event)"
           [ariaLabel]="'ed26.shops.mapLabel' | translate"
         ></app-shops-map>
         @if (mappableCount() < filtered().length) {
@@ -178,7 +191,13 @@
             @if (isOpen(group.name)) {
               <ul class="group__grid">
                 @for (commerce of group.items; track trackByKey($index, commerce); let c = $index) {
-                  <li class="shop ed26-reveal" [style.--i]="c % 9" [style.--c]="group.color">
+                  <li
+                    class="shop ed26-reveal"
+                    [class.is-selected]="isSelected(commerce)"
+                    [style.--i]="c % 9"
+                    [style.--c]="group.color"
+                    [attr.data-shop-key]="trackByKey($index, commerce)"
+                  >
                     <div class="shop__media">
                       <img
                         [src]="commerce.img || placeholder"
@@ -206,6 +225,9 @@
                           <span aria-hidden="true">📞</span> {{ commerce.phone }}
                         </a>
                       }
+                      <button type="button" class="shop__pill" (click)="showOnMap(commerce)">
+                        <span aria-hidden="true">🗺️</span> {{ 'ed26.shops.viewOnMap' | translate }}
+                      </button>
                       @if (commerce.mapsUrl) {
                         <a class="shop__pill shop__pill--go" [href]="commerce.mapsUrl" target="_blank" rel="noopener noreferrer">
                           {{ 'ed26.shops.directions' | translate }} →

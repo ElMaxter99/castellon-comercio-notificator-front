@@ -1,5 +1,41 @@
 # Changelog
 
+## v2.11.0 - 2026-10-21
+
+### Cambio (edición 2026) · Mapa, fase 4: leyenda y filtros sobre el mapa
+- **Leyenda dentro del mapa** (arriba a la derecha): un botón «Sectores» con el número de filtros activos que despliega los sectores como chips con su **color, icono y recuento**, más «Todos» y **«Favoritos»**. Pulsar un chip filtra (los mismos filtros de la URL que usan los chips de arriba y el panel: `?sector=` y `?fav=1`).
+- **Escritorio**: abierta de serie; con muchos sectores la lista se desplaza dentro de su caja.
+- **Móvil**: solo un **botón redondo** con el icono (con el número de filtros activos); al pulsarlo sale una **hoja inferior compacta** con los sectores como chips en varias líneas y una ✕ para cerrar. Elegir un sector o «Favoritos» la cierra para ver el resultado en el mapa. (Antes era una columna de chips que tapaba medio mapa.)
+- **Sin «Mi ubicación»**: no se añade geolocalización, así que no cambia `/privacidad`.
+- Tests: 96 en total (leyenda: pliegue, chips, estados pulsados, eventos y comportamiento móvil/escritorio).
+
+## v2.10.0 - 2026-10-21
+
+### Cambio (edición 2026) · Mapa, fase 3: clústeres con información
+- **Aro segmentado por sectores**: cada clúster dibuja un `conic-gradient` con la composición de los comercios que agrupa (los 5 sectores más frecuentes y el resto en gris), con el recuento en un disco crema.
+- **Tres tallas** según cuántos comercios agrupa (42 / 52 / 62 px).
+- `spiderfyOnMaxZoom` y zoom al pulsar un clúster; **sin animaciones** si el sistema pide `prefers-reduced-motion`.
+- Medido con 1 000 comercios simulados: el mapa pinta en ≈ 1,6 s con 74 clústeres y solo ≈ 76 iconos en el DOM.
+- Tests: 87 en total (recuento de colores, degradado, tallas y validación de colores).
+
+## v2.9.0 - 2026-10-21
+
+### Cambio (edición 2026) · Mapa, fase 2: selección, popup y lista
+- **Pin seleccionado**: más grande, con aro naranja; queda reflejado en la URL (`?shop=<clave>`), así que se puede compartir y sobrevive a recargar.
+- **Popup como tarjeta**: nombre, chip del sector, dirección y acciones **Llamar**, **Cómo llegar**, **Guardar/Quitar favorito** (actualiza la estrella del pin sin cerrar el popup) y **Ver ficha**.
+- **Lista ↔ mapa**: cada tarjeta de la lista tiene «Ver en el mapa» (abre el mapa con ese comercio seleccionado) y el popup tiene «Ver ficha» (vuelve a la lista, abre el grupo del sector, desplaza hasta la tarjeta y la resalta).
+- **Teclado y lectores de pantalla**: los pines son enfocables (Tab), se anuncian como botón con «nombre, sector», Enter abre el popup, Esc lo cierra y el foco se ve.
+- Tests: 80 en total (popup, selección y navegación lista ↔ mapa).
+
+## v2.8.0 - 2026-10-21
+
+### Cambio (edición 2026) · Mapa, fase 1: pin y paleta
+- **Pin nuevo** en `/2026/comercios?view=map`: gota con el color y el **icono del sector** (antes, un círculo de 8 px solo con color), con borde crema y sombra, caja táctil de 40×48 px y tamaño reducido con el mapa muy alejado.
+- **Favoritos**: los comercios guardados llevan una **estrella naranja** sobre el pin; al guardar o quitar un favorito se repintan los iconos sin mover el mapa.
+- **Paleta sin colisiones**: 14 colores bien separados (los 4 del cartel + 10 más) asignados por **orden alfabético de sector** en lugar de por hash, así que mientras haya ≤ 14 sectores ninguno se repite y el color no cambia al filtrar. El mismo color se usa en chips, tarjetas y mapa. Sin sector: gris neutro.
+- El HTML del pin se construye solo con valores controlados (color hexadecimal validado e icono), nunca con texto del API.
+- Tests: 72 en total (paleta, color estable, fábrica del pin).
+
 ## v2.7.1 - 2026-10-21
 
 ### Cambio (edición 2026)

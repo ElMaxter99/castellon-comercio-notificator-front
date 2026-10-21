@@ -1,6 +1,6 @@
 # Plan: mejorar los pines del mapa (edición 2026)
 
-Estado: **propuesta** (21-oct-2026). Alcance: solo `/2026/comercios?view=map` (`shops-map.component.ts`). El mapa de la 2025 es intocable.
+Estado: **implementado en 4 PRs apilados** (21-oct-2026): fase 1 → v2.8.0, fase 2 → v2.9.0, fase 3 → v2.10.0, fase 4 → v2.11.0. Decisiones tomadas por defecto: emoji como icono, popup clásico en móvil, sin «Mi ubicación» y leyenda dentro del mapa. Alcance: solo `/2026/comercios?view=map` (`shops-map.component.ts`). El mapa de la 2025 es intocable.
 
 ## 1. Cómo es hoy
 

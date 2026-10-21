@@ -271,7 +271,18 @@
       "noSector": "Sense sector",
       "eyebrow": "Directori",
       "subtitle": "Tots els establiments adherits al programa: filtra per sector, cerca per nom o carrer i obri'ls al mapa.",
-      "allChip": "Tots"
+      "allChip": "Tots",
+      "call": "Cridar",
+      "favSave": "Guardar",
+      "favRemoveShort": "Llevar",
+      "viewInList": "Veure fitxa",
+      "viewOnMap": "Veure al mapa",
+      "legend": {
+        "title": "Sectors",
+        "all": "Tots",
+        "favorites": "Preferits",
+        "close": "Tancar"
+      }
     },
     "news": {
       "eyebrow": "Altes i baixes",

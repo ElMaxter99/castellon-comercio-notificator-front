@@ -158,4 +158,24 @@ describe('ShopsPageComponent', () => {
     expect(toggle.getAttribute('aria-expanded')).toBe('true');
     expect(root(h).querySelector('.shops__filters-body')?.classList).toContain('is-open');
   });
+
+  it('«Ver en el mapa» navega a la vista de mapa con el comercio seleccionado', () => {
+    const h = setup();
+    const button = [...root(h).querySelectorAll<HTMLButtonElement>('.shop__pill')].find((b) =>
+      (b.textContent ?? '').includes('ed26.shops.viewOnMap')
+    );
+    button?.click();
+    expect(h.navigate).toHaveBeenCalledWith(
+      [],
+      jasmine.objectContaining({ queryParams: { view: 'map', shop: 'Calzados Pepe|Calle Mayor' } })
+    );
+  });
+
+  it('con un comercio seleccionado abre su grupo y resalta su tarjeta', () => {
+    const h = setup({ shop: 'Moda Luna|Calle Mayor' });
+    expect(shopNames(h)).toContain('Moda Luna');
+    const selected = root(h).querySelectorAll('.shop.is-selected');
+    expect(selected.length).toBe(1);
+    expect(selected[0].getAttribute('data-shop-key')).toBe('Moda Luna|Calle Mayor');
+  });
 });

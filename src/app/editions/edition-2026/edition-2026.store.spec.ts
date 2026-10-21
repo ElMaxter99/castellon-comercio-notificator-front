@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 import { Commerce } from '../../models/commerce.model';
 import { CommerceService } from '../../services/commerce.service';
-import { Edition2026Store, SECTOR_COLORS } from './edition-2026.store';
+import { Edition2026Store, NO_SECTOR_COLOR, SECTOR_COLORS } from './edition-2026.store';
 
 const FAVORITES_KEY = 'castellon-comercio-favorites-2026';
 
@@ -67,6 +67,26 @@ describe('Edition2026Store', () => {
     const color = store.sectorColor('Moda');
     expect(SECTOR_COLORS).toContain(color);
     expect(store.sectorColor(' moda ')).toBe(color);
+  });
+
+  it('da un color distinto a cada sector mientras haya colores libres, por orden alfabético', () => {
+    const sectors = Array.from({ length: SECTOR_COLORS.length }, (_, i) => `Sector ${String.fromCharCode(65 + i)}`);
+    const store = setup({ commerces: sectors.map((sector, i) => commerce(`C${i}`, sector)) });
+    const colors = sectors.map((sector) => store.sectorColor(sector));
+
+    expect(new Set(colors).size).toBe(SECTOR_COLORS.length);
+    expect(colors).toEqual(SECTOR_COLORS);
+  });
+
+  it('no cambia el color de un sector al aparecer otro con un nombre posterior', () => {
+    const store = setup({ commerces: [commerce('1', 'Calzado'), commerce('2', 'Moda')] });
+    const calzado = store.sectorColor('Calzado');
+    store.commerces.set([...store.commerces(), commerce('3', 'Zapatería')]);
+    expect(store.sectorColor('Calzado')).toBe(calzado);
+  });
+
+  it('los comercios sin sector llevan un color neutro', () => {
+    expect(setup().sectorColor('  ')).toBe(NO_SECTOR_COLOR);
   });
 
   it('alterna favoritos y los persiste en localStorage', () => {
