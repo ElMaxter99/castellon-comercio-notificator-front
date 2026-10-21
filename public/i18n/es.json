@@ -282,7 +282,13 @@
         "all": "Todos",
         "favorites": "Favoritos",
         "close": "Cerrar"
-      }
+      },
+      "share": "Compartir",
+      "shareText": "Mira {{name}} en Castellón Comercio",
+      "linkCopied": "Enlace copiado",
+      "shareFailed": "No se pudo compartir el enlace",
+      "mapLoading": "Cargando mapa…",
+      "mapError": "No se pudo cargar el mapa. Comprueba tu conexión e inténtalo de nuevo."
     },
     "news": {
       "eyebrow": "Altas y bajas",
@@ -328,7 +334,7 @@
   "legal": {
     "back": "Volver al inicio",
     "title": "Aviso legal, privacidad y cookies",
-    "updated": "Última actualización: 20 de octubre de 2026",
+    "updated": "Última actualización: 21 de octubre de 2026",
     "intro": "Esta web es una iniciativa independiente y sin ánimo de lucro para consultar los comercios adheridos al programa de bonos de Castelló de la Plana. No tiene relación oficial con el Ayuntamiento ni con CONFECOMERÇ.",
     "manage": "Cambiar mi elección de cookies",
     "consent": {
@@ -386,7 +392,7 @@
     "third": {
       "title": "4. Servicios de terceros",
       "body": [
-        "Para funcionar, la web carga recursos de terceros, lo que implica que tu dirección IP llega a sus servidores: Vercel (alojamiento de la web), Render (alojamiento del API), unpkg.com (librería de mapas Leaflet) y OpenStreetMap (teselas del mapa).",
+        "La web se sirve desde Vercel y los datos desde Render, así que tu dirección IP llega a sus servidores. Solo cuando abres un mapa se descargan además recursos de unpkg.com (librería de mapas Leaflet) y de OpenStreetMap (teselas del mapa), que también reciben tu IP; si no abres el mapa, no se contacta con ellos.",
         "Si pulsas «Cómo llegar», abres Google Maps en otra pestaña y se aplican sus propias condiciones. Estos servicios tratan los datos según sus políticas de privacidad."
       ]
     },
@@ -410,5 +416,13 @@
     "more": "Más información",
     "accept": "Aceptar",
     "reject": "Rechazar"
+  },
+  "title": {
+    "landing": "Castellón Comercio · Abonem Castelló 2026",
+    "edition2025": "Castellón Comercio · Edición 2025 (demo)",
+    "home": "Castellón Comercio 2026",
+    "shops": "Comercios · Castellón Comercio 2026",
+    "news": "Novedades · Castellón Comercio 2026",
+    "privacy": "Privacidad y cookies · Castellón Comercio"
   }
 }

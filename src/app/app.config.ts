@@ -5,7 +5,7 @@ import {
   provideZoneChangeDetection,
 } from '@angular/core';
 import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
-import { provideRouter } from '@angular/router';
+import { TitleStrategy, provideRouter } from '@angular/router';
 import {
   TranslateLoader,
   Translation,
@@ -14,6 +14,7 @@ import {
 } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
+import { AppTitleStrategy } from './services/title.strategy';
 import { routes } from './app.routes';
 
 class AssetTranslateLoader implements TranslateLoader {
@@ -38,6 +39,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
+    { provide: TitleStrategy, useClass: AppTitleStrategy },
     provideHttpClient(withFetch()),
     provideTranslateService({ fallbackLang: 'es' }),
     provideTranslateLoader((): TranslateLoader => createTranslateLoader(inject(HttpClient))),

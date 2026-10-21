@@ -1,5 +1,17 @@
 # Changelog
 
+## v2.12.0 - 2026-10-21
+
+### Rendimiento y privacidad
+- **Leaflet y `leaflet.markercluster` se descargan solo al abrir un mapa** (`utils/load-leaflet.ts`, con SRI), en lugar de en todas las visitas desde `index.html`. Las páginas sin mapa (portada, Inicio, listado de Comercios, Novedades, Privacidad) hacen **4 peticiones y ≈ 55 kB (gzip) menos**. Sin conexión, el mapa 2026 muestra un aviso en lugar de quedarse en blanco, y se puede reintentar. El mapa de la 2025 solo cambia *cuándo* se inicializa (tras cargar Leaflet), no su aspecto.
+- **Privacidad**: `/privacidad` (§4) explica que `unpkg.com` y OpenStreetMap solo reciben tu IP cuando abres un mapa; actualizado el 21-oct-2026.
+
+### Compartir
+- **Metadatos para compartir** (`index.html`): Open Graph y Twitter con **imagen de portada 1200×630** (`public/og-image.png`, sin datos reales), URL canónica, idioma `es` y descripción en castellano. Antes la imagen era el logo cuadrado (declarado como 1200×630) y la de Twitter apuntaba a un fichero que no existía.
+- **Título de pestaña por página e idioma** (`AppTitleStrategy`, claves `title.*`): «Comercios · Castellón Comercio 2026» / «Comerços · Castelló Comerç 2026», que se vuelve a traducir al cambiar de idioma.
+- **Botón «Compartir»** en cada comercio de la lista: hoja nativa del sistema (Web Share API) o, si no hay, copia el enlace («Enlace copiado»). El enlace abre el mapa con ese comercio seleccionado.
+- Tests: 112 en total (cargador de Leaflet, títulos, compartir).
+
 ## v2.11.1 - 2026-10-21
 
 ### Corregido

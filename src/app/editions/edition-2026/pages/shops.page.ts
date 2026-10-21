@@ -5,7 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Subject, debounceTime } from 'rxjs';
 import { Commerce } from '../../../models/commerce.model';
+import { ToastService } from '../../../services/toast.service';
 import { commerceKey, coordsFromMapsUrl, normalizeText } from '../../../utils/commerce-utils';
+import { shareLink } from '../../../utils/share';
 import { GeoArtComponent } from '../components/geo-art.component';
 import { ShopsMapComponent } from '../components/shops-map.component';
 import { Edition2026Store } from '../edition-2026.store';
@@ -42,6 +44,7 @@ export class ShopsPageComponent implements AfterViewInit {
   private readonly router = inject(Router);
   private readonly document = inject(DOCUMENT);
   private readonly translate = inject(TranslateService);
+  private readonly toast = inject(ToastService);
 
   private readonly params = toSignal(this.route.queryParamMap, { initialValue: this.route.snapshot.queryParamMap });
   private readonly searchInput$ = new Subject<string>();
@@ -182,6 +185,28 @@ export class ShopsPageComponent implements AfterViewInit {
     // Al llegar directamente a la vista de mapa (p. ej. desde "Abrir el mapa") se desliza hasta él.
     if (this.view() === 'map') {
       setTimeout(() => this.scrollToResults(), 350);
+    }
+  }
+
+  /** Enlace directo al comercio (mapa con su popup abierto), listo para compartir. */
+  protected shareUrl(commerce: Commerce): string {
+    const url = new URL('/2026/comercios', this.document.location.origin);
+    url.searchParams.set('view', 'map');
+    url.searchParams.set('shop', commerceKey(commerce));
+    return url.toString();
+  }
+
+  /** «Compartir»: hoja nativa del sistema o, si no hay, copia el enlace. */
+  protected async share(commerce: Commerce): Promise<void> {
+    const result = await shareLink({
+      title: commerce.name,
+      text: this.translate.instant('ed26.shops.shareText', { name: commerce.name }),
+      url: this.shareUrl(commerce)
+    });
+    if (result === 'copied') {
+      this.toast.show(this.translate.instant('ed26.shops.linkCopied'), { type: 'success', duration: 2500 });
+    } else if (result === 'failed') {
+      this.toast.showError(this.translate.instant('ed26.shops.shareFailed'));
     }
   }
 

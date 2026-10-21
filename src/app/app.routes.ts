@@ -6,13 +6,13 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    title: 'Comerç Castelló · Abonem Castelló',
+    data: { titleKey: 'title.landing' },
     loadComponent: () => import('./pages/landing/landing.page').then((m) => m.LandingPageComponent)
   },
   {
     // Edición 2025: vistas originales, siempre con datos de demostración.
     path: '2025',
-    title: 'Comerç Castelló · Edición 2025 (demo)',
+    data: { titleKey: 'title.edition2025' },
     providers: [{ provide: DATA_MODE, useValue: 'demo' }, CommerceService],
     loadComponent: () =>
       import('./editions/edition-2025/edition-2025.shell').then((m) => m.Edition2025ShellComponent),
@@ -31,12 +31,12 @@ export const routes: Routes = [
   {
     // Edición 2026: vistas renovadas (ver docs/EDITIONS.md).
     path: '2026',
-    title: 'Comerç Castelló · Edición 2026',
+    data: { titleKey: 'title.home' },
     loadChildren: () => import('./editions/edition-2026/edition-2026.routes').then((m) => m.edition2026Routes)
   },
   {
     path: 'privacidad',
-    title: 'Comerç Castelló · Privacidad y cookies',
+    data: { titleKey: 'title.privacy' },
     loadComponent: () => import('./pages/legal/legal.page').then((m) => m.LegalPageComponent)
   },
   { path: 'history', redirectTo: '2025/history' },
