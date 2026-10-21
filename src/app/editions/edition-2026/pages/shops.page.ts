@@ -114,6 +114,14 @@ export class ShopsPageComponent implements AfterViewInit {
       viewInList: this.translate.instant('ed26.shops.viewInList')
     };
   });
+  protected readonly legendLabels = computed(() => {
+    this.translate.currentLang();
+    return {
+      title: this.translate.instant('ed26.shops.legend.title'),
+      all: this.translate.instant('ed26.shops.legend.all'),
+      favorites: this.translate.instant('ed26.shops.legend.favorites')
+    };
+  });
   protected readonly colorFor = (sector: string): string => this.store.sectorColor(sector);
   protected readonly placeholder = PLACEHOLDER_IMAGE;
   protected readonly sectorIcon = sectorIcon;

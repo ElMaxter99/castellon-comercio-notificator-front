@@ -9,11 +9,13 @@ import {
   OnDestroy,
   Output,
   SimpleChanges,
-  ViewChild
+  ViewChild,
+  signal
 } from '@angular/core';
 import { Commerce } from '../../../models/commerce.model';
 import { commerceKey, coordsFromMapsUrl } from '../../../utils/commerce-utils';
 import { sectorIcon } from '../sector-icon';
+import { SectorSummary } from '../edition-2026.store';
 import { clusterHtml } from './map-cluster';
 import { PIN_ANCHOR, PIN_SIZE, pinHtml } from './map-pin';
 import { ShopPopupLabels, buildShopPopup } from './shop-popup';
@@ -32,7 +34,58 @@ type LeafletGlobal = any;
   selector: 'app-shops-map',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div #canvas class="map" role="application" [attr.aria-label]="ariaLabel"></div>`,
+  template: `
+    <div #canvas class="map" role="application" [attr.aria-label]="ariaLabel"></div>
+
+    @if (sectors.length > 0) {
+      <aside class="legend" [class.is-open]="legendOpen()" [attr.aria-label]="legendLabels.title">
+        <button
+          type="button"
+          class="legend__toggle"
+          [attr.aria-expanded]="legendOpen()"
+          (click)="legendOpen.set(!legendOpen())"
+        >
+          <span aria-hidden="true">🎨</span> {{ legendLabels.title }}
+          @if (activeCount() > 0) {
+            <span class="legend__count">{{ activeCount() }}</span>
+          }
+          <span class="legend__chevron" aria-hidden="true">▾</span>
+        </button>
+
+        @if (legendOpen()) {
+          <ul class="legend__list">
+            <li>
+              <button type="button" class="legend__chip" [attr.aria-pressed]="!activeSector" (click)="sectorPicked.emit('')">
+                {{ legendLabels.all }}
+              </button>
+            </li>
+            <li>
+              <button type="button" class="legend__chip legend__chip--fav" [attr.aria-pressed]="onlyFavorites" (click)="favoritesToggled.emit()">
+                ★ {{ legendLabels.favorites }}
+                <small>{{ favoritesCount }}</small>
+              </button>
+            </li>
+            @for (item of sectors; track item.name) {
+              <li>
+                <button
+                  type="button"
+                  class="legend__chip"
+                  [style.--c]="item.color"
+                  [attr.aria-pressed]="activeSector === item.name"
+                  (click)="sectorPicked.emit(item.name)"
+                >
+                  <span class="legend__dot" aria-hidden="true"></span>
+                  <span aria-hidden="true">{{ iconFor(item.name) }}</span>
+                  {{ item.name }}
+                  <small>{{ item.count }}</small>
+                </button>
+              </li>
+            }
+          </ul>
+        }
+      </aside>
+    }
+  `,
   styles: [
     `
       :host {
@@ -41,6 +94,81 @@ type LeafletGlobal = any;
            no deben quedar por encima de la cabecera fija ni de la barra inferior. */
         position: relative;
         z-index: 0;
+      }
+      .legend {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        z-index: 1100;
+        display: grid;
+        justify-items: end;
+        gap: 0.4rem;
+        max-width: min(18rem, calc(100% - 4.5rem));
+      }
+      .legend__toggle,
+      .legend__chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.4rem 0.8rem;
+        border: 1.5px solid rgba(30, 77, 43, 0.2);
+        border-radius: 999px;
+        background: #ffffff;
+        color: #123524;
+        font: inherit;
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-align: left;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(18, 53, 36, 0.18);
+      }
+      .legend__chevron {
+        transition: transform 0.2s ease;
+      }
+      .legend.is-open .legend__chevron {
+        transform: rotate(180deg);
+      }
+      .legend__count {
+        padding: 0 0.45rem;
+        border-radius: 999px;
+        background: #f77f00;
+        font-size: 0.72rem;
+      }
+      .legend__list {
+        display: grid;
+        gap: 0.3rem;
+        justify-items: end;
+        max-height: min(22rem, 50vh);
+        margin: 0;
+        padding: 0.2rem;
+        overflow-y: auto;
+        list-style: none;
+      }
+      .legend__chip {
+        --c: #1e4d2b;
+        padding: 0.3rem 0.7rem;
+        font-size: 0.78rem;
+      }
+      .legend__chip small {
+        padding: 0 0.4rem;
+        border-radius: 999px;
+        background: #e9efd9;
+        font-size: 0.7rem;
+      }
+      .legend__dot {
+        width: 0.65rem;
+        height: 0.65rem;
+        border-radius: 50%;
+        background: var(--c);
+      }
+      .legend__chip[aria-pressed='true'] {
+        border-color: #123524;
+        background: #1e4d2b;
+        color: #fbfaf0;
+        box-shadow: inset 0 -3px 0 var(--c), 0 4px 12px rgba(18, 53, 36, 0.18);
+      }
+      .legend__chip[aria-pressed='true'] small {
+        background: rgba(255, 255, 255, 0.2);
       }
       .map {
         height: clamp(22rem, 65vh, 40rem);
@@ -61,6 +189,12 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() favorites: ReadonlySet<string> = new Set();
   /** Clave (`commerceKey`) del comercio seleccionado: pin destacado y popup abierto. */
   @Input() selectedKey: string | null = null;
+  /** Leyenda sobre el mapa: sectores (con color y recuento), filtro activo y favoritos. */
+  @Input() sectors: SectorSummary[] = [];
+  @Input() activeSector = '';
+  @Input() onlyFavorites = false;
+  @Input() favoritesCount = 0;
+  @Input() legendLabels = { title: 'Sectors', all: 'All', favorites: 'Favorites' };
   @Input() popupLabels: ShopPopupLabels = {
     directions: 'Google Maps',
     call: 'Call',
@@ -74,6 +208,17 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Output() readonly selectionCleared = new EventEmitter<void>();
   @Output() readonly favoriteToggled = new EventEmitter<Commerce>();
   @Output() readonly viewInList = new EventEmitter<Commerce>();
+  /** Sector elegido en la leyenda (`''` = todos). */
+  @Output() readonly sectorPicked = new EventEmitter<string>();
+  @Output() readonly favoritesToggled = new EventEmitter<void>();
+
+  /** En escritorio la leyenda arranca abierta; en móvil, plegada para no tapar el mapa. */
+  protected readonly legendOpen = signal(window.matchMedia?.('(min-width: 960px)').matches ?? false);
+  protected readonly iconFor = sectorIcon;
+
+  protected activeCount(): number {
+    return Number(!!this.activeSector) + Number(this.onlyFavorites);
+  }
 
   private map: any;
   private layer: any;

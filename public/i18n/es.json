@@ -276,7 +276,12 @@
       "favSave": "Guardar",
       "favRemoveShort": "Quitar",
       "viewInList": "Ver ficha",
-      "viewOnMap": "Ver en el mapa"
+      "viewOnMap": "Ver en el mapa",
+      "legend": {
+        "title": "Sectores",
+        "all": "Todos",
+        "favorites": "Favoritos"
+      }
     },
     "news": {
       "eyebrow": "Altas y bajas",

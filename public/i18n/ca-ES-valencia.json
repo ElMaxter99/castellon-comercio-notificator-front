@@ -276,7 +276,12 @@
       "favSave": "Guardar",
       "favRemoveShort": "Llevar",
       "viewInList": "Veure fitxa",
-      "viewOnMap": "Veure al mapa"
+      "viewOnMap": "Veure al mapa",
+      "legend": {
+        "title": "Sectors",
+        "all": "Tots",
+        "favorites": "Preferits"
+      }
     },
     "news": {
       "eyebrow": "Altes i baixes",

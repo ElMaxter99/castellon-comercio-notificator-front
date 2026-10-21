@@ -1,5 +1,13 @@
 # Changelog
 
+## v2.11.0 - 2026-10-21
+
+### Cambio (edición 2026) · Mapa, fase 4: leyenda y filtros sobre el mapa
+- **Leyenda dentro del mapa** (arriba a la derecha): un botón «Sectores» con el número de filtros activos que despliega los sectores como chips con su **color, icono y recuento**, más «Todos» y **«Favoritos»**. Pulsar un chip filtra (los mismos filtros de la URL que usan los chips de arriba y el panel: `?sector=` y `?fav=1`).
+- Abierta de serie en escritorio y **plegada en móvil** para no tapar el mapa; con muchos sectores la lista se desplaza dentro de su caja.
+- **Sin «Mi ubicación»**: no se añade geolocalización, así que no cambia `/privacidad`.
+- Tests: 93 en total (leyenda: pliegue, chips, estados pulsados y eventos).
+
 ## v2.10.0 - 2026-10-21
 
 ### Cambio (edición 2026) · Mapa, fase 3: clústeres con información
