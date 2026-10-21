@@ -34,6 +34,7 @@ Proyecto independiente y sin ánimo de lucro; sin relación oficial con el Ayunt
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — componentes, estado, flujos de datos, i18n, mapa.
 - [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md) — entornos, `--live`, modo mock, builds.
 - [`docs/DEPENDENCIES.md`](docs/DEPENDENCIES.md) — Dependabot: qué se ignora a propósito (jasmine 7…) y cómo revisar sus PRs.
+- [`docs/PLAN-PINES-MAPA.md`](docs/PLAN-PINES-MAPA.md) — propuesta (sin implementar) para mejorar los pines del mapa 2026.
 - [`docs/REUSE-2026.md`](docs/REUSE-2026.md) — **checklist para reutilizar el proyecto en la edición 2026**.
 
 ## Comandos
