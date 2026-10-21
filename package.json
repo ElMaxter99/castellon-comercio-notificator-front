@@ -1,6 +1,6 @@
 {
   "name": "Castellón Comercio Notificator",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "author": "Aamoros",
   "scripts": {
     "ng": "node tools/ng-live.cjs",
