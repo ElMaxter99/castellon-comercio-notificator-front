@@ -1,5 +1,23 @@
 # Changelog
 
+## v2.11.0 - 2026-10-21
+
+### Cambio (edición 2026) · Mapa, fase 4: leyenda y filtros sobre el mapa
+- **Leyenda dentro del mapa** (arriba a la derecha): un botón «Sectores» con el número de filtros activos que despliega los sectores como chips con su **color, icono y recuento**, más «Todos» y **«Favoritos»**. Pulsar un chip filtra (los mismos filtros de la URL que usan los chips de arriba y el panel: `?sector=` y `?fav=1`).
+- **Escritorio**: abierta de serie; con muchos sectores la lista se desplaza dentro de su caja.
+- **Móvil**: solo un **botón redondo** con el icono (con el número de filtros activos); al pulsarlo sale una **hoja inferior compacta** con los sectores como chips en varias líneas y una ✕ para cerrar. Elegir un sector o «Favoritos» la cierra para ver el resultado en el mapa. (Antes era una columna de chips que tapaba medio mapa.)
+- **Sin «Mi ubicación»**: no se añade geolocalización, así que no cambia `/privacidad`.
+- Tests: 96 en total (leyenda: pliegue, chips, estados pulsados, eventos y comportamiento móvil/escritorio).
+
+## v2.10.0 - 2026-10-21
+
+### Cambio (edición 2026) · Mapa, fase 3: clústeres con información
+- **Aro segmentado por sectores**: cada clúster dibuja un `conic-gradient` con la composición de los comercios que agrupa (los 5 sectores más frecuentes y el resto en gris), con el recuento en un disco crema.
+- **Tres tallas** según cuántos comercios agrupa (42 / 52 / 62 px).
+- `spiderfyOnMaxZoom` y zoom al pulsar un clúster; **sin animaciones** si el sistema pide `prefers-reduced-motion`.
+- Medido con 1 000 comercios simulados: el mapa pinta en ≈ 1,6 s con 74 clústeres y solo ≈ 76 iconos en el DOM.
+- Tests: 87 en total (recuento de colores, degradado, tallas y validación de colores).
+
 ## v2.9.0 - 2026-10-21
 
 ### Cambio (edición 2026) · Mapa, fase 2: selección, popup y lista
