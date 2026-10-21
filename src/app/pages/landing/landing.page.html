@@ -8,34 +8,74 @@
   </header>
 
   <main class="ed26-container landing__main">
-    <section class="landing__intro">
-      <p class="ed26-eyebrow">Abonem Castelló</p>
-      <h1>{{ 'landing.title' | translate }}</h1>
-      <p class="landing__lead">{{ 'landing.subtitle' | translate }}</p>
+    <section class="landing__hero">
+      <div class="landing__intro">
+        <p class="ed26-eyebrow">{{ 'landing.eyebrow' | translate }}</p>
+        <h1>{{ 'landing.title' | translate }}</h1>
+        <p class="landing__lead">{{ 'landing.subtitle' | translate }}</p>
+
+        <div class="landing__cta">
+          <a class="ed26-btn ed26-btn--accent landing__enter" routerLink="/2026">
+            {{ 'landing.enter2026' | translate }} →
+          </a>
+          <a
+            class="ed26-btn ed26-btn--ghost"
+            href="https://bonoscastellodelaplana.es/establecimientos-adheridos-al-programa"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ 'landing.officialList' | translate }} ↗
+          </a>
+        </div>
+      </div>
+
+      <app-geo-art class="landing__art"></app-geo-art>
     </section>
 
-    <div class="landing__cards">
-      <a class="landing__card landing__card--2026" routerLink="/2026">
-        <app-geo-art class="landing__art"></app-geo-art>
-        <span class="landing__badge">{{ 'landing.e2026.badge' | translate }}</span>
-        <h2>{{ 'landing.e2026.title' | translate }}</h2>
-        <p>{{ 'landing.e2026.body' | translate }}</p>
-        <span class="ed26-btn ed26-btn--accent">{{ 'landing.enter' | translate }} →</span>
-      </a>
+    <section class="landing__section" aria-labelledby="landing-why">
+      <h2 id="landing-why">{{ 'landing.why.title' | translate }}</h2>
+      <ul class="landing__why">
+        @for (item of reasons; track item; let i = $index) {
+          <li class="ed26-card landing__why-item ed26-reveal" [style.--i]="i">
+            <h3>{{ 'landing.why.' + item + '.title' | translate }}</h3>
+            <p>{{ 'landing.why.' + item + '.body' | translate }}</p>
+          </li>
+        }
+      </ul>
+    </section>
 
-      <a class="landing__card landing__card--2025" routerLink="/2025">
-        <span class="landing__badge landing__badge--demo">{{ 'landing.e2025.badge' | translate }}</span>
-        <h2>{{ 'landing.e2025.title' | translate }}</h2>
-        <p>{{ 'landing.e2025.body' | translate }}</p>
-        <span class="ed26-btn ed26-btn--ghost">{{ 'landing.enter' | translate }} →</span>
-      </a>
-    </div>
+    <section class="landing__section" aria-labelledby="landing-official">
+      <h2 id="landing-official">{{ 'landing.official.title' | translate }}</h2>
+      <p class="landing__official-lead">{{ 'landing.official.lead' | translate }}</p>
+      <div class="landing__links">
+        <a
+          class="ed26-card landing__link"
+          href="https://bonoscastellodelaplana.es/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <strong>{{ 'landing.official.program.title' | translate }} ↗</strong>
+          <span>{{ 'landing.official.program.body' | translate }}</span>
+          <small>bonoscastellodelaplana.es</small>
+        </a>
+        <a
+          class="ed26-card landing__link"
+          href="https://bonoscastellodelaplana.es/establecimientos-adheridos-al-programa"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <strong>{{ 'landing.official.list.title' | translate }} ↗</strong>
+          <span>{{ 'landing.official.list.body' | translate }}</span>
+          <small>bonoscastellodelaplana.es/establecimientos-adheridos-al-programa</small>
+        </a>
+      </div>
+    </section>
   </main>
 
   <footer class="ed26-container landing__mini">
     <p>{{ 'landing.mini.text' | translate }}</p>
     <p class="landing__mini-links">
-      <a href="https://bonoscastellodelaplana.es/establecimientos-adheridos-al-programa" target="_blank" rel="noopener noreferrer">{{ 'landing.mini.source' | translate }}</a>
+      <a class="landing__demo" routerLink="/2025">{{ 'landing.mini.demo2025' | translate }}</a>
       <a href="https://github.com/ElMaxter99/castellon-comercio-notificator-front" target="_blank" rel="noopener noreferrer">{{ 'landing.mini.code' | translate }}</a>
       <a routerLink="/privacidad">{{ 'landing.mini.legal' | translate }}</a>
       <button type="button" class="landing__linkbtn" (click)="consent.reopen()">{{ 'landing.mini.cookies' | translate }}</button>

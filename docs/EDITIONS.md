@@ -1,10 +1,10 @@
 # Ediciones: 2025 (demo) y 2026 (renovada)
 
-La app tiene una pantalla de entrada (`/`) para elegir edición. Cada edición es un árbol de rutas independiente con su propio layout.
+La app tiene una portada (`/`) que explica por qué existe el proyecto, enlaza a la web oficial del programa y lleva a la edición 2026; la 2025 (demo) solo se ofrece desde su pie. Cada edición es un árbol de rutas independiente con su propio layout.
 
 | Ruta | Qué es | Datos |
 |---|---|---|
-| `/` | Selector de edición (`pages/landing/`) | — |
+| `/` | Portada: por qué existe, fuentes oficiales y entrada a la 2026; la 2025 (demo) solo desde el pie (`pages/landing/`) | — |
 | `/2025`, `/2025/history` | **Vistas originales**, idénticas a la v1.2.0 (`editions/edition-2025/` + componentes de siempre) | **Siempre demo** (`public/mockup/*.json`), con el aviso "programa finalizado" |
 | `/2026`, `/2026/comercios`, `/2026/novedades` | **Vistas renovadas** (`editions/edition-2026/`) | API real según el entorno (ver abajo) |
 | `/history` | Redirige a `/2025/history` (enlaces antiguos) | |
@@ -44,7 +44,7 @@ Debe mantenerse fiel a como estaba. Solo se han cambiado enlaces para vivir bajo
 - i18n: claves `landing.*` y `ed26.*` en ambos JSON.
 
 ## Footers e iconos
-- **`/` (selector)**: minifooter con lo justo: aviso de proyecto independiente, enlace a la web oficial (fuente de los datos), código en GitHub y versión (`landing.mini.*`).
+- **`/` (portada)**: minifooter con lo justo: aviso de proyecto independiente, enlace a la edición 2025 (demo), código en GitHub y versión (`landing.mini.*`).
 - **Edición 2026** (`edition-2026.shell.*`): footer con tres bloques — marca y descripción de una línea; *Datos* (enlace a la web oficial y fecha de la última actualización, tomada de `/api/comercios/status`); *Más* (cambiar de edición, edición 2025 demo, código) — y una línea legal con el aviso y la versión. El margen inferior extra solo existe en móvil (barra de navegación fija).
 - **Iconos de navegación**: SVG inline con trazo `currentColor` (casa, tienda, campana) en lugar de glifos de texto; en móvil se muestran más grandes sobre la etiqueta.
 
@@ -52,7 +52,7 @@ Debe mantenerse fiel a como estaba. Solo se han cambiado enlaces para vivir bajo
 Definidas en `edition-2026.theme.scss` (keyframes globales `ed26-fade-up|pop|float|shimmer` y utilidad `.ed26-reveal` con `style="--i: N"` para escalonar):
 - Cada página entra con un fundido; grupos y tarjetas aparecen escalonados; el contenido de un acordeón se anima al abrirse.
 - Contador de establecimientos con "pop" cuando cambia; favoritos con "pop" al marcarse; hover elevado en tarjetas y estadísticas.
-- Arte geométrico flotante en Inicio y en el selector de edición.
+- Arte geométrico flotante en Inicio y en la portada.
 - Esqueletos de carga con brillo (`.ed26-skeleton`) en lugar de texto.
 - **Scroll animado**: al cambiar de Lista a Mapa (y al llegar con `?view=map`, p. ej. desde "Abrir el mapa") la página se desliza hasta los resultados dejando sitio a la cabecera (`scroll-margin-top` en `#shops-results`).
 - Todo se desactiva con `prefers-reduced-motion: reduce` (animaciones y transiciones; el scroll pasa a instantáneo).

@@ -6,7 +6,8 @@
 - **Inicio**: nueva cifra **«Bajas (7 días)»** junto a las altas, para que las métricas cuadren con el total (p. ej. 77 altas y 1 baja = 76 comercios). Son 5 cifras: comercios, sectores, nuevos, bajas y última actualización.
 - La ventana de «Nuevos» y «Bajas» pasa de **30 a 7 días**: el programa de bonos dura poco más de un mes y 30 días no tenían sentido.
 - **Novedades**: el cronograma se agrupa **por semanas** (lunes a domingo, «Semana del 19 oct al 25 oct 2026») en vez de por meses; con una semana abierta por defecto, cada una resume sus altas y bajas.
-- Claves i18n: `newLast7`, `removedLast7` y `ed26.news.week`. Tests: 54 en total (store, Inicio y Novedades).
+- **Portada (`/`) renovada**: ya no es un selector de edición. Explica por qué existe el proyecto (3 razones), enlaza a la web oficial del programa y al listado oficial de establecimientos de bonoscastellodelaplana.es, y lleva a la edición 2026 con un botón principal. La edición 2025 (demo con datos de ejemplo) solo se ofrece desde el pie. `landing.switch` pasa a «Ir a la portada».
+- Claves i18n: `newLast7`, `removedLast7` y `ed26.news.week`. Tests: 59 en total (store, Inicio, Novedades y portada).
 
 ## v2.6.0 - 2026-10-21
 

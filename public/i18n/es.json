@@ -169,26 +169,45 @@
     "historyLink": "Historial de cambios"
   },
   "landing": {
-    "title": "Elige la edición",
-    "subtitle": "Explora los comercios adheridos a los bonos de Castelló de la Plana. Consulta la nueva edición 2026 o revisa la versión original de 2025.",
-    "enter": "Entrar",
-    "switch": "Cambiar de edición",
-    "e2026": {
-      "badge": "Nuevo",
-      "title": "Edición 2026",
-      "body": "Una web más simple y útil: buscador rápido, sectores, mapa, favoritos y novedades de altas y bajas."
+    "eyebrow": "Abonem Castelló 2026",
+    "title": "Todos los comercios del bono, en un solo sitio",
+    "subtitle": "Busca por nombre, calle o sector, mira los comercios adheridos en un mapa y entérate de los que se suman o dejan el programa.",
+    "enter2026": "Entrar en la edición 2026",
+    "officialList": "Ver el listado oficial",
+    "why": {
+      "title": "Por qué existe este proyecto",
+      "problem": {
+        "title": "El listado oficial es difícil de explorar",
+        "body": "Los establecimientos adheridos al programa de bonos se publican en una tabla larga y paginada, sin buscador por zona ni mapa, y no avisa de cuándo cambia."
+      },
+      "solution": {
+        "title": "Aquí lo tienes simple y al día",
+        "body": "Revisamos el listado oficial cada pocos minutos y te lo mostramos con buscador, filtros por sector, mapa, favoritos y un registro de altas y bajas."
+      },
+      "independent": {
+        "title": "Independiente y sin ánimo de lucro",
+        "body": "Es una iniciativa ajena al Ayuntamiento y a CONFECOMERÇ. Los datos salen de la web oficial y se ofrecen solo como ayuda: lo que manda siempre es la información oficial."
+      }
     },
-    "e2025": {
-      "badge": "Demo",
-      "title": "Edición 2025",
-      "body": "La versión original, ahora en modo demostración con datos de ejemplo, tal y como funcionaba durante la campaña."
+    "official": {
+      "title": "Fuentes oficiales",
+      "lead": "Para cualquier duda sobre el programa, las condiciones o un comercio concreto, consulta siempre la web oficial.",
+      "program": {
+        "title": "Web oficial del programa",
+        "body": "Bases, fechas, cómo funcionan los bonos y noticias de la campaña."
+      },
+      "list": {
+        "title": "Listado oficial de establecimientos",
+        "body": "De aquí tomamos los datos de los comercios adheridos."
+      }
     },
+    "switch": "Ir a la portada",
     "mini": {
       "text": "Proyecto independiente y sin ánimo de lucro, sin relación con el Ayuntamiento de Castelló ni CONFECOMERÇ.",
-      "source": "Datos: bonoscastellodelaplana.es",
       "code": "Código en GitHub",
       "legal": "Privacidad y cookies",
-      "cookies": "Gestionar cookies"
+      "cookies": "Gestionar cookies",
+      "demo2025": "Ver cómo era la edición 2025 (demo con datos de ejemplo)"
     }
   },
   "ed26": {
