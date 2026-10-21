@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.5.2 - 2026-10-21
+
+### Tests
+- 23 tests nuevos (51 en total) para la edición 2026: `Edition2026Store` (sectores, colores estables, favoritos persistentes, altas recientes), `ShopsPageComponent` (agrupación, filtros por URL, chips de sector, favoritos, panel móvil) y `NewsPageComponent` (meses plegables, recorte a 8 nombres, «Desplegar todo»).
+
 ## v2.5.1 - 2026-10-20
 
 ### Corregido
