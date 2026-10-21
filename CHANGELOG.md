@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.10.0 - 2026-10-21
+
+### Cambio (edición 2026) · Mapa, fase 3: clústeres con información
+- **Aro segmentado por sectores**: cada clúster dibuja un `conic-gradient` con la composición de los comercios que agrupa (los 5 sectores más frecuentes y el resto en gris), con el recuento en un disco crema.
+- **Tres tallas** según cuántos comercios agrupa (42 / 52 / 62 px).
+- `spiderfyOnMaxZoom` y zoom al pulsar un clúster; **sin animaciones** si el sistema pide `prefers-reduced-motion`.
+- Medido con 1 000 comercios simulados: el mapa pinta en ≈ 1,6 s con 74 clústeres y solo ≈ 76 iconos en el DOM.
+- Tests: 87 en total (recuento de colores, degradado, tallas y validación de colores).
+
 ## v2.9.0 - 2026-10-21
 
 ### Cambio (edición 2026) · Mapa, fase 2: selección, popup y lista
