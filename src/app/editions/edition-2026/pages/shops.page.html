@@ -120,13 +120,19 @@
 
     <section class="shops__results" id="shops-results">
       @if (store.loading()) {
-        <div class="ed26-skeleton-grid" role="status" [attr.aria-label]="'ed26.state.loading' | translate">
+        @if (store.waking()) {
+        <p class="ed26-state ed26-state--waking" role="status">{{ 'ed26.state.waking' | translate }}</p>
+      }
+      <div class="ed26-skeleton-grid" role="status" [attr.aria-label]="'ed26.state.loading' | translate">
           @for (i of [1, 2, 3, 4, 5, 6]; track i) {
             <div class="ed26-skeleton"></div>
           }
         </div>
       } @else if (store.error()) {
-        <p class="ed26-state ed26-state--error" role="alert">{{ 'ed26.state.error' | translate }}</p>
+        <div class="ed26-state ed26-state--error" role="alert">
+        {{ 'ed26.state.error' | translate }}
+        <button type="button" class="ed26-btn ed26-btn--ghost" (click)="store.reload()">{{ 'ed26.state.retry' | translate }}</button>
+      </div>
       } @else if (store.commerces().length === 0) {
         <div class="ed26-card ed26-state">
           <strong>{{ 'ed26.state.noData.title' | translate }}</strong>

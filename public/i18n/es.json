@@ -312,6 +312,8 @@
     },
     "state": {
       "loading": "Cargando comercios…",
+      "waking": "El servidor se estaba durmiendo y está despertando. Puede tardar hasta un minuto la primera vez; reintentamos solos.",
+      "retry": "Reintentar",
       "error": "No hemos podido cargar los datos. Inténtalo de nuevo en unos minutos.",
       "noData": {
         "title": "Todavía no hay comercios publicados",

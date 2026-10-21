@@ -1,5 +1,13 @@
 # Changelog
 
+## v2.13.0 - 2026-10-21
+
+### Añadido
+- **Arranque en frío del API** (Render gratis duerme el servicio y tarda hasta ~1 min en despertar): la edición 2026 ya no muestra un error a la primera. `Edition2026Store` reintenta la carga con esperas crecientes (4, 8, 12, 16 y 20 s) y, si tarda más de 5 s o hace falta reintentar, muestra «El servidor se estaba durmiendo y está despertando…» junto al esqueleto (Inicio y Comercios, en castellano y valenciano).
+- **«Reintentar»** en el estado de error (antes había que recargar la página).
+- Estado e histórico ahora se piden cuando el API ya respondió con los comercios; antes, si el API estaba dormido, esas dos peticiones se perdían en silencio.
+- Tests: 119 (7 nuevos: reintentos, agotar reintentos, `reload()`, aviso y botón).
+
 ## v2.12.0 - 2026-10-21
 
 ### Rendimiento y privacidad
