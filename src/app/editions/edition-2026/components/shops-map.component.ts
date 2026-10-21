@@ -15,6 +15,7 @@ import { Commerce } from '../../../models/commerce.model';
 import { commerceKey, coordsFromMapsUrl } from '../../../utils/commerce-utils';
 import { sectorIcon } from '../sector-icon';
 import { PIN_ANCHOR, PIN_SIZE, pinHtml } from './map-pin';
+import { ShopPopupLabels, buildShopPopup } from './shop-popup';
 
 const DEFAULT_CENTER: [number, number] = [39.986359, -0.037652];
 const DEFAULT_ZOOM = 14;
@@ -57,14 +58,28 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() colorFor: (sector: string) => string = () => '#1E4D2B';
   /** Claves (`commerceKey`) de los comercios favoritos: llevan una estrella sobre el pin. */
   @Input() favorites: ReadonlySet<string> = new Set();
-  @Input() directionsLabel = 'Google Maps';
+  /** Clave (`commerceKey`) del comercio seleccionado: pin destacado y popup abierto. */
+  @Input() selectedKey: string | null = null;
+  @Input() popupLabels: ShopPopupLabels = {
+    directions: 'Google Maps',
+    call: 'Call',
+    favoriteAdd: 'Save',
+    favoriteRemove: 'Remove',
+    viewInList: 'List'
+  };
   @Input() ariaLabel = '';
   @Output() readonly commerceSelected = new EventEmitter<Commerce>();
+  /** Se cerró el popup del comercio seleccionado. */
+  @Output() readonly selectionCleared = new EventEmitter<void>();
+  @Output() readonly favoriteToggled = new EventEmitter<Commerce>();
+  @Output() readonly viewInList = new EventEmitter<Commerce>();
 
   private map: any;
   private layer: any;
   /** Pin de cada comercio, para repintar los iconos sin volver a encuadrar el mapa. */
-  private readonly pins = new Map<string, { marker: any; commerce: Commerce }>();
+  private readonly pins = new Map<string, { marker: any; commerce: Commerce; html: string }>();
+  /** Mientras se repintan iconos, los cierres/aperturas de popup son internos y no cambian la selección. */
+  private repainting = false;
 
   ngAfterViewInit(): void {
     const L = this.leaflet();
@@ -93,6 +108,7 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
         : L.layerGroup()
     ).addTo(this.map);
     this.render();
+    this.applySelection();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -101,12 +117,17 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
     }
     if (changes['commerces']) {
       this.render();
-    } else if (changes['favorites']) {
+    } else if (changes['favorites'] || changes['popupLabels']) {
       this.refreshIcons();
+    }
+    if (changes['selectedKey'] || changes['commerces']) {
+      this.applySelection();
     }
   }
 
   ngOnDestroy(): void {
+    // Al destruir el mapa Leaflet cierra los popups: no debe tomarse como «deseleccionar»
+    this.repainting = true;
     this.map?.remove();
   }
 
@@ -124,11 +145,27 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
       if (!coords) {
         continue;
       }
-      const marker = L.marker(coords, { icon: this.pinIcon(commerce), riseOnHover: true });
+      const marker = L.marker(coords, { icon: this.pinIcon(commerce), riseOnHover: true, title: commerce.name });
       marker.bindPopup(this.popup(commerce));
-      marker.on('click', () => this.commerceSelected.emit(commerce));
+      // `popupopen` (y no `click`) para que también cuente abrirlo con el teclado (Enter)
+      marker.on('popupopen', () => {
+        if (!this.repainting && this.selectedKey !== commerceKey(commerce)) {
+          this.commerceSelected.emit(commerce);
+        }
+      });
+      marker.on('popupclose', () => {
+        if (!this.repainting && this.selectedKey === commerceKey(commerce)) {
+          this.selectionCleared.emit();
+        }
+      });
+      // Accesibilidad: el icono es un div; se anuncia como botón con su nombre y sector.
+      marker.on('add', () => {
+        const element: HTMLElement | undefined = marker.getElement?.();
+        element?.setAttribute('role', 'button');
+        element?.setAttribute('aria-label', commerce.sector ? `${commerce.name}, ${commerce.sector}` : commerce.name);
+      });
       marker.addTo(this.layer);
-      this.pins.set(commerceKey(commerce), { marker, commerce });
+      this.pins.set(commerceKey(commerce), { marker, commerce, html: this.pinMarkup(commerce) });
       allCoords.push(coords);
     }
 
@@ -143,15 +180,20 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.updateZoomClass();
   }
 
+  private pinMarkup(commerce: Commerce): string {
+    return pinHtml({
+      color: this.colorFor(commerce.sector),
+      icon: sectorIcon(commerce.sector),
+      favorite: this.favorites.has(commerceKey(commerce)),
+      selected: this.selectedKey === commerceKey(commerce)
+    });
+  }
+
   /** Icono del pin: color e icono del sector, y estrella si es favorito. */
   private pinIcon(commerce: Commerce): any {
     const L = this.leaflet();
     return L.divIcon({
-      html: pinHtml({
-        color: this.colorFor(commerce.sector),
-        icon: sectorIcon(commerce.sector),
-        favorite: this.favorites.has(commerceKey(commerce))
-      }),
+      html: this.pinMarkup(commerce),
       className: 'ed26-pin-wrap',
       iconSize: PIN_SIZE,
       iconAnchor: PIN_ANCHOR,
@@ -161,8 +203,41 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   /** Repinta los iconos (p. ej. al guardar un favorito) sin mover el mapa. */
   private refreshIcons(): void {
-    for (const { marker, commerce } of this.pins.values()) {
-      marker.setIcon(this.pinIcon(commerce));
+    this.repainting = true;
+    try {
+      for (const pin of this.pins.values()) {
+        const html = this.pinMarkup(pin.commerce);
+        const wasOpen = pin.marker.isPopupOpen?.() ?? false;
+        pin.marker.setPopupContent(this.popup(pin.commerce));
+        if (html !== pin.html) {
+          pin.html = html;
+          // `setIcon` vuelve a enlazar el popup y lo cierra: se reabre si estaba abierto
+          pin.marker.setIcon(this.pinIcon(pin.commerce));
+          if (wasOpen) {
+            pin.marker.openPopup();
+          }
+        }
+      }
+    } finally {
+      this.repainting = false;
+    }
+  }
+
+  /** Destaca el pin seleccionado, lo centra y abre su popup (también si está dentro de un clúster). */
+  private applySelection(): void {
+    this.refreshIcons();
+    const entry = this.selectedKey ? this.pins.get(this.selectedKey) : undefined;
+    if (!entry || !this.map) {
+      return;
+    }
+    const open = (): void => {
+      this.map.panTo(entry.marker.getLatLng(), { animate: true });
+      entry.marker.openPopup();
+    };
+    if (this.layer?.zoomToShowLayer) {
+      this.layer.zoomToShowLayer(entry.marker, open);
+    } else {
+      open();
     }
   }
 
@@ -193,27 +268,15 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   private popup(commerce: Commerce): HTMLElement {
-    const root = document.createElement('div');
-    const title = document.createElement('strong');
-    title.textContent = commerce.name;
-    root.append(title);
-
-    for (const text of [commerce.sector, commerce.address]) {
-      if (text) {
-        const line = document.createElement('div');
-        line.textContent = text;
-        root.append(line);
-      }
-    }
-    if (commerce.mapsUrl) {
-      const link = document.createElement('a');
-      link.href = commerce.mapsUrl;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      link.textContent = `${this.directionsLabel} →`;
-      root.append(link);
-    }
-    return root;
+    const key = commerceKey(commerce);
+    return buildShopPopup({
+      commerce,
+      color: this.colorFor(commerce.sector),
+      favorite: this.favorites.has(key),
+      labels: this.popupLabels,
+      onToggleFavorite: () => this.favoriteToggled.emit(commerce),
+      onViewInList: () => this.viewInList.emit(commerce)
+    });
   }
 
   private leaflet(): LeafletGlobal | null {
