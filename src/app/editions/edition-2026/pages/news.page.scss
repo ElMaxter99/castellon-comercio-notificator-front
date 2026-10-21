@@ -85,6 +85,17 @@
   }
 }
 
+.news__current {
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  background: var(--orange);
+  color: var(--forest-deep);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .news__month-count {
   font-size: 0.82rem;
   color: var(--muted);

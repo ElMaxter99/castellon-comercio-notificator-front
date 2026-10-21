@@ -1,6 +1,6 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideTranslateService } from '@ngx-translate/core';
+import { TranslateService, provideTranslateService } from '@ngx-translate/core';
 import { CommerceHistoryEntry } from '../../../models/commerce-history-entry.model';
 import { LanguageService } from '../../../services/language.service';
 import { Edition2026Store } from '../edition-2026.store';
@@ -25,6 +25,11 @@ function setup(history: CommerceHistoryEntry[]): ComponentFixture<NewsPageCompon
       { provide: LanguageService, useValue: { currentLocale: signal('es-ES') } }
     ]
   });
+  const translate = TestBed.inject(TranslateService);
+  translate.setTranslation('es', {
+    ed26: { news: { week: 'Semana del {{start}} al {{end}}', thisWeek: 'Esta semana' } }
+  });
+  translate.use('es');
   const fixture = TestBed.createComponent(NewsPageComponent);
   fixture.detectChanges();
   return fixture;
@@ -57,7 +62,7 @@ describe('NewsPageComponent', () => {
     expect(weeks[0].textContent).toContain('+20');
     expect(weeks[0].textContent).toContain('−2');
     expect(weeks[1].textContent).toContain('+1');
-    expect(weeks[0].textContent).toContain('ed26.news.week');
+    expect(weeks[0].textContent).toContain('Semana del 19 al 25 oct 2026');
   });
 
   it('dos entradas de la misma semana van en el mismo grupo, aunque sean de meses distintos', () => {
@@ -110,5 +115,41 @@ describe('NewsPageComponent', () => {
 
     click(fixture, '.news__expand');
     expect(html(fixture).querySelectorAll('.news__card-head').length).toBe(0);
+  });
+
+  describe('rótulo de la semana', () => {
+    const label = (timestamp: string): string => {
+      const fixture = setup([entry(timestamp, ['X'])]);
+      return (html(fixture).querySelector('.news__month-name')?.textContent ?? '').replace(/\s+/g, ' ').trim();
+    };
+
+    it('compacta el rango dentro de un mismo mes', () => {
+      expect(label('2026-10-21T10:00:00Z')).toBe('Semana del 19 al 25 oct 2026');
+    });
+
+    it('repite el mes cuando la semana cruza de mes', () => {
+      expect(label('2026-09-30T10:00:00Z')).toBe('Semana del 28 sept al 4 oct 2026');
+    });
+
+    it('repite el año cuando la semana cruza de año', () => {
+      expect(label('2026-01-01T10:00:00Z')).toBe('Semana del 29 dic 2025 al 4 ene 2026');
+    });
+  });
+
+  describe('semana en curso', () => {
+    it('marca solo la semana actual con «Esta semana»', () => {
+      const now = new Date();
+      const old = new Date(now.getTime() - 21 * 24 * 60 * 60 * 1000);
+      const fixture = setup([entry(now.toISOString(), ['A']), entry(old.toISOString(), ['B'])]);
+      const tags = html(fixture).querySelectorAll('.news__current');
+      expect(tags.length).toBe(1);
+      expect(tags[0].textContent).toContain('Esta semana');
+      expect(html(fixture).querySelectorAll('.news__month-toggle')[0].contains(tags[0])).toBeTrue();
+    });
+
+    it('no marca ninguna si todas las entradas son antiguas', () => {
+      const fixture = setup([entry('2020-03-04T10:00:00Z', ['A'])]);
+      expect(html(fixture).querySelector('.news__current')).toBeNull();
+    });
   });
 });

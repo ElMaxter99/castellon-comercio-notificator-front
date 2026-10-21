@@ -343,6 +343,43 @@ app-shops-map {
   }
 }
 
+.shops__field select {
+  // Mismo aspecto que los chips de sector de la cabecera: píldora, borde fino y chevron propio
+  min-height: 2.6rem;
+  padding: 0.45rem 2.4rem 0.45rem 1rem;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background-color: var(--paper);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%231e4d2b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+  background-position: right 1rem center;
+  background-repeat: no-repeat;
+  background-size: 0.75rem;
+  color: var(--forest-deep);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  appearance: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    border-color: var(--forest);
+  }
+
+  // Con un sector elegido se ve «pulsado», como el chip activo
+  &.is-active {
+    border-color: var(--forest-deep);
+    background-color: var(--forest);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%23fbfaf0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+    color: var(--cream);
+  }
+
+  option {
+    background: var(--paper);
+    color: var(--forest-deep);
+    font-weight: 600;
+  }
+}
+
 .shops__label {
   font-size: 0.78rem;
   font-weight: 800;
