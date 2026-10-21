@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Commerce } from '../../models/commerce.model';
 
 const FALLBACK_IMAGE = 'public/commerce-placeholder.svg';
@@ -8,7 +8,7 @@ const FALLBACK_IMAGE = 'public/commerce-placeholder.svg';
 @Component({
   selector: 'app-commerce-card',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './commerce-card.component.html',
   styleUrl: './commerce-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

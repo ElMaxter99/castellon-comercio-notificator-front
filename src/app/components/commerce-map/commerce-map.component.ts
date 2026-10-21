@@ -13,7 +13,7 @@ import {
   ViewChild,
   signal
 } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Commerce } from '../../models/commerce.model';
 import { LanguageService } from '../../services/language.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
@@ -25,7 +25,7 @@ const DEFAULT_ZOOM = 14;
 @Component({
   selector: 'app-commerce-map',
   standalone: true,
-  imports: [CommonModule, TranslateModule, LoadingSpinnerComponent],
+  imports: [CommonModule, TranslatePipe, LoadingSpinnerComponent],
   templateUrl: './commerce-map.component.html',
   styleUrl: './commerce-map.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageSwitcherComponent } from '../../components/language-switcher/language-switcher.component';
 import { ConsentService } from '../../services/consent.service';
 
@@ -11,7 +11,7 @@ const SECTIONS = ['controller', 'data', 'storage', 'third', 'rights', 'changes']
 @Component({
   selector: 'app-legal-page',
   standalone: true,
-  imports: [RouterLink, TranslateModule, LanguageSwitcherComponent],
+  imports: [RouterLink, TranslatePipe, LanguageSwitcherComponent],
   templateUrl: './legal.page.html',
   styleUrl: './legal.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -4,7 +4,7 @@
 Dar una forma mejor de consumir el listado oficial de establecimientos adheridos al programa de bonos de Castelló de la Plana (2025): buscar, filtrar, verlos en un mapa, y saber cuándo se añaden/quitan comercios. Los datos los produce el API (`castellon-comercio-notificator-api`), que scrapea la web oficial.
 
 ## Stack
-Angular 20.3 (builder `@angular/build:application`, esbuild), TypeScript 5.9 strict, RxJS 7.8, `@ngx-translate/core` 17, Leaflet 1.9.4 (CDN), `@vercel/analytics`, Karma/Jasmine.
+Angular 22.2 (builder `@angular/build:application`, esbuild), TypeScript 6.0 strict, RxJS 7.8, `@ngx-translate/core` 18, Leaflet 1.9.4 (CDN), `@vercel/analytics`, Karma/Jasmine.
 
 ## Árbol de componentes
 ```

@@ -6,7 +6,7 @@ import packageInfo from '../../../../package.json';
 import { CommerceStatus } from '../../models/commerce-status.model';
 import { CommerceService } from '../../services/commerce.service';
 import { LanguageService } from '../../services/language.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { ToastService } from '../../services/toast.service';
@@ -14,7 +14,7 @@ import { ToastService } from '../../services/toast.service';
 @Component({
   selector: 'app-commerce-status',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, LanguageSwitcherComponent, LoadingSpinnerComponent],
+  imports: [CommonModule, RouterLink, TranslatePipe, LanguageSwitcherComponent, LoadingSpinnerComponent],
   templateUrl: './commerce-status.component.html',
   styleUrl: './commerce-status.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -3,7 +3,7 @@
 Guía para Claude Code. Léela entera antes de tocar nada.
 
 ## Qué es
-SPA **Angular 20** (standalone + signals + OnPush) con **dos ediciones**: `/2025` (vistas originales, siempre demo) y `/2026` (vistas renovadas, ver `docs/EDITIONS.md`). Sirve para explorar los comercios adheridos al programa de bonos de Castelló de la Plana: filtros por nombre/sector/dirección, vista cuadrícula/lista, paginación, mapa Leaflet con leyenda por sectores, panel de estado y página de histórico de altas/bajas. Bilingüe (castellano / valencià). Consume el API del repo `castellon-comercio-notificator-api`. Despliegue de referencia: Vercel (usa `@vercel/analytics`).
+SPA **Angular 22** (standalone + signals + OnPush) con **dos ediciones**: `/2025` (vistas originales, siempre demo) y `/2026` (vistas renovadas, ver `docs/EDITIONS.md`). Sirve para explorar los comercios adheridos al programa de bonos de Castelló de la Plana: filtros por nombre/sector/dirección, vista cuadrícula/lista, paginación, mapa Leaflet con leyenda por sectores, panel de estado y página de histórico de altas/bajas. Bilingüe (castellano / valencià). Consume el API del repo `castellon-comercio-notificator-api`. Despliegue de referencia: Vercel (usa `@vercel/analytics`).
 
 Proyecto independiente y sin ánimo de lucro; sin relación oficial con el Ayuntamiento ni CONFECOMERÇ.
 
@@ -33,7 +33,7 @@ Proyecto independiente y sin ánimo de lucro; sin relación oficial con el Ayunt
 - [`docs/EDITIONS.md`](docs/EDITIONS.md) — **ediciones 2025/2026**, modo demo forzado y diseño 2026.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — componentes, estado, flujos de datos, i18n, mapa.
 - [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md) — entornos, `--live`, modo mock, builds.
-- [`docs/DEPENDENCIES.md`](docs/DEPENDENCIES.md) — Dependabot: qué se ignora a propósito (Angular 22, ngx-translate 18, jasmine 7…) y cómo revisar sus PRs.
+- [`docs/DEPENDENCIES.md`](docs/DEPENDENCIES.md) — Dependabot: qué se ignora a propósito (jasmine 7…) y cómo revisar sus PRs.
 - [`docs/REUSE-2026.md`](docs/REUSE-2026.md) — **checklist para reutilizar el proyecto en la edición 2026**.
 
 ## Comandos
@@ -70,7 +70,7 @@ npm test                         # Karma + Jasmine (51 tests: utils, CommerceSer
 3. Leaflet y `leaflet.markercluster` (clústeres de la edición 2026) vienen de `unpkg.com` en `src/index.html` con SRI (necesita internet) y se usan como `any`. Si el plugin no carga, el mapa 2026 funciona sin clústeres.
 4. La URL del API se resuelve en compilación: `API_BASE_URL` (env) o `--api-url=` → `define` → `resolveApiBaseUrl()`; si no hay, el valor por defecto de `src/environments/*.ts` (`https://castellon-comercio-notificator-api.onrender.com` en prod). Es **build-time**: cambiarla exige recompilar/redesplegar. Solo la inyecta el wrapper `tools/ng-live.cjs` en `build|serve|dev-server`.
 5. `CommerceStatus.lastUpdate` es `string | null` (el API devuelve `null` si aún no hay scrapeos): las vistas deben tratarlo.
-6. `ng` en `node_modules/.bin` es sobrescrito por el postinstall; si el flag `--live` "no existe", repetir `npm install`.
+6. `ng` en `node_modules/.bin` es sobrescrito por el postinstall (`tools/setup-ng-live.cjs`); si el flag `--live` "no existe", repetir `npm install`. El script **nunca debe escribir a través de un enlace simbólico** (npm enlaza `.bin/ng` a `@angular/cli/bin/ng.js`; con una caché que ya tenga `ng-real` se corrompía Angular CLI y fallaba el build de Vercel).
 7. Las traducciones se cargan desde `/public/i18n/` (el `angular.json` publica `public/` bajo `/public`).
 9. **Sin zoom de página**: el viewport (`maximum-scale=1, user-scalable=no`), `touch-action: pan-x pan-y` en `html/body` y `utils/disable-page-zoom.ts` (eventos `gesture*` de iOS) bloquean el zoom; solo los mapas (`.leaflet-container`) pueden hacer zoom. No quites `touch-action` de Leaflet ni mapas nuevos fuera de esa clase.
 8. **Cookies/legal**: `ConsentService` es el único que puede cargar la analítica (`@vercel/analytics`); no la vuelvas a inyectar en `main.ts`. Si añades cualquier cookie, almacenamiento o recurso de terceros no técnico, requiere consentimiento: actualiza el banner y la tabla de `legal.storage.rows` (ambos JSON de i18n) y la página `/privacidad`.

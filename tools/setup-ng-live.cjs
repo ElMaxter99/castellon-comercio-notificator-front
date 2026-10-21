@@ -29,12 +29,8 @@ function ensureUnixWrapper() {
     return;
   }
 
-  if (!fs.existsSync(unixBackup)) {
-    fs.renameSync(unixBin, unixBackup);
-  }
-
   const script = `#!/usr/bin/env node\nrequire('${desiredReference}');\n`;
-  fs.writeFileSync(unixBin, script, { mode: 0o755 });
+  replaceBin(unixBin, unixBackup, script);
 }
 
 function ensureWindowsWrapper() {
@@ -49,10 +45,29 @@ function ensureWindowsWrapper() {
     return;
   }
 
-  if (!fs.existsSync(windowsBackup)) {
-    fs.renameSync(windowsBin, windowsBackup);
-  }
-
   const script = `@ECHO OFF\r\nSETLOCAL\r\nSET "_BASEDIR=%~dp0"\r\nIF EXIST "%_BASEDIR%node.exe" (\r\n  "%_BASEDIR%node.exe"  "%_BASEDIR%${desiredReference}" %*\r\n) ELSE (\r\n  node "%_BASEDIR%${desiredReference}" %*\r\n)\r\n`;
-  fs.writeFileSync(windowsBin, script, { mode: 0o755 });
+  replaceBin(windowsBin, windowsBackup, script);
+}
+
+/**
+ * Sustituye el binario por el wrapper SIN escribir a través de un enlace simbólico: npm
+ * enlaza `.bin/ng` a `@angular/cli/bin/ng.js`, y si ya existía una copia de seguridad
+ * (p. ej. restaurada de la caché de Vercel) escribir sobre el enlace machacaría el fichero
+ * real de Angular CLI.
+ */
+function replaceBin(file, backup, content) {
+  if (!fs.existsSync(backup) && !isDanglingLink(backup)) {
+    fs.renameSync(file, backup);
+  } else {
+    fs.rmSync(file, { force: true });
+  }
+  fs.writeFileSync(file, content, { mode: 0o755 });
+}
+
+function isDanglingLink(file) {
+  try {
+    return fs.lstatSync(file).isSymbolicLink();
+  } catch {
+    return false;
+  }
 }

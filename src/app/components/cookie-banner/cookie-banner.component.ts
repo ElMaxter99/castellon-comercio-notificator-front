@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ConsentService } from '../../services/consent.service';
 
 /** Aviso de cookies: aceptar y rechazar con el mismo peso visual (criterio AEPD). */
 @Component({
   selector: 'app-cookie-banner',
   standalone: true,
-  imports: [RouterLink, TranslateModule],
+  imports: [RouterLink, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (consent.bannerVisible()) {

@@ -2,7 +2,7 @@ import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Subject, debounceTime } from 'rxjs';
 import { Commerce } from '../../../models/commerce.model';
 import { commerceKey, coordsFromMapsUrl, normalizeText } from '../../../utils/commerce-utils';
@@ -31,7 +31,7 @@ const PLACEHOLDER_IMAGE = '/public/commerce-placeholder.svg';
 @Component({
   selector: 'app-ed26-shops',
   standalone: true,
-  imports: [TranslateModule, NgTemplateOutlet, ShopsMapComponent, GeoArtComponent],
+  imports: [TranslatePipe, NgTemplateOutlet, ShopsMapComponent, GeoArtComponent],
   templateUrl: './shops.page.html',
   styleUrl: './shops.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
