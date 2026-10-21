@@ -50,25 +50,34 @@ describe('NewsPageComponent', () => {
     expect(html(fixture).querySelector('.news__month-toggle')).toBeNull();
   });
 
-  it('agrupa por mes con el resumen de altas y bajas, el más reciente primero', () => {
+  it('agrupa por semana (lunes a domingo) con el resumen de altas y bajas, la más reciente primero', () => {
     const fixture = setup(history);
-    const months = html(fixture).querySelectorAll('.news__month-toggle');
-    expect(months.length).toBe(2);
-    expect(months[0].textContent).toContain('+21');
-    expect(months[0].textContent).toContain('−2');
-    expect(months[1].textContent).toContain('+1');
+    const weeks = html(fixture).querySelectorAll('.news__month-toggle');
+    expect(weeks.length).toBe(3);
+    expect(weeks[0].textContent).toContain('+20');
+    expect(weeks[0].textContent).toContain('−2');
+    expect(weeks[1].textContent).toContain('+1');
+    expect(weeks[0].textContent).toContain('ed26.news.week');
   });
 
-  it('solo despliega el mes más reciente y su última entrada', () => {
+  it('dos entradas de la misma semana van en el mismo grupo, aunque sean de meses distintos', () => {
+    const fixture = setup([
+      entry('2026-10-01T10:00:00Z', ['A']), // jueves
+      entry('2026-09-30T10:00:00Z', ['B']), // miércoles, misma semana (28 sep – 4 oct)
+      entry('2026-10-05T10:00:00Z', ['C']) // lunes: semana siguiente
+    ]);
+    expect(html(fixture).querySelectorAll('.news__month-toggle').length).toBe(2);
+  });
+
+  it('solo despliega la semana más reciente y su última entrada', () => {
     const fixture = setup(history);
     const toggles = html(fixture).querySelectorAll<HTMLElement>('.news__month-toggle');
     expect(toggles[0].getAttribute('aria-expanded')).toBe('true');
     expect(toggles[1].getAttribute('aria-expanded')).toBe('false');
 
     const cards = html(fixture).querySelectorAll('.news__card-head');
-    expect(cards.length).toBe(2); // las dos entradas de octubre
+    expect(cards.length).toBe(1);
     expect(cards[0].getAttribute('aria-expanded')).toBe('true');
-    expect(cards[1].getAttribute('aria-expanded')).toBe('false');
     expect(html(fixture).querySelectorAll('.news__body').length).toBe(1);
   });
 
@@ -84,7 +93,7 @@ describe('NewsPageComponent', () => {
     expect(items()).toBe(8);
   });
 
-  it('plegar y desplegar un mes cambia sus entradas visibles', () => {
+  it('plegar y desplegar una semana cambia sus entradas visibles', () => {
     const fixture = setup(history);
     click(fixture, '.news__month-toggle', 0);
     expect(html(fixture).querySelectorAll('.news__card-head').length).toBe(0);
@@ -93,7 +102,7 @@ describe('NewsPageComponent', () => {
     expect(html(fixture).querySelectorAll('.news__card-head').length).toBe(1);
   });
 
-  it('«Desplegar todo» abre todos los meses y entradas, y «Plegar todo» los cierra', () => {
+  it('«Desplegar todo» abre todas las semanas y entradas, y «Plegar todo» las cierra', () => {
     const fixture = setup(history);
     click(fixture, '.news__expand');
     expect(html(fixture).querySelectorAll('.news__card-head').length).toBe(3);

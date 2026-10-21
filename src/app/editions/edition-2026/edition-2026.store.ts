@@ -24,7 +24,8 @@ export const SECTOR_COLORS = [
 ];
 
 const FAVORITES_KEY = 'castellon-comercio-favorites-2026';
-const RECENT_DAYS = 30;
+// El programa de bonos dura poco más de un mes: una semana es una ventana con sentido.
+const RECENT_DAYS = 7;
 
 /** Estado compartido de la edición 2026 (una sola carga para todas las páginas). */
 @Injectable()
@@ -51,12 +52,10 @@ export class Edition2026Store {
     );
   });
 
-  readonly recentAdded = computed(() => {
-    const limit = Date.now() - RECENT_DAYS * 24 * 60 * 60 * 1000;
-    return this.history()
-      .filter((entry) => new Date(entry.timestamp).getTime() >= limit)
-      .reduce((total, entry) => total + entry.added.length, 0);
-  });
+  /** Altas de los últimos 7 días. */
+  readonly recentAdded = computed(() => this.recentTotal('added'));
+  /** Bajas de los últimos 7 días (comercios que dejan de estar en el listado oficial). */
+  readonly recentRemoved = computed(() => this.recentTotal('removed'));
 
   constructor() {
     this.service.getCommerces().subscribe({
@@ -98,6 +97,13 @@ export class Edition2026Store {
     } catch {
       // modo privado: los favoritos duran solo la sesión
     }
+  }
+
+  private recentTotal(field: 'added' | 'removed'): number {
+    const limit = Date.now() - RECENT_DAYS * 24 * 60 * 60 * 1000;
+    return this.history()
+      .filter((entry) => new Date(entry.timestamp).getTime() >= limit)
+      .reduce((total, entry) => total + entry[field].length, 0);
   }
 
   private readFavorites(): ReadonlySet<string> {

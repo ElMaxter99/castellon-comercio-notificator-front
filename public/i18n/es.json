@@ -207,8 +207,9 @@
       "stats": {
         "shops": "Comercios adheridos",
         "sectors": "Sectores",
-        "newLast30": "Nuevos (30 días)",
-        "updated": "Última actualización"
+        "newLast7": "Nuevos (7 días)",
+        "updated": "Última actualización",
+        "removedLast7": "Bajas (7 días)"
       },
       "sectorsTitle": "Explora por sector",
       "sectorsAll": "Ver todos",
@@ -269,7 +270,8 @@
       "updates": "{{count}} actualizaciones",
       "showMore": "Ver {{count}} más",
       "showLess": "Ver menos",
-      "updatesOne": "1 actualización"
+      "updatesOne": "1 actualización",
+      "week": "Semana del {{start}} al {{end}}"
     },
     "state": {
       "loading": "Cargando comercios…",

@@ -82,7 +82,11 @@
   margin: 0;
 
   @media (min-width: 720px) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 960px) {
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
@@ -109,6 +113,19 @@
 
   &:nth-child(3) dd {
     color: var(--orange-deep);
+  }
+
+  &--removed dd {
+    color: #7c2d12;
+  }
+
+  // Con 5 tarjetas, la última ocupa la fila entera en la rejilla de 2 columnas
+  &--date {
+    grid-column: 1 / -1;
+
+    @media (min-width: 720px) {
+      grid-column: auto;
+    }
   }
 }
 
