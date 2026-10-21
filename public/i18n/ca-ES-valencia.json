@@ -312,6 +312,8 @@
     },
     "state": {
       "loading": "Carregant comerços…",
+      "waking": "El servidor s'estava dormint i s'està despertant. Pot tardar fins a un minut la primera vegada; ho reintentem sols.",
+      "retry": "Reintenta",
       "error": "No hem pogut carregar les dades. Torna-ho a provar d'ací a uns minuts.",
       "noData": {
         "title": "Encara no hi ha comerços publicats",

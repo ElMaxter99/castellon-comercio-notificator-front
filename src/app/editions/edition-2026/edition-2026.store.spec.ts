@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
-import { of, throwError } from 'rxjs';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { defer, of, throwError } from 'rxjs';
 import { Commerce } from '../../models/commerce.model';
 import { CommerceService } from '../../services/commerce.service';
-import { Edition2026Store, NO_SECTOR_COLOR, SECTOR_COLORS } from './edition-2026.store';
+import { COLD_START_CONFIG, Edition2026Store, NO_SECTOR_COLOR, SECTOR_COLORS } from './edition-2026.store';
 
 const FAVORITES_KEY = 'castellon-comercio-favorites-2026';
 
@@ -22,7 +22,12 @@ function setup(options: { commerces?: Commerce[]; fail?: boolean; history?: unkn
     getHistory: () => of(options.history ?? [])
   };
   TestBed.configureTestingModule({
-    providers: [Edition2026Store, { provide: CommerceService, useValue: service }]
+    providers: [
+      Edition2026Store,
+      { provide: CommerceService, useValue: service },
+      // Sin esperas ni avisos por defecto: los tests de arranque en frío los definen aparte
+      { provide: COLD_START_CONFIG, useValue: { retryDelaysMs: [], hintAfterMs: 60000 } }
+    ]
   });
   return TestBed.inject(Edition2026Store);
 }
@@ -123,5 +128,71 @@ describe('Edition2026Store', () => {
     const store = setup({ history: [entry(1, 5, 1), entry(6, 3, 2), entry(10, 100, 50)] });
     expect(store.recentAdded()).toBe(8);
     expect(store.recentRemoved()).toBe(3);
+  });
+
+  describe('arranque en frío del API', () => {
+    function coldSetup(failures: number, retryDelaysMs: number[], hintAfterMs = 60000) {
+      let calls = 0;
+      const service = {
+        // defer: cada (re)suscripción cuenta como una petición, igual que con HttpClient
+        getCommerces: () =>
+          defer(() => {
+            calls++;
+            return calls <= failures ? throwError(() => new Error('dormido')) : of([commerce('A', 'Moda')]);
+          }),
+        getStatus: () => of(null),
+        getHistory: () => of([])
+      };
+      TestBed.configureTestingModule({
+        providers: [
+          Edition2026Store,
+          { provide: CommerceService, useValue: service },
+          { provide: COLD_START_CONFIG, useValue: { retryDelaysMs, hintAfterMs } }
+        ]
+      });
+      return { store: TestBed.inject(Edition2026Store), calls: () => calls };
+    }
+
+    it('reintenta tras un fallo, avisa de que está despertando y acaba cargando', fakeAsync(() => {
+      const { store, calls } = coldSetup(2, [1000, 2000]);
+      expect(store.loading()).toBeTrue();
+      expect(store.waking()).toBeTrue();
+      tick(1000);
+      expect(calls()).toBe(2);
+      expect(store.loading()).toBeTrue();
+      tick(2000);
+      expect(calls()).toBe(3);
+      expect(store.commerces().length).toBe(1);
+      expect(store.loading()).toBeFalse();
+      expect(store.waking()).toBeFalse();
+      expect(store.error()).toBeFalse();
+    }));
+
+    it('agota los reintentos y marca error', fakeAsync(() => {
+      const { store, calls } = coldSetup(99, [1000, 1000]);
+      tick(2000);
+      expect(calls()).toBe(3);
+      expect(store.error()).toBeTrue();
+      expect(store.loading()).toBeFalse();
+      expect(store.waking()).toBeFalse();
+    }));
+
+    it('avisa de que tarda si la primera respuesta se retrasa', fakeAsync(() => {
+      const { store } = coldSetup(0, [], 100);
+      // respuesta síncrona del mock: ya cargó y el aviso no llega a salir
+      expect(store.loading()).toBeFalse();
+      expect(store.waking()).toBeFalse();
+      tick(200);
+      expect(store.waking()).toBeFalse();
+    }));
+
+    it('reload() vuelve a pedir los datos tras un error', fakeAsync(() => {
+      const { store, calls } = coldSetup(1, []);
+      expect(store.error()).toBeTrue();
+      store.reload();
+      expect(calls()).toBe(2);
+      expect(store.error()).toBeFalse();
+      expect(store.commerces().length).toBe(1);
+    }));
   });
 });

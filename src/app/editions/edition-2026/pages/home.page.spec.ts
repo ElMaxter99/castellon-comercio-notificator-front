@@ -33,6 +33,26 @@ function setup(overrides: Record<string, unknown> = {}): ComponentFixture<HomePa
 }
 
 describe('HomePageComponent', () => {
+  it('mientras el API despierta (arranque en frío) avisa y muestra el esqueleto', () => {
+    const el = setup({ loading: signal(true), waking: signal(true) }).nativeElement as HTMLElement;
+    expect(el.querySelector('.ed26-state--waking')?.textContent).toContain('ed26.state.waking');
+    expect(el.querySelector('.ed26-skeleton-grid')).not.toBeNull();
+  });
+
+  it('sin aviso si la carga va con normalidad', () => {
+    const el = setup({ loading: signal(true), waking: signal(false) }).nativeElement as HTMLElement;
+    expect(el.querySelector('.ed26-state--waking')).toBeNull();
+  });
+
+  it('con error ofrece «Reintentar», que vuelve a pedir los datos', () => {
+    const reload = jasmine.createSpy('reload');
+    const el = setup({ error: signal(true), reload }).nativeElement as HTMLElement;
+    const button = el.querySelector('.ed26-state--error button') as HTMLButtonElement;
+    expect(button.textContent).toContain('ed26.state.retry');
+    button.click();
+    expect(reload).toHaveBeenCalledTimes(1);
+  });
+
   it('muestra las cinco métricas, incluidas las altas y las bajas de los últimos 7 días', () => {
     const el = setup().nativeElement as HTMLElement;
     const stats = [...el.querySelectorAll('.home__stat')].map((card) => ({

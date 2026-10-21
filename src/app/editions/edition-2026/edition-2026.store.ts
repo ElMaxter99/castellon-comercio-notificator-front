@@ -1,4 +1,5 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, InjectionToken, computed, inject, signal } from '@angular/core';
+import { retry, timer } from 'rxjs';
 import { CommerceHistoryEntry } from '../../models/commerce-history-entry.model';
 import { CommerceStatus } from '../../models/commerce-status.model';
 import { Commerce } from '../../models/commerce.model';
@@ -35,6 +36,20 @@ export const SECTOR_COLORS = [
 /** Color de los comercios sin sector. */
 export const NO_SECTOR_COLOR = '#566A5A';
 
+/**
+ * El API gratuito de Render se duerme y tarda hasta ~1 min en despertar. La carga reintenta con
+ * estas esperas y, pasado `hintAfterMs` cargando (o al primer reintento), avisa de que está despertando.
+ */
+export interface ColdStartConfig {
+  retryDelaysMs: number[];
+  hintAfterMs: number;
+}
+
+export const COLD_START_CONFIG = new InjectionToken<ColdStartConfig>('COLD_START_CONFIG', {
+  providedIn: 'root',
+  factory: () => ({ retryDelaysMs: [4000, 8000, 12000, 16000, 20000], hintAfterMs: 5000 })
+});
+
 const FAVORITES_KEY = 'castellon-comercio-favorites-2026';
 // El programa de bonos dura poco más de un mes: una semana es una ventana con sentido.
 const RECENT_DAYS = 7;
@@ -43,12 +58,16 @@ const RECENT_DAYS = 7;
 @Injectable()
 export class Edition2026Store {
   private readonly service = inject(CommerceService);
+  private readonly coldStart = inject(COLD_START_CONFIG);
+  private hintTimer: ReturnType<typeof setTimeout> | null = null;
 
   readonly commerces = signal<Commerce[]>([]);
   readonly status = signal<CommerceStatus | null>(null);
   readonly history = signal<CommerceHistoryEntry[]>([]);
   readonly loading = signal(true);
   readonly error = signal(false);
+  /** Tarda más de lo normal o se está reintentando: probablemente el API se está despertando. */
+  readonly waking = signal(false);
   readonly favorites = signal<ReadonlySet<string>>(this.readFavorites());
 
   readonly sectors = computed<SectorSummary[]>(() => {
@@ -89,18 +108,58 @@ export class Edition2026Store {
   readonly recentRemoved = computed(() => this.recentTotal('removed'));
 
   constructor() {
-    this.service.getCommerces().subscribe({
-      next: (commerces) => {
-        this.commerces.set(commerces);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.error.set(true);
-        this.loading.set(false);
-      }
-    });
-    this.service.getStatus().subscribe({ next: (status) => this.status.set(status), error: () => undefined });
-    this.service.getHistory().subscribe({ next: (history) => this.history.set(history), error: () => undefined });
+    this.load();
+  }
+
+  /** Vuelve a pedir los datos (botón «Reintentar»). */
+  reload(): void {
+    this.load();
+  }
+
+  private load(): void {
+    this.loading.set(true);
+    this.error.set(false);
+    this.waking.set(false);
+    this.clearHintTimer();
+    this.hintTimer = setTimeout(() => this.waking.set(true), this.coldStart.hintAfterMs);
+
+    this.service
+      .getCommerces()
+      .pipe(
+        retry({
+          count: this.coldStart.retryDelaysMs.length,
+          delay: (_error, attempt) => {
+            this.waking.set(true);
+            return timer(this.coldStart.retryDelaysMs[attempt - 1]);
+          }
+        })
+      )
+      .subscribe({
+        next: (commerces) => {
+          this.commerces.set(commerces);
+          this.finish();
+          // Estado e histórico se piden con el API ya despierto (antes se perdían durante el arranque en frío).
+          this.service.getStatus().subscribe({ next: (status) => this.status.set(status), error: () => undefined });
+          this.service.getHistory().subscribe({ next: (history) => this.history.set(history), error: () => undefined });
+        },
+        error: () => {
+          this.error.set(true);
+          this.finish();
+        }
+      });
+  }
+
+  private finish(): void {
+    this.loading.set(false);
+    this.waking.set(false);
+    this.clearHintTimer();
+  }
+
+  private clearHintTimer(): void {
+    if (this.hintTimer !== null) {
+      clearTimeout(this.hintTimer);
+      this.hintTimer = null;
+    }
   }
 
   /** Color estable por sector (no cambia al filtrar). */
