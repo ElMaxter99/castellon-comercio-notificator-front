@@ -14,6 +14,7 @@ import {
 import { Commerce } from '../../../models/commerce.model';
 import { commerceKey, coordsFromMapsUrl } from '../../../utils/commerce-utils';
 import { sectorIcon } from '../sector-icon';
+import { clusterHtml } from './map-cluster';
 import { PIN_ANCHOR, PIN_SIZE, pinHtml } from './map-pin';
 import { ShopPopupLabels, buildShopPopup } from './shop-popup';
 
@@ -98,12 +99,18 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
         ? L.markerClusterGroup({
             showCoverageOnHover: false,
             maxClusterRadius: 50,
-            iconCreateFunction: (cluster: any) =>
-              L.divIcon({
-                html: `<span>${cluster.getChildCount()}</span>`,
-                className: 'ed26-cluster',
-                iconSize: L.point(42, 42)
-              })
+            spiderfyOnMaxZoom: true,
+            zoomToBoundsOnClick: true,
+            // Sin animaciones si el sistema lo pide
+            animate: !this.prefersReducedMotion(),
+            // Aro segmentado por sectores con el recuento en el centro
+            iconCreateFunction: (cluster: any) => {
+              const colors: string[] = cluster
+                .getAllChildMarkers()
+                .map((marker: any) => marker.options.sectorColor as string);
+              const { html, size } = clusterHtml(colors);
+              return L.divIcon({ html, className: 'ed26-cluster', iconSize: L.point(size, size) });
+            }
           })
         : L.layerGroup()
     ).addTo(this.map);
@@ -145,7 +152,7 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
       if (!coords) {
         continue;
       }
-      const marker = L.marker(coords, { icon: this.pinIcon(commerce), riseOnHover: true, title: commerce.name });
+      const marker = L.marker(coords, { icon: this.pinIcon(commerce), riseOnHover: true, title: commerce.name, sectorColor: this.colorFor(commerce.sector) });
       marker.bindPopup(this.popup(commerce));
       // `popupopen` (y no `click`) para que también cuente abrirlo con el teclado (Enter)
       marker.on('popupopen', () => {
@@ -277,6 +284,10 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
       onToggleFavorite: () => this.favoriteToggled.emit(commerce),
       onViewInList: () => this.viewInList.emit(commerce)
     });
+  }
+
+  private prefersReducedMotion(): boolean {
+    return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
   }
 
   private leaflet(): LeafletGlobal | null {
