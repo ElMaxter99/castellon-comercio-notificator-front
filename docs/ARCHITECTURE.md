@@ -9,7 +9,7 @@ Angular 22.2 (builder `@angular/build:application`, esbuild), TypeScript 6.0 str
 ## Árbol de componentes
 ```
 App (app.ts)  ── solo <router-outlet> + ToastContainerComponent
-├─ ''        LandingPageComponent             (selector de edición)
+├─ ''        LandingPageComponent             (portada)
 ├─ '2025'    Edition2025ShellComponent        (layout original, DATA_MODE='demo')
 │   ├─ aside .layout__disclaimer              (aviso de datos de demostración)
 │   ├─ header: marca + LanguageSwitcher
