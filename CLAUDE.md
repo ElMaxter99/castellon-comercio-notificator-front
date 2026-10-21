@@ -72,4 +72,5 @@ npm test                         # Karma + Jasmine (27 tests: utils, CommerceSer
 5. `CommerceStatus.lastUpdate` es `string | null` (el API devuelve `null` si aún no hay scrapeos): las vistas deben tratarlo.
 6. `ng` en `node_modules/.bin` es sobrescrito por el postinstall; si el flag `--live` "no existe", repetir `npm install`.
 7. Las traducciones se cargan desde `/public/i18n/` (el `angular.json` publica `public/` bajo `/public`).
+9. **Sin zoom de página**: el viewport (`maximum-scale=1, user-scalable=no`), `touch-action: pan-x pan-y` en `html/body` y `utils/disable-page-zoom.ts` (eventos `gesture*` de iOS) bloquean el zoom; solo los mapas (`.leaflet-container`) pueden hacer zoom. No quites `touch-action` de Leaflet ni mapas nuevos fuera de esa clase.
 8. **Cookies/legal**: `ConsentService` es el único que puede cargar la analítica (`@vercel/analytics`); no la vuelvas a inyectar en `main.ts`. Si añades cualquier cookie, almacenamiento o recurso de terceros no técnico, requiere consentimiento: actualiza el banner y la tabla de `legal.storage.rows` (ambos JSON de i18n) y la página `/privacidad`.
