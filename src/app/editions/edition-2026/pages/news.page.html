@@ -18,15 +18,15 @@
     </div>
 
     @for (group of groups(); track group.key) {
-      <section class="news__group" [class.is-open]="isMonthOpen(group.key)">
+      <section class="news__group" [class.is-open]="isWeekOpen(group.key)">
         <h2 class="news__month">
           <button
             type="button"
             class="news__month-toggle"
-            [attr.aria-expanded]="isMonthOpen(group.key)"
-            (click)="toggleMonth(group.key)"
+            [attr.aria-expanded]="isWeekOpen(group.key)"
+            (click)="toggleWeek(group.key)"
           >
-            <span class="news__month-name">{{ month(group.month) }}</span>
+            <span class="news__month-name">{{ 'ed26.news.week' | translate: { start: shortDay(group.start), end: dayWithYear(group.end) } }}</span>
             @if (group.added > 0) {
               <span class="news__badge news__badge--add">+{{ group.added }}</span>
             }
@@ -38,7 +38,7 @@
           </button>
         </h2>
 
-        @if (isMonthOpen(group.key)) {
+        @if (isWeekOpen(group.key)) {
           <ol class="news__timeline">
             @for (entry of group.entries; track entry.timestamp) {
               <li class="news__entry">

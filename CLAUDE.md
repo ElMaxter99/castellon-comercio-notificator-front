@@ -11,7 +11,7 @@ Proyecto independiente y sin ánimo de lucro; sin relación oficial con el Ayunt
 | Ruta | Rol |
 |---|---|
 | `app.ts` | Solo `<router-outlet>` + toasts |
-| `pages/landing/` | Selector de edición (`/`) |
+| `pages/landing/` | Portada (`/`): por qué existe el proyecto, enlaces a la web oficial y entrada a la 2026. La 2025 (demo) solo se enlaza desde el pie |
 | `editions/edition-2025/` | Shell del layout original (aviso demo, cabecera, estado). **No tocar el diseño** |
 | `editions/edition-2026/` | Edición renovada: shell, store, páginas `home`/`shops`/`news`, tema `.ed26`, mapa propio |
 | `services/data-mode.ts` | Token `DATA_MODE` que fuerza demo en el árbol 2025 |
@@ -46,7 +46,7 @@ npm run build -- --configuration=production
 npm run build -- --configuration=production --live=false   # prod con mock
 API_BASE_URL=https://mi-api.onrender.com npm run build -- --configuration=production   # API propio
 npm start -- --api-url=http://localhost:3000                 # API local en otro puerto
-npm test                         # Karma + Jasmine (51 tests: utils, CommerceService, popup, api-url, consentimiento, store y páginas de la edición 2026, app); CI en .github/workflows/ci.yml
+npm test                         # Karma + Jasmine (59 tests: utils, CommerceService, popup, api-url, consentimiento, store y páginas de la edición 2026, app); CI en .github/workflows/ci.yml
 ```
 
 ## Convenciones

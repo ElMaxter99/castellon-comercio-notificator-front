@@ -169,26 +169,45 @@
     "historyLink": "Historial de canvis"
   },
   "landing": {
-    "title": "Tria l'edició",
-    "subtitle": "Explora els comerços adherits als bons de Castelló de la Plana. Consulta la nova edició 2026 o revisa la versió original de 2025.",
-    "enter": "Entrar",
-    "switch": "Canviar d'edició",
-    "e2026": {
-      "badge": "Nou",
-      "title": "Edició 2026",
-      "body": "Una web més simple i útil: cercador ràpid, sectors, mapa, preferits i novetats d'altes i baixes."
+    "eyebrow": "Abonem Castelló 2026",
+    "title": "Tots els comerços del bo, en un sol lloc",
+    "subtitle": "Cerca per nom, carrer o sector, mira els comerços adherits en un mapa i assabenta't dels que se sumen o deixen el programa.",
+    "enter2026": "Entrar a l'edició 2026",
+    "officialList": "Veure el llistat oficial",
+    "why": {
+      "title": "Per què existeix aquest projecte",
+      "problem": {
+        "title": "El llistat oficial és difícil d'explorar",
+        "body": "Els establiments adherits al programa de bons es publiquen en una taula llarga i paginada, sense cercador per zona ni mapa, i no avisa de quan canvia."
+      },
+      "solution": {
+        "title": "Ací el tens simple i al dia",
+        "body": "Revisem el llistat oficial cada pocs minuts i te'l mostrem amb cercador, filtres per sector, mapa, preferits i un registre d'altes i baixes."
+      },
+      "independent": {
+        "title": "Independent i sense ànim de lucre",
+        "body": "És una iniciativa aliena a l'Ajuntament i a CONFECOMERÇ. Les dades surten de la web oficial i s'ofereixen només com a ajuda: allò que mana sempre és la informació oficial."
+      }
     },
-    "e2025": {
-      "badge": "Demo",
-      "title": "Edició 2025",
-      "body": "La versió original, ara en mode demostració amb dades d'exemple, tal com funcionava durant la campanya."
+    "official": {
+      "title": "Fonts oficials",
+      "lead": "Per a qualsevol dubte sobre el programa, les condicions o un comerç concret, consulta sempre la web oficial.",
+      "program": {
+        "title": "Web oficial del programa",
+        "body": "Bases, dates, com funcionen els bons i notícies de la campanya."
+      },
+      "list": {
+        "title": "Llistat oficial d'establiments",
+        "body": "D'ací prenem les dades dels comerços adherits."
+      }
     },
+    "switch": "Anar a la portada",
     "mini": {
       "text": "Projecte independent i sense ànim de lucre, sense relació amb l'Ajuntament de Castelló ni CONFECOMERÇ.",
-      "source": "Dades: bonoscastellodelaplana.es",
       "code": "Codi a GitHub",
       "legal": "Privacitat i galetes",
-      "cookies": "Gestionar galetes"
+      "cookies": "Gestionar galetes",
+      "demo2025": "Veure com era l'edició 2025 (demo amb dades d'exemple)"
     }
   },
   "ed26": {
@@ -207,8 +226,9 @@
       "stats": {
         "shops": "Comerços adherits",
         "sectors": "Sectors",
-        "newLast30": "Nous (30 dies)",
-        "updated": "Última actualització"
+        "newLast7": "Nous (7 dies)",
+        "updated": "Última actualització",
+        "removedLast7": "Baixes (7 dies)"
       },
       "sectorsTitle": "Explora per sector",
       "sectorsAll": "Veure'ls tots",
@@ -269,7 +289,8 @@
       "updates": "{{count}} actualitzacions",
       "showMore": "Veure'n {{count}} més",
       "showLess": "Veure'n menys",
-      "updatesOne": "1 actualització"
+      "updatesOne": "1 actualització",
+      "week": "Setmana del {{start}} al {{end}}"
     },
     "state": {
       "loading": "Carregant comerços…",

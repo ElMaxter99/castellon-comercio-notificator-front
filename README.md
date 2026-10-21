@@ -64,9 +64,9 @@ flowchart LR
 
 > Todas las capturas usan **datos ficticios** (comercios, fotos, teléfonos y fechas inventados); no se muestran datos reales del programa. Se regeneran con [`tools/readme-screenshots.cjs`](tools/readme-screenshots.cjs).
 
-### Selector de edición
+### Portada
 
-<p align="center"><img src="docs/assets/landing.png" alt="Pantalla de entrada con las ediciones 2026 y 2025" width="88%"></p>
+<p align="center"><img src="docs/assets/landing.png" alt="Portada: por qué existe el proyecto, fuentes oficiales y entrada a la edición 2026" width="88%"></p>
 
 ### Edición 2026
 
@@ -93,7 +93,7 @@ flowchart LR
 
 | Ruta | Edición | Datos |
 |---|---|---|
-| `/` | Selector de edición | — |
+| `/` | Portada (por qué existe, fuentes oficiales, entrada a la 2026; la 2025 demo desde el pie) | — |
 | `/2026` · `/2026/comercios` · `/2026/novedades` | **2026** — vistas renovadas | API real (configurable) |
 | `/2025` · `/2025/history` | **2025** — vistas originales | **Siempre demo** (`public/mockup/`) |
 
@@ -133,7 +133,7 @@ Prioridad: `--api-url` › `API_BASE_URL` › valor por defecto del entorno. Det
 ```
 src/app/
 ├── app.ts · app.routes.ts          raíz: router-outlet + toasts, rutas por edición
-├── pages/landing/                  selector de edición (/)
+├── pages/landing/                  portada (/)
 ├── editions/
 │   ├── edition-2025/               layout original (siempre demo)
 │   └── edition-2026/               shell, store, páginas (inicio · comercios · novedades), tema, mapa
