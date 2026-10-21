@@ -49,4 +49,27 @@ describe('HomePageComponent', () => {
     const el = setup({ recentRemoved: signal(0) }).nativeElement as HTMLElement;
     expect(el.querySelector('.home__stat--removed dd')?.textContent?.replace(/\s+/g, '')).toBe('−0');
   });
+
+  it('un sector con un nombre muy largo no ensancha la página más allá de la pantalla', () => {
+    const long = 'Alimentación, bebidas y productos de proximidad de temporada para toda la familia';
+    const fixture = setup({
+      sectors: signal([
+        { name: long, count: 3, color: '#111' },
+        { name: 'Moda', count: 1, color: '#222' }
+      ])
+    });
+    // Se simula una pantalla de móvil: contenedor de 360 px con los estilos del componente aplicados
+    const wrapper = document.createElement('div');
+    wrapper.className = 'ed26'; // el tema (chips sin salto de línea) vive bajo .ed26
+    wrapper.style.width = '360px';
+    wrapper.append(fixture.nativeElement as HTMLElement);
+    document.body.append(wrapper);
+
+    const host = fixture.nativeElement as HTMLElement;
+    for (const selector of ['.home__hero', '.home__stats', '.home__chips']) {
+      expect(host.querySelector(selector)!.getBoundingClientRect().width).withContext(selector).toBeLessThanOrEqual(360);
+    }
+
+    wrapper.remove();
+  });
 });
