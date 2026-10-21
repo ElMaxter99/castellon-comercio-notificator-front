@@ -290,7 +290,8 @@
       "showMore": "Ver {{count}} más",
       "showLess": "Ver menos",
       "updatesOne": "1 actualización",
-      "week": "Semana del {{start}} al {{end}}"
+      "week": "Semana del {{start}} al {{end}}",
+      "thisWeek": "Esta semana"
     },
     "state": {
       "loading": "Cargando comercios…",

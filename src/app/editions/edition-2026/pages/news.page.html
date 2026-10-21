@@ -26,7 +26,10 @@
             [attr.aria-expanded]="isWeekOpen(group.key)"
             (click)="toggleWeek(group.key)"
           >
-            <span class="news__month-name">{{ 'ed26.news.week' | translate: { start: shortDay(group.start), end: dayWithYear(group.end) } }}</span>
+            <span class="news__month-name">{{ 'ed26.news.week' | translate: weekRange(group) }}</span>
+            @if (isCurrentWeek(group)) {
+              <span class="news__current">{{ 'ed26.news.thisWeek' | translate }}</span>
+            }
             @if (group.added > 0) {
               <span class="news__badge news__badge--add">+{{ group.added }}</span>
             }
