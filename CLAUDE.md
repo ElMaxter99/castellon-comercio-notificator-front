@@ -47,7 +47,7 @@ npm run build -- --configuration=production
 npm run build -- --configuration=production --live=false   # prod con mock
 API_BASE_URL=https://mi-api.onrender.com npm run build -- --configuration=production   # API propio
 npm start -- --api-url=http://localhost:3000                 # API local en otro puerto
-npm test                         # Karma + Jasmine (96 tests: utils, CommerceService, popup, api-url, consentimiento, store y páginas de la edición 2026, app); CI en .github/workflows/ci.yml
+npm test                         # Karma + Jasmine (97 tests: utils, CommerceService, popup, api-url, consentimiento, store y páginas de la edición 2026, app); CI en .github/workflows/ci.yml
 ```
 
 ## Convenciones

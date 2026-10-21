@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.11.1 - 2026-10-21
+
+### Corregido
+- **Inicio (`/2026`) se salía de la pantalla en móvil** (título, buscador y tarjetas cortados por la derecha). Causa: la rejilla de la página (`.home`, `.home__hero`, `.home__split`, `.home__stats`) no tenía columnas `minmax(0, 1fr)`, así que un chip de sector con un nombre largo (los datos reales los tienen) ensanchaba toda la columna (533 px en una pantalla de 390). Ahora las columnas respetan el ancho y los chips de sector se parten en varias líneas. Es el mismo fallo que ya se corrigió en los filtros de Comercios.
+- Test de regresión: un sector con un nombre larguísimo en un contenedor de 360 px (falla sin el arreglo con 695 px de ancho). Comprobado además que `/`, `/2026`, Comercios (lista y mapa), Novedades y `/privacidad` no desbordan a 375, 390 y 430 px.
+
 ## v2.11.0 - 2026-10-21
 
 ### Cambio (edición 2026) · Mapa, fase 4: leyenda y filtros sobre el mapa

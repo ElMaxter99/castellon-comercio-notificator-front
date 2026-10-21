@@ -4,17 +4,20 @@
 
 .home {
   display: grid;
+  // minmax(0, 1fr): sin esto, un chip de sector largo ensancha la columna más allá de la pantalla
+  grid-template-columns: minmax(0, 1fr);
   gap: 2.5rem;
   padding-block: clamp(1.5rem, 4vw, 3rem) 0;
 }
 
 .home__hero {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 2rem;
   align-items: center;
 
   @media (min-width: 900px) {
-    grid-template-columns: 1.4fr 1fr;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   }
 }
 
@@ -77,16 +80,16 @@
 
 .home__stats {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
   margin: 0;
 
   @media (min-width: 720px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   @media (min-width: 960px) {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
 
@@ -160,6 +163,17 @@
   padding: 0;
   list-style: none;
 
+  // Los nombres de sector pueden ser largos: se parten en vez de ensanchar la página
+  li {
+    max-width: 100%;
+  }
+
+  .ed26-chip {
+    max-width: 100%;
+    white-space: normal;
+    text-align: left;
+  }
+
   small {
     color: var(--muted);
     font-weight: 700;
@@ -174,10 +188,11 @@
 
 .home__split {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 2rem;
 
   @media (min-width: 900px) {
-    grid-template-columns: 1.3fr 1fr;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
     align-items: start;
   }
 }
