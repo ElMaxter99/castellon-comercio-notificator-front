@@ -280,7 +280,8 @@
       "legend": {
         "title": "Sectores",
         "all": "Todos",
-        "favorites": "Favoritos"
+        "favorites": "Favoritos",
+        "close": "Cerrar"
       }
     },
     "news": {

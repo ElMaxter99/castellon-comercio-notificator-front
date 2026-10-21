@@ -38,14 +38,16 @@ type LeafletGlobal = any;
     <div #canvas class="map" role="application" [attr.aria-label]="ariaLabel"></div>
 
     @if (sectors.length > 0) {
-      <aside class="legend" [class.is-open]="legendOpen()" [attr.aria-label]="legendLabels.title">
+      <aside class="legend" [class.is-open]="legendOpen()" [class.is-mobile]="mobile()" [attr.aria-label]="legendLabels.title">
         <button
           type="button"
           class="legend__toggle"
           [attr.aria-expanded]="legendOpen()"
+          [attr.aria-label]="legendLabels.title"
           (click)="legendOpen.set(!legendOpen())"
         >
-          <span aria-hidden="true">🎨</span> {{ legendLabels.title }}
+          <span aria-hidden="true">🎨</span>
+          <span class="legend__label">{{ legendLabels.title }}</span>
           @if (activeCount() > 0) {
             <span class="legend__count">{{ activeCount() }}</span>
           }
@@ -53,35 +55,43 @@ type LeafletGlobal = any;
         </button>
 
         @if (legendOpen()) {
-          <ul class="legend__list">
-            <li>
-              <button type="button" class="legend__chip" [attr.aria-pressed]="!activeSector" (click)="sectorPicked.emit('')">
-                {{ legendLabels.all }}
-              </button>
-            </li>
-            <li>
-              <button type="button" class="legend__chip legend__chip--fav" [attr.aria-pressed]="onlyFavorites" (click)="favoritesToggled.emit()">
-                ★ {{ legendLabels.favorites }}
-                <small>{{ favoritesCount }}</small>
-              </button>
-            </li>
-            @for (item of sectors; track item.name) {
+          <div class="legend__panel">
+            @if (mobile()) {
+              <div class="legend__head">
+                <strong>{{ legendLabels.title }}</strong>
+                <button type="button" class="legend__close" [attr.aria-label]="legendLabels.close" (click)="legendOpen.set(false)">✕</button>
+              </div>
+            }
+            <ul class="legend__list">
               <li>
-                <button
-                  type="button"
-                  class="legend__chip"
-                  [style.--c]="item.color"
-                  [attr.aria-pressed]="activeSector === item.name"
-                  (click)="sectorPicked.emit(item.name)"
-                >
-                  <span class="legend__dot" aria-hidden="true"></span>
-                  <span aria-hidden="true">{{ iconFor(item.name) }}</span>
-                  {{ item.name }}
-                  <small>{{ item.count }}</small>
+                <button type="button" class="legend__chip" [attr.aria-pressed]="!activeSector" (click)="pickSector('')">
+                  {{ legendLabels.all }}
                 </button>
               </li>
-            }
-          </ul>
+              <li>
+                <button type="button" class="legend__chip legend__chip--fav" [attr.aria-pressed]="onlyFavorites" (click)="toggleFavorites()">
+                  ★ {{ legendLabels.favorites }}
+                  <small>{{ favoritesCount }}</small>
+                </button>
+              </li>
+              @for (item of sectors; track item.name) {
+                <li>
+                  <button
+                    type="button"
+                    class="legend__chip"
+                    [style.--c]="item.color"
+                    [attr.aria-pressed]="activeSector === item.name"
+                    (click)="pickSector(item.name)"
+                  >
+                    <span class="legend__dot" aria-hidden="true"></span>
+                    <span aria-hidden="true">{{ iconFor(item.name) }}</span>
+                    {{ item.name }}
+                    <small>{{ item.count }}</small>
+                  </button>
+                </li>
+              }
+            </ul>
+          </div>
         }
       </aside>
     }
@@ -170,6 +180,78 @@ type LeafletGlobal = any;
       .legend__chip[aria-pressed='true'] small {
         background: rgba(255, 255, 255, 0.2);
       }
+
+      /* Móvil: solo un botón redondo con el icono; la lista sale en una hoja inferior compacta
+         (chips en varias líneas) en lugar de una columna que tape el mapa. */
+      .legend.is-mobile {
+        inset: 0;
+        display: block;
+        max-width: none;
+        pointer-events: none;
+      }
+      .legend.is-mobile .legend__toggle {
+        position: absolute;
+        top: 0.6rem;
+        right: 0.6rem;
+        justify-content: center;
+        width: 2.6rem;
+        height: 2.6rem;
+        padding: 0;
+        font-size: 1.1rem;
+        pointer-events: auto;
+      }
+      .legend.is-mobile .legend__label,
+      .legend.is-mobile .legend__chevron {
+        display: none;
+      }
+      .legend.is-mobile .legend__count {
+        position: absolute;
+        top: -0.25rem;
+        right: -0.25rem;
+      }
+      .legend.is-mobile .legend__panel {
+        position: absolute;
+        right: 0.5rem;
+        bottom: 0.5rem;
+        left: 0.5rem;
+        max-height: 55%;
+        padding: 0.6rem 0.7rem 0.7rem;
+        overflow-y: auto;
+        border-radius: 1.1rem;
+        background: rgba(251, 250, 240, 0.97);
+        box-shadow: 0 -4px 24px rgba(18, 53, 36, 0.3);
+        pointer-events: auto;
+      }
+      .legend__head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.45rem;
+        color: #123524;
+        font-size: 0.9rem;
+      }
+      .legend__close {
+        width: 2rem;
+        height: 2rem;
+        border: 0;
+        border-radius: 50%;
+        background: #e9efd9;
+        color: #123524;
+        font: inherit;
+        cursor: pointer;
+      }
+      .legend.is-mobile .legend__list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        justify-content: flex-start;
+        max-height: none;
+        padding: 0;
+        overflow: visible;
+      }
+      .legend.is-mobile .legend__chip {
+        box-shadow: none;
+      }
       .map {
         height: clamp(22rem, 65vh, 40rem);
         border-radius: 1.25rem;
@@ -194,7 +276,7 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() activeSector = '';
   @Input() onlyFavorites = false;
   @Input() favoritesCount = 0;
-  @Input() legendLabels = { title: 'Sectors', all: 'All', favorites: 'Favorites' };
+  @Input() legendLabels = { title: 'Sectors', all: 'All', favorites: 'Favorites', close: 'Close' };
   @Input() popupLabels: ShopPopupLabels = {
     directions: 'Google Maps',
     call: 'Call',
@@ -212,9 +294,31 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Output() readonly sectorPicked = new EventEmitter<string>();
   @Output() readonly favoritesToggled = new EventEmitter<void>();
 
+  private readonly desktopQuery = window.matchMedia?.('(min-width: 960px)');
+  /** En móvil la leyenda es un botón redondo que abre una hoja inferior compacta. */
+  protected readonly mobile = signal(!(this.desktopQuery?.matches ?? false));
   /** En escritorio la leyenda arranca abierta; en móvil, plegada para no tapar el mapa. */
-  protected readonly legendOpen = signal(window.matchMedia?.('(min-width: 960px)').matches ?? false);
+  protected readonly legendOpen = signal(!this.mobile());
+  private readonly onViewportChange = (event: MediaQueryListEvent): void => {
+    this.mobile.set(!event.matches);
+    this.legendOpen.set(event.matches);
+  };
   protected readonly iconFor = sectorIcon;
+
+  protected pickSector(name: string): void {
+    this.sectorPicked.emit(name);
+    // En móvil la hoja se cierra para ver el resultado en el mapa
+    if (this.mobile()) {
+      this.legendOpen.set(false);
+    }
+  }
+
+  protected toggleFavorites(): void {
+    this.favoritesToggled.emit();
+    if (this.mobile()) {
+      this.legendOpen.set(false);
+    }
+  }
 
   protected activeCount(): number {
     return Number(!!this.activeSector) + Number(this.onlyFavorites);
@@ -226,6 +330,10 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   private readonly pins = new Map<string, { marker: any; commerce: Commerce; html: string }>();
   /** Mientras se repintan iconos, los cierres/aperturas de popup son internos y no cambian la selección. */
   private repainting = false;
+
+  constructor() {
+    this.desktopQuery?.addEventListener?.('change', this.onViewportChange);
+  }
 
   ngAfterViewInit(): void {
     const L = this.leaflet();
@@ -279,6 +387,7 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   ngOnDestroy(): void {
     // Al destruir el mapa Leaflet cierra los popups: no debe tomarse como «deseleccionar»
+    this.desktopQuery?.removeEventListener?.('change', this.onViewportChange);
     this.repainting = true;
     this.map?.remove();
   }

@@ -4,9 +4,10 @@
 
 ### Cambio (edición 2026) · Mapa, fase 4: leyenda y filtros sobre el mapa
 - **Leyenda dentro del mapa** (arriba a la derecha): un botón «Sectores» con el número de filtros activos que despliega los sectores como chips con su **color, icono y recuento**, más «Todos» y **«Favoritos»**. Pulsar un chip filtra (los mismos filtros de la URL que usan los chips de arriba y el panel: `?sector=` y `?fav=1`).
-- Abierta de serie en escritorio y **plegada en móvil** para no tapar el mapa; con muchos sectores la lista se desplaza dentro de su caja.
+- **Escritorio**: abierta de serie; con muchos sectores la lista se desplaza dentro de su caja.
+- **Móvil**: solo un **botón redondo** con el icono (con el número de filtros activos); al pulsarlo sale una **hoja inferior compacta** con los sectores como chips en varias líneas y una ✕ para cerrar. Elegir un sector o «Favoritos» la cierra para ver el resultado en el mapa. (Antes era una columna de chips que tapaba medio mapa.)
 - **Sin «Mi ubicación»**: no se añade geolocalización, así que no cambia `/privacidad`.
-- Tests: 93 en total (leyenda: pliegue, chips, estados pulsados y eventos).
+- Tests: 96 en total (leyenda: pliegue, chips, estados pulsados, eventos y comportamiento móvil/escritorio).
 
 ## v2.10.0 - 2026-10-21
 

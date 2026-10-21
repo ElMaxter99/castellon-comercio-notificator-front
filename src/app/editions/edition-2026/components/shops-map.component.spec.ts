@@ -86,4 +86,64 @@ describe('ShopsMapComponent · leyenda', () => {
     expect(root(fixture).querySelector('.legend__count')?.textContent?.trim()).toBe('2');
     expect(root(setup()).querySelector('.legend__count')).toBeNull();
   });
+
+  describe('según el ancho de pantalla', () => {
+    const stubViewport = (desktop: boolean): void => {
+      spyOn(window, 'matchMedia').and.returnValue({
+        matches: desktop,
+        addEventListener: () => undefined,
+        removeEventListener: () => undefined
+      } as unknown as MediaQueryList);
+    };
+
+    it('en móvil arranca plegada, con botón redondo y cabecera con «cerrar» al abrirla', () => {
+      stubViewport(false);
+      const fixture = setup();
+      const el = root(fixture);
+      expect(el.querySelector('.legend')?.classList).toContain('is-mobile');
+      expect(el.querySelector('.legend__panel')).toBeNull();
+
+      el.querySelector<HTMLElement>('.legend__toggle')!.click();
+      fixture.detectChanges();
+      expect(el.querySelector('.legend__head')).not.toBeNull();
+
+      el.querySelector<HTMLElement>('.legend__close')!.click();
+      fixture.detectChanges();
+      expect(el.querySelector('.legend__panel')).toBeNull();
+    });
+
+    it('en móvil, elegir un sector o favoritos cierra la hoja para ver el mapa', () => {
+      stubViewport(false);
+      const fixture = setup();
+      const el = root(fixture);
+      const picked: string[] = [];
+      fixture.componentInstance.sectorPicked.subscribe((name) => picked.push(name));
+
+      el.querySelector<HTMLElement>('.legend__toggle')!.click();
+      fixture.detectChanges();
+      el.querySelectorAll<HTMLElement>('.legend__chip')[2].click();
+      fixture.detectChanges();
+      expect(picked).toEqual(['Calzado']);
+      expect(el.querySelector('.legend__panel')).toBeNull();
+
+      el.querySelector<HTMLElement>('.legend__toggle')!.click();
+      fixture.detectChanges();
+      el.querySelector<HTMLElement>('.legend__chip--fav')!.click();
+      fixture.detectChanges();
+      expect(el.querySelector('.legend__panel')).toBeNull();
+    });
+
+    it('en escritorio arranca abierta, sin cabecera y sigue abierta tras elegir', () => {
+      stubViewport(true);
+      const fixture = setup();
+      const el = root(fixture);
+      expect(el.querySelector('.legend')?.classList).not.toContain('is-mobile');
+      expect(el.querySelector('.legend__panel')).not.toBeNull();
+      expect(el.querySelector('.legend__head')).toBeNull();
+
+      el.querySelectorAll<HTMLElement>('.legend__chip')[2].click();
+      fixture.detectChanges();
+      expect(el.querySelector('.legend__panel')).not.toBeNull();
+    });
+  });
 });

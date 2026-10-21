@@ -119,7 +119,8 @@ export class ShopsPageComponent implements AfterViewInit {
     return {
       title: this.translate.instant('ed26.shops.legend.title'),
       all: this.translate.instant('ed26.shops.legend.all'),
-      favorites: this.translate.instant('ed26.shops.legend.favorites')
+      favorites: this.translate.instant('ed26.shops.legend.favorites'),
+      close: this.translate.instant('ed26.shops.legend.close')
     };
   });
   protected readonly colorFor = (sector: string): string => this.store.sectorColor(sector);

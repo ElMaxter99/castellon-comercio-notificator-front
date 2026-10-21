@@ -280,7 +280,8 @@
       "legend": {
         "title": "Sectors",
         "all": "Tots",
-        "favorites": "Preferits"
+        "favorites": "Preferits",
+        "close": "Tancar"
       }
     },
     "news": {
