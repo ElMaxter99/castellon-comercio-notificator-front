@@ -290,7 +290,8 @@
       "showMore": "Veure'n {{count}} més",
       "showLess": "Veure'n menys",
       "updatesOne": "1 actualització",
-      "week": "Setmana del {{start}} al {{end}}"
+      "week": "Setmana del {{start}} al {{end}}",
+      "thisWeek": "Aquesta setmana"
     },
     "state": {
       "loading": "Carregant comerços…",

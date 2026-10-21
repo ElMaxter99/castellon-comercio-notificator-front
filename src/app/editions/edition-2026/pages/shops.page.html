@@ -90,10 +90,10 @@
 
         <label class="shops__field shops__field--select">
           <span class="shops__label">{{ 'ed26.shops.sectorLabel' | translate }}</span>
-          <select [value]="sector()" (change)="onSectorChange($event)">
+          <select [value]="sector()" [class.is-active]="!!sector()" (change)="onSectorChange($event)">
             <option value="">{{ 'ed26.shops.allSectors' | translate }}</option>
             @for (item of store.sectors(); track item.name) {
-              <option [value]="item.name" [selected]="item.name === sector()">{{ item.name }} ({{ item.count }})</option>
+              <option [value]="item.name" [selected]="item.name === sector()">{{ sectorIcon(item.name) }} {{ item.name }} ({{ item.count }})</option>
             }
           </select>
         </label>

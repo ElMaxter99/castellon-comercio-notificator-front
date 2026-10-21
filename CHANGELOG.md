@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.7.1 - 2026-10-21
+
+### Cambio (edición 2026)
+- **Novedades**: el rótulo de cada semana es más compacto («Semana del 19 al 25 oct 2026»; si cruza de mes repite el mes y si cruza de año, el año) y la semana en curso lleva la etiqueta **«Esta semana»**.
+- **Comercios**: el desplegable de sector del panel de filtros (escritorio) tiene la misma estética que los chips de sector de arriba: píldora, borde fino, chevron propio, icono del sector en cada opción y aspecto «pulsado» (verde) cuando hay un sector elegido.
+- Tests: 64 en total.
+
 ## v2.7.0 - 2026-10-21
 
 ### Cambio (edición 2026)

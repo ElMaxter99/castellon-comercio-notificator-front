@@ -46,6 +46,24 @@ export class NewsPageComponent {
     return formatDate(value, this.locale(), { day: 'numeric', month: 'short', year: 'numeric' });
   }
 
+  /** Rango compacto: «19 al 25 oct 2026», «28 sep al 4 oct 2026» o «29 dic 2025 al 4 ene 2026». */
+  protected weekRange(group: WeekGroup): { start: string; end: string } {
+    const { start, end } = group;
+    const endText = this.dayWithYear(end);
+    if (start.getFullYear() !== end.getFullYear()) {
+      return { start: this.dayWithYear(start), end: endText };
+    }
+    if (start.getMonth() !== end.getMonth()) {
+      return { start: this.shortDay(start), end: endText };
+    }
+    return { start: String(start.getDate()), end: endText };
+  }
+
+  /** ¿Es la semana en curso? */
+  protected isCurrentWeek(group: WeekGroup): boolean {
+    return group.start.getTime() === weekStart(new Date()).getTime();
+  }
+
   protected dateTime(value: string): string {
     return formatDate(value, this.locale(), { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
   }
