@@ -178,4 +178,25 @@ describe('ShopsPageComponent', () => {
     expect(selected.length).toBe(1);
     expect(selected[0].getAttribute('data-shop-key')).toBe('Moda Luna|Calle Mayor');
   });
+
+  it('«Compartir» comparte un enlace al comercio (mapa con su popup) con el nombre como título', async () => {
+    const share = jasmine.createSpy('share').and.resolveTo();
+    Object.defineProperty(navigator, 'share', { value: share, configurable: true });
+    const h = setup();
+    const button = [...root(h).querySelectorAll<HTMLButtonElement>('.shop__pill')].find((b) =>
+      (b.textContent ?? '').includes('ed26.shops.share')
+    );
+    button?.click();
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(share).toHaveBeenCalledTimes(1);
+    const payload = share.calls.mostRecent().args[0] as { title: string; url: string };
+    expect(payload.title).toBe('Calzados Pepe');
+    const url = new URL(payload.url);
+    expect(url.pathname).toBe('/2026/comercios');
+    expect(url.searchParams.get('view')).toBe('map');
+    expect(url.searchParams.get('shop')).toBe('Calzados Pepe|Calle Mayor');
+    delete (navigator as unknown as { share?: unknown }).share;
+  });
 });

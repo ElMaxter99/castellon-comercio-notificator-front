@@ -31,7 +31,7 @@ Debe mantenerse fiel a como estaba. Solo se han cambiado enlaces para vivir bajo
   - **Panel lateral de filtros** (arriba en móvil; con la vista de mapa abierta, en móvil el mapa va antes y los filtros debajo): nombre o dirección (**sin acentos**), sector (desplegable con contadores), solo favoritos y *Limpiar filtros*. Filtra en vivo, sin botón "aplicar".
   - **Lista agrupada por sector** en acordeones (icono de color, nombre, contador). Sin filtros solo se abre el primer grupo; con filtros se abren todos; *Desplegar/Plegar todo*. Los grupos cerrados no se renderizan.
   - **Tarjetas** con imagen del comercio (con respaldo si falla), dirección, teléfono (`tel:`), *cómo llegar* y favorito (★, en `localStorage`).
-  - **Mapa** Leaflet con **clústeres numerados** (`leaflet.markercluster` desde unpkg en `index.html`). Encuadra la zona donde está la mayoría de comercios: los de coordenadas erróneas (mal geocodificados en la web oficial) siguen en el mapa pero no alejan el zoom.
+  - **Mapa** Leaflet con **clústeres numerados** (`leaflet.markercluster` desde unpkg, cargado al abrir el mapa por `utils/load-leaflet.ts`). Encuadra la zona donde está la mayoría de comercios: los de coordenadas erróneas (mal geocodificados en la web oficial) siguen en el mapa pero no alejan el zoom.
   - **Los filtros viven en la URL** (`?q=&sector=&view=map&fav=1`): enlaces compartibles y botón atrás coherente.
 - **Novedades** (`pages/news.*`): línea de tiempo de altas/bajas agrupada por mes.
 - **Móvil**: la navegación pasa a barra inferior.

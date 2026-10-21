@@ -9,17 +9,17 @@ export const edition2026Routes: Routes = [
     children: [
       {
         path: '',
-        title: 'Comerç Castelló 2026',
+        data: { titleKey: 'title.home' },
         loadComponent: () => import('./pages/home.page').then((m) => m.HomePageComponent)
       },
       {
         path: 'comercios',
-        title: 'Comercios · Comerç Castelló 2026',
+        data: { titleKey: 'title.shops' },
         loadComponent: () => import('./pages/shops.page').then((m) => m.ShopsPageComponent)
       },
       {
         path: 'novedades',
-        title: 'Novedades · Comerç Castelló 2026',
+        data: { titleKey: 'title.news' },
         loadComponent: () => import('./pages/news.page').then((m) => m.NewsPageComponent)
       },
       { path: '**', redirectTo: '' }

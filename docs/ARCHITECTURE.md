@@ -50,7 +50,7 @@ Pipeline derivado con `computed`:
 - Error de carga → `hasError` + toast traducido.
 
 ## CommerceMapComponent
-- Usa `window.L` (Leaflet cargado en `index.html`); si no está, el mapa no se inicializa (silencioso).
+- Usa `window.L`, que descarga `utils/load-leaflet.ts` al inicializar el mapa (ya no va en `index.html`); sin conexión el mapa no se inicializa.
 - Tiles OpenStreetMap; centro por defecto `[39.986359, -0.037652]`, zoom 14 (Castelló).
 - Un `circleMarker` por comercio; coordenadas desde `mapsUrl` → `URL.searchParams.get('query')` = `"lat,lng"`. Comercios sin coordenadas se omiten del mapa (pero siguen en el listado).
 - Color por sector con paleta de 10 colores; leyenda con contador; click en leyenda filtra (toggle).
