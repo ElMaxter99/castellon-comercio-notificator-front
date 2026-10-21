@@ -12,12 +12,16 @@ import {
   ViewChild
 } from '@angular/core';
 import { Commerce } from '../../../models/commerce.model';
-import { coordsFromMapsUrl } from '../../../utils/commerce-utils';
+import { commerceKey, coordsFromMapsUrl } from '../../../utils/commerce-utils';
+import { sectorIcon } from '../sector-icon';
+import { PIN_ANCHOR, PIN_SIZE, pinHtml } from './map-pin';
 
 const DEFAULT_CENTER: [number, number] = [39.986359, -0.037652];
 const DEFAULT_ZOOM = 14;
 /** Radio (en grados, ≈ 28 km) alrededor de la mediana dentro del cual se encuadra el mapa. */
 const FIT_RADIUS_DEGREES = 0.25;
+/** A este zoom o menos, los pines se dibujan más pequeños. */
+const FAR_ZOOM = 13;
 
 type LeafletGlobal = any;
 
@@ -51,12 +55,16 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   @Input({ required: true }) commerces: Commerce[] = [];
   @Input() colorFor: (sector: string) => string = () => '#1E4D2B';
+  /** Claves (`commerceKey`) de los comercios favoritos: llevan una estrella sobre el pin. */
+  @Input() favorites: ReadonlySet<string> = new Set();
   @Input() directionsLabel = 'Google Maps';
   @Input() ariaLabel = '';
   @Output() readonly commerceSelected = new EventEmitter<Commerce>();
 
   private map: any;
   private layer: any;
+  /** Pin de cada comercio, para repintar los iconos sin volver a encuadrar el mapa. */
+  private readonly pins = new Map<string, { marker: any; commerce: Commerce }>();
 
   ngAfterViewInit(): void {
     const L = this.leaflet();
@@ -64,6 +72,7 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
       return;
     }
     this.map = L.map(this.canvas.nativeElement).setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+    this.map.on('zoomend', () => this.updateZoomClass());
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -87,8 +96,13 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.map && changes['commerces']) {
+    if (!this.map) {
+      return;
+    }
+    if (changes['commerces']) {
       this.render();
+    } else if (changes['favorites']) {
+      this.refreshIcons();
     }
   }
 
@@ -102,6 +116,7 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
       return;
     }
     this.layer.clearLayers();
+    this.pins.clear();
     const allCoords: Array<[number, number]> = [];
 
     for (const commerce of this.commerces) {
@@ -109,17 +124,11 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
       if (!coords) {
         continue;
       }
-      const color = this.colorFor(commerce.sector);
-      const marker = L.circleMarker(coords, {
-        radius: 8,
-        weight: 2,
-        color: '#FBFAF0',
-        fillColor: color,
-        fillOpacity: 0.95
-      });
+      const marker = L.marker(coords, { icon: this.pinIcon(commerce), riseOnHover: true });
       marker.bindPopup(this.popup(commerce));
       marker.on('click', () => this.commerceSelected.emit(commerce));
       marker.addTo(this.layer);
+      this.pins.set(commerceKey(commerce), { marker, commerce });
       allCoords.push(coords);
     }
 
@@ -131,6 +140,35 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
     }
     // El contenedor puede haber cambiado de tamaño al mostrarse.
     setTimeout(() => this.map?.invalidateSize(), 0);
+    this.updateZoomClass();
+  }
+
+  /** Icono del pin: color e icono del sector, y estrella si es favorito. */
+  private pinIcon(commerce: Commerce): any {
+    const L = this.leaflet();
+    return L.divIcon({
+      html: pinHtml({
+        color: this.colorFor(commerce.sector),
+        icon: sectorIcon(commerce.sector),
+        favorite: this.favorites.has(commerceKey(commerce))
+      }),
+      className: 'ed26-pin-wrap',
+      iconSize: PIN_SIZE,
+      iconAnchor: PIN_ANCHOR,
+      popupAnchor: [0, -40]
+    });
+  }
+
+  /** Repinta los iconos (p. ej. al guardar un favorito) sin mover el mapa. */
+  private refreshIcons(): void {
+    for (const { marker, commerce } of this.pins.values()) {
+      marker.setIcon(this.pinIcon(commerce));
+    }
+  }
+
+  /** Con el mapa muy alejado los pines se reducen un poco. */
+  private updateZoomClass(): void {
+    this.map?.getContainer().classList.toggle('ed26-map--far', this.map.getZoom() <= FAR_ZOOM);
   }
 
   /**

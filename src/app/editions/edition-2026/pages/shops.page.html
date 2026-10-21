@@ -146,6 +146,7 @@
         <app-shops-map
           [commerces]="filtered()"
           [colorFor]="colorFor"
+          [favorites]="store.favorites()"
           [directionsLabel]="'ed26.shops.directions' | translate"
           [ariaLabel]="'ed26.shops.mapLabel' | translate"
         ></app-shops-map>
