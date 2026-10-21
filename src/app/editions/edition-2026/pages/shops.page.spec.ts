@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router, convertToParamMap } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { Commerce } from '../../../models/commerce.model';
 import { commerceKey } from '../../../utils/commerce-utils';
@@ -53,8 +53,9 @@ function setup(params: Record<string, string> = {}): Harness {
   const navigate = jasmine.createSpy('navigate').and.resolveTo(true);
 
   TestBed.configureTestingModule({
-    imports: [ShopsPageComponent, TranslateModule.forRoot()],
+    imports: [ShopsPageComponent],
     providers: [
+      provideTranslateService(),
       { provide: Edition2026Store, useValue: store },
       { provide: Router, useValue: { navigate } },
       { provide: ActivatedRoute, useValue: { queryParamMap, snapshot: { queryParamMap: queryParamMap.value } } }

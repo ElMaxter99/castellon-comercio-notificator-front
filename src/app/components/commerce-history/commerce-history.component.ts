@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, computed, inject, signal } from '@angular/core';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommerceHistoryEntry } from '../../models/commerce-history-entry.model';
 import { CommerceService } from '../../services/commerce.service';
@@ -11,7 +11,7 @@ import { ToastService } from '../../services/toast.service';
 @Component({
   selector: 'app-commerce-history',
   standalone: true,
-  imports: [CommonModule, TranslateModule, LoadingSpinnerComponent],
+  imports: [CommonModule, TranslatePipe, LoadingSpinnerComponent],
   templateUrl: './commerce-history.component.html',
   styleUrl: './commerce-history.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

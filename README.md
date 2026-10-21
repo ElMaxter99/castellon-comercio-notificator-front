@@ -13,7 +13,7 @@
 
 [![CI](https://github.com/ElMaxter99/castellon-comercio-notificator-front/actions/workflows/ci.yml/badge.svg)](https://github.com/ElMaxter99/castellon-comercio-notificator-front/actions/workflows/ci.yml)
 [![Versión](https://img.shields.io/github/package-json/v/ElMaxter99/castellon-comercio-notificator-front?style=flat-square&color=1E4D2B&label=versi%C3%B3n)](CHANGELOG.md)
-[![Angular](https://img.shields.io/badge/Angular-20-DD0031?style=flat-square&logo=angular&logoColor=white)](https://angular.dev)
+[![Angular](https://img.shields.io/badge/Angular-22-DD0031?style=flat-square&logo=angular&logoColor=white)](https://angular.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Leaflet](https://img.shields.io/badge/Leaflet-1.9-199900?style=flat-square&logo=leaflet&logoColor=white)](https://leafletjs.com)
 [![Vercel](https://img.shields.io/badge/despliegue-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com)
@@ -101,7 +101,7 @@ Cómo se fuerza el modo demo en 2025 y cómo está montado el diseño 2026: [`do
 
 ## 🚀 Arranque rápido
 
-**Requisitos:** Node.js ≥ 20.19 (o 22.12+) y npm.
+**Requisitos:** Node.js 22.22.3+, 24.15+ o 26+ (lo exige Angular 22) y npm.
 
 ```bash
 git clone https://github.com/ElMaxter99/castellon-comercio-notificator-front.git
@@ -143,7 +143,7 @@ src/app/
 └── utils/                          búsqueda sin acentos, coordenadas, fechas
 ```
 
-Angular 20 con componentes *standalone*, `signal`/`computed`, `OnPush` y rutas perezosas. Mapa con Leaflet + `markercluster`; traducciones con ngx-translate. Más en [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+Angular 22 con componentes *standalone*, `signal`/`computed`, `OnPush` y rutas perezosas. Mapa con Leaflet + `markercluster`; traducciones con ngx-translate. Más en [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ## 📚 Documentación
 

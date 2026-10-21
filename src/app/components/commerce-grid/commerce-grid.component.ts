@@ -15,7 +15,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs';
 import { Commerce } from '../../models/commerce.model';
 import { CommerceService } from '../../services/commerce.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { CommerceCardComponent } from '../commerce-card/commerce-card.component';
 import { LanguageService } from '../../services/language.service';
 import { CommerceMapComponent } from '../commerce-map/commerce-map.component';
@@ -34,7 +34,7 @@ const PAGE_SIZE_OPTIONS = [12, 24, 48];
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    TranslateModule,
+    TranslatePipe,
     CommerceMapComponent,
     CommerceCardComponent,
     LoadingSpinnerComponent

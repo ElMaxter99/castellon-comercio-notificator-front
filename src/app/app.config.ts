@@ -1,12 +1,17 @@
 import {
   ApplicationConfig,
-  importProvidersFrom,
+  inject,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
 import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
-import { TranslateLoader, TranslateModule, Translation } from '@ngx-translate/core';
+import {
+  TranslateLoader,
+  Translation,
+  provideTranslateLoader,
+  provideTranslateService,
+} from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
 import { routes } from './app.routes';
@@ -34,15 +39,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withFetch()),
-    importProvidersFrom(
-      TranslateModule.forRoot({
-        defaultLanguage: 'es',
-        loader: {
-          provide: TranslateLoader,
-          useFactory: createTranslateLoader,
-          deps: [HttpClient],
-        },
-      })
-    ),
+    provideTranslateService({ fallbackLang: 'es' }),
+    provideTranslateLoader((): TranslateLoader => createTranslateLoader(inject(HttpClient))),
   ],
 };

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import packageInfo from '../../../../package.json';
 import { ConsentService } from '../../services/consent.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageSwitcherComponent } from '../../components/language-switcher/language-switcher.component';
 import { GeoArtComponent } from '../../editions/edition-2026/components/geo-art.component';
 
@@ -10,7 +10,7 @@ import { GeoArtComponent } from '../../editions/edition-2026/components/geo-art.
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [RouterLink, TranslateModule, LanguageSwitcherComponent, GeoArtComponent],
+  imports: [RouterLink, TranslatePipe, LanguageSwitcherComponent, GeoArtComponent],
   templateUrl: './landing.page.html',
   styleUrl: './landing.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

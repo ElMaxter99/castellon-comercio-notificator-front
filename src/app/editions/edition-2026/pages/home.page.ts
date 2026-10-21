@@ -1,7 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/language.service';
 import { formatDate } from '../../../utils/format-date';
 import { GeoArtComponent } from '../components/geo-art.component';
@@ -10,7 +10,7 @@ import { Edition2026Store } from '../edition-2026.store';
 @Component({
   selector: 'app-ed26-home',
   standalone: true,
-  imports: [RouterLink, TranslateModule, DecimalPipe, GeoArtComponent],
+  imports: [RouterLink, TranslatePipe, DecimalPipe, GeoArtComponent],
   templateUrl: './home.page.html',
   styleUrl: './home.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

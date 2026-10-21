@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.6.0 - 2026-10-21
+
+### Cambio
+- **Angular 20 → 22** (pasando por 21), **TypeScript 5.9 → 6.0**, **zone.js 0.15 → 0.16** y **@ngx-translate/core 17 → 18** (`TranslateModule` → `TranslatePipe` + `provideTranslateService`/`provideTranslateLoader`; `currentLang` es ahora una signal). Sin cambios visibles: 51 tests, builds de producción y revisión en navegador en castellano y valencià correctos.
+- Node mínimo: 22.22.3, 24.15 o 26 (requisito de Angular 22).
+- `docs/DEPENDENCIES.md` y `.github/dependabot.yml` actualizados: ya solo se ignoran los mayores de Angular/TypeScript y Jasmine 7 (probado: sigue sin arrancar con `zone.js` 0.16).
+
 ## v2.5.2 - 2026-10-21
 
 ### Tests

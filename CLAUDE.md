@@ -3,7 +3,7 @@
 Guía para Claude Code. Léela entera antes de tocar nada.
 
 ## Qué es
-SPA **Angular 20** (standalone + signals + OnPush) con **dos ediciones**: `/2025` (vistas originales, siempre demo) y `/2026` (vistas renovadas, ver `docs/EDITIONS.md`). Sirve para explorar los comercios adheridos al programa de bonos de Castelló de la Plana: filtros por nombre/sector/dirección, vista cuadrícula/lista, paginación, mapa Leaflet con leyenda por sectores, panel de estado y página de histórico de altas/bajas. Bilingüe (castellano / valencià). Consume el API del repo `castellon-comercio-notificator-api`. Despliegue de referencia: Vercel (usa `@vercel/analytics`).
+SPA **Angular 22** (standalone + signals + OnPush) con **dos ediciones**: `/2025` (vistas originales, siempre demo) y `/2026` (vistas renovadas, ver `docs/EDITIONS.md`). Sirve para explorar los comercios adheridos al programa de bonos de Castelló de la Plana: filtros por nombre/sector/dirección, vista cuadrícula/lista, paginación, mapa Leaflet con leyenda por sectores, panel de estado y página de histórico de altas/bajas. Bilingüe (castellano / valencià). Consume el API del repo `castellon-comercio-notificator-api`. Despliegue de referencia: Vercel (usa `@vercel/analytics`).
 
 Proyecto independiente y sin ánimo de lucro; sin relación oficial con el Ayuntamiento ni CONFECOMERÇ.
 
@@ -33,7 +33,7 @@ Proyecto independiente y sin ánimo de lucro; sin relación oficial con el Ayunt
 - [`docs/EDITIONS.md`](docs/EDITIONS.md) — **ediciones 2025/2026**, modo demo forzado y diseño 2026.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — componentes, estado, flujos de datos, i18n, mapa.
 - [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md) — entornos, `--live`, modo mock, builds.
-- [`docs/DEPENDENCIES.md`](docs/DEPENDENCIES.md) — Dependabot: qué se ignora a propósito (Angular 22, ngx-translate 18, jasmine 7…) y cómo revisar sus PRs.
+- [`docs/DEPENDENCIES.md`](docs/DEPENDENCIES.md) — Dependabot: qué se ignora a propósito (jasmine 7…) y cómo revisar sus PRs.
 - [`docs/REUSE-2026.md`](docs/REUSE-2026.md) — **checklist para reutilizar el proyecto en la edición 2026**.
 
 ## Comandos
