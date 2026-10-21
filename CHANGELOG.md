@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.9.0 - 2026-10-21
+
+### Cambio (edición 2026) · Mapa, fase 2: selección, popup y lista
+- **Pin seleccionado**: más grande, con aro naranja; queda reflejado en la URL (`?shop=<clave>`), así que se puede compartir y sobrevive a recargar.
+- **Popup como tarjeta**: nombre, chip del sector, dirección y acciones **Llamar**, **Cómo llegar**, **Guardar/Quitar favorito** (actualiza la estrella del pin sin cerrar el popup) y **Ver ficha**.
+- **Lista ↔ mapa**: cada tarjeta de la lista tiene «Ver en el mapa» (abre el mapa con ese comercio seleccionado) y el popup tiene «Ver ficha» (vuelve a la lista, abre el grupo del sector, desplaza hasta la tarjeta y la resalta).
+- **Teclado y lectores de pantalla**: los pines son enfocables (Tab), se anuncian como botón con «nombre, sector», Enter abre el popup, Esc lo cierra y el foco se ve.
+- Tests: 80 en total (popup, selección y navegación lista ↔ mapa).
+
 ## v2.8.0 - 2026-10-21
 
 ### Cambio (edición 2026) · Mapa, fase 1: pin y paleta

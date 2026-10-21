@@ -271,7 +271,12 @@
       "noSector": "Sin sector",
       "eyebrow": "Directorio",
       "subtitle": "Todos los establecimientos adheridos al programa: filtra por sector, busca por nombre o calle y ábrelos en el mapa.",
-      "allChip": "Todos"
+      "allChip": "Todos",
+      "call": "Llamar",
+      "favSave": "Guardar",
+      "favRemoveShort": "Quitar",
+      "viewInList": "Ver ficha",
+      "viewOnMap": "Ver en el mapa"
     },
     "news": {
       "eyebrow": "Altas y bajas",

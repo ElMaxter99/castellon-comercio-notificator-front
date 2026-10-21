@@ -286,6 +286,92 @@
     }
   }
 
+  // Pin enfocado con el teclado
+  .leaflet-marker-icon:focus-visible .ed26-pin__body {
+    outline: 3px solid var(--blue);
+    outline-offset: 2px;
+  }
+
+  // Popup del mapa (tarjeta del comercio)
+  .leaflet-popup-content-wrapper {
+    padding: 0;
+    border-radius: 1rem;
+    box-shadow: 0 12px 30px rgba(18, 53, 36, 0.3);
+  }
+
+  .leaflet-popup-content {
+    margin: 0;
+    width: auto !important;
+  }
+
+  .shop-popup {
+    --c: var(--forest);
+    display: grid;
+    gap: 0.4rem;
+    min-width: 15rem;
+    max-width: 18rem;
+    padding: 0.9rem 1rem 1rem;
+    border-top: 5px solid var(--c);
+    border-radius: 1rem 1rem 0 0;
+    color: var(--ink);
+    font-size: 0.88rem;
+    line-height: 1.35;
+  }
+
+  .shop-popup__title {
+    padding-right: 1rem;
+    font-size: 1rem;
+    color: var(--forest-deep);
+  }
+
+  .shop-popup__sector {
+    justify-self: start;
+    padding: 0.1rem 0.6rem;
+    border-radius: 999px;
+    background: var(--c);
+    color: var(--cream);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .shop-popup__address {
+    color: var(--muted);
+  }
+
+  .shop-popup__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.3rem;
+  }
+
+  .shop-popup__btn {
+    padding: 0.35rem 0.75rem;
+    border: 1.5px solid var(--line);
+    border-radius: 999px;
+    background: var(--paper);
+    color: var(--forest);
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--sage-soft);
+    }
+
+    &--go {
+      border-color: var(--forest);
+      background: var(--forest);
+      color: var(--cream);
+
+      &:hover {
+        background: var(--forest-deep);
+      }
+    }
+  }
+
   // Clústeres del mapa (L.divIcon vive fuera del encapsulado de Angular)
   .ed26-cluster span {
     display: grid;

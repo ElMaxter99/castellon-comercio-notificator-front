@@ -2,7 +2,7 @@ import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Subject, debounceTime } from 'rxjs';
 import { Commerce } from '../../../models/commerce.model';
 import { commerceKey, coordsFromMapsUrl, normalizeText } from '../../../utils/commerce-utils';
@@ -41,6 +41,7 @@ export class ShopsPageComponent implements AfterViewInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly document = inject(DOCUMENT);
+  private readonly translate = inject(TranslateService);
 
   private readonly params = toSignal(this.route.queryParamMap, { initialValue: this.route.snapshot.queryParamMap });
   private readonly searchInput$ = new Subject<string>();
@@ -49,6 +50,8 @@ export class ShopsPageComponent implements AfterViewInit {
   protected readonly sector = computed(() => this.params().get('sector') ?? '');
   protected readonly view = computed<ViewMode>(() => (this.params().get('view') === 'map' ? 'map' : 'list'));
   protected readonly onlyFavorites = computed(() => this.params().get('fav') === '1');
+  /** Comercio seleccionado (`?shop=<clave>`): pin destacado en el mapa y tarjeta resaltada en la lista. */
+  protected readonly selectedKey = computed(() => this.params().get('shop') || null);
 
   /** Aperturas manuales de acordeón (clave: nombre de sector). */
   private readonly overrides = signal<ReadonlyMap<string, boolean>>(new Map());
@@ -100,6 +103,17 @@ export class ShopsPageComponent implements AfterViewInit {
     () => this.filtered().filter((commerce) => coordsFromMapsUrl(commerce.mapsUrl) !== null).length
   );
   protected readonly allOpen = computed(() => this.groups().every((group) => this.isOpen(group.name)));
+  protected readonly popupLabels = computed(() => {
+    // Leer el idioma activo hace que las etiquetas se recalculen al cambiar de idioma o terminar de cargarlo
+    this.translate.currentLang();
+    return {
+      directions: this.translate.instant('ed26.shops.directions'),
+      call: this.translate.instant('ed26.shops.call'),
+      favoriteAdd: this.translate.instant('ed26.shops.favSave'),
+      favoriteRemove: this.translate.instant('ed26.shops.favRemoveShort'),
+      viewInList: this.translate.instant('ed26.shops.viewInList')
+    };
+  });
   protected readonly colorFor = (sector: string): string => this.store.sectorColor(sector);
   protected readonly placeholder = PLACEHOLDER_IMAGE;
   protected readonly sectorIcon = sectorIcon;
@@ -123,6 +137,11 @@ export class ShopsPageComponent implements AfterViewInit {
     const manual = this.overrides().get(name);
     if (manual !== undefined) {
       return manual;
+    }
+    // El grupo del comercio seleccionado (viene del mapa) se abre solo.
+    const key = this.selectedKey();
+    if (key && this.groups().some((group) => group.name === name && group.items.some((c) => commerceKey(c) === key))) {
+      return true;
     }
     return this.hasFilters() || this.groups()[0]?.name === name;
   }
@@ -157,6 +176,33 @@ export class ShopsPageComponent implements AfterViewInit {
     }
   }
 
+  /** Pin pulsado en el mapa: queda seleccionado en la URL. */
+  protected onMapSelect(commerce: Commerce): void {
+    void this.update({ shop: commerceKey(commerce) });
+  }
+
+  protected onMapDeselect(): void {
+    void this.update({ shop: null });
+  }
+
+  /** Desde la lista: «Ver en el mapa». */
+  protected showOnMap(commerce: Commerce): void {
+    void this.update({ view: 'map', shop: commerceKey(commerce) }).then(() =>
+      requestAnimationFrame(() => this.scrollToResults())
+    );
+  }
+
+  /** Desde el popup del mapa: «Ver ficha». */
+  protected showInList(commerce: Commerce): void {
+    void this.update({ view: null, shop: commerceKey(commerce) }).then(() =>
+      setTimeout(() => this.scrollToShop(commerceKey(commerce)), 60)
+    );
+  }
+
+  protected isSelected(commerce: Commerce): boolean {
+    return this.selectedKey() === commerceKey(commerce);
+  }
+
   protected setView(view: ViewMode): void {
     void this.update({ view: view === 'map' ? 'map' : null }).then(() =>
       requestAnimationFrame(() => this.scrollToResults())
@@ -184,6 +230,15 @@ export class ShopsPageComponent implements AfterViewInit {
 
   protected trackByKey(_index: number, commerce: Commerce): string {
     return commerceKey(commerce);
+  }
+
+  private scrollToShop(key: string): void {
+    const target = this.document.querySelector<HTMLElement>(`[data-shop-key="${key.replace(/["\\]/g, '\\$&')}"]`);
+    if (!target) {
+      return;
+    }
+    const reduce = this.document.defaultView?.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
   }
 
   /** Desplazamiento suave hasta los resultados (instantáneo si el usuario prefiere menos movimiento). */
