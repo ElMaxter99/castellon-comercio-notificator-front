@@ -11,17 +11,29 @@ export interface SectorSummary {
   color: string;
 }
 
-/** Paleta del cartel 2026: naranja, verde bosque, oliva, azul, salvia... */
+/**
+ * Paleta de sectores: los cuatro colores del cartel 2026 (verde bosque, naranja, azul, oliva)
+ * más tonos bien separados para que 12-14 sectores no se confundan en el mapa.
+ */
 export const SECTOR_COLORS = [
-  '#F77F00',
-  '#1E4D2B',
-  '#8E9B3A',
-  '#1F4E9E',
-  '#C2410C',
-  '#4F7F52',
-  '#B45309',
-  '#3B6FB6'
+  '#1E4D2B', // verde bosque
+  '#F77F00', // naranja
+  '#1F4E9E', // azul
+  '#8E9B3A', // oliva
+  '#7B3FA0', // morado
+  '#0F8B8D', // turquesa
+  '#C2336B', // rosa
+  '#8A5A2B', // marrón
+  '#3FA7D6', // cielo
+  '#C0392B', // rojo
+  '#D4A017', // dorado
+  '#5B6B7A', // pizarra
+  '#4F9D4F', // verde hoja
+  '#B24BB0' // fucsia
 ];
+
+/** Color de los comercios sin sector. */
+export const NO_SECTOR_COLOR = '#566A5A';
 
 const FAVORITES_KEY = 'castellon-comercio-favorites-2026';
 // El programa de bonos dura poco más de un mes: una semana es una ventana con sentido.
@@ -53,6 +65,25 @@ export class Edition2026Store {
   });
 
   /** Altas de los últimos 7 días. */
+  /**
+   * Color de cada sector por su posición alfabética (no por hash): mientras haya menos sectores
+   * que colores no se repite ninguno, y no cambia al filtrar.
+   */
+  private readonly sectorColors = computed(() => {
+    const names = new Set<string>();
+    for (const commerce of this.commerces()) {
+      const name = commerce.sector?.trim();
+      if (name) {
+        names.add(name.toLowerCase());
+      }
+    }
+    return new Map(
+      [...names]
+        .sort((a, b) => a.localeCompare(b, 'es'))
+        .map((name, index) => [name, SECTOR_COLORS[index % SECTOR_COLORS.length]] as const)
+    );
+  });
+
   readonly recentAdded = computed(() => this.recentTotal('added'));
   /** Bajas de los últimos 7 días (comercios que dejan de estar en el listado oficial). */
   readonly recentRemoved = computed(() => this.recentTotal('removed'));
@@ -74,8 +105,17 @@ export class Edition2026Store {
 
   /** Color estable por sector (no cambia al filtrar). */
   sectorColor(sector: string): string {
+    const name = (sector ?? '').trim().toLowerCase();
+    if (!name) {
+      return NO_SECTOR_COLOR;
+    }
+    const known = this.sectorColors().get(name);
+    if (known) {
+      return known;
+    }
+    // Sector que aún no está en los datos cargados: color por hash
     let hash = 0;
-    for (const char of sector.trim().toLowerCase()) {
+    for (const char of name) {
       hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
     }
     return SECTOR_COLORS[hash % SECTOR_COLORS.length];

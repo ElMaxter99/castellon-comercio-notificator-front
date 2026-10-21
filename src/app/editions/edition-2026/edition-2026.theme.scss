@@ -199,6 +199,93 @@
     }
   }
 
+  // Pines del mapa (L.divIcon vive fuera del encapsulado de Angular)
+  .ed26-pin-wrap {
+    background: none;
+    border: 0;
+  }
+
+  .ed26-pin {
+    --c: var(--forest);
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 48px;
+    cursor: pointer;
+    transform-origin: 50% 96%;
+    transition: transform 0.18s ease;
+
+    &:hover {
+      transform: scale(1.12);
+    }
+
+    &.is-selected {
+      transform: scale(1.3);
+      z-index: 2;
+    }
+  }
+
+  // Gota: cuadrado girado con tres esquinas redondeadas; la punta queda abajo
+  .ed26-pin__body {
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 2.5px solid var(--cream);
+    border-radius: 50% 50% 50% 0;
+    background: var(--c);
+    box-shadow: 0 4px 10px rgba(18, 53, 36, 0.4);
+    transform: rotate(-45deg);
+  }
+
+  .ed26-pin.is-selected .ed26-pin__body {
+    box-shadow: 0 0 0 3px var(--orange), 0 6px 14px rgba(18, 53, 36, 0.5);
+  }
+
+  .ed26-pin__icon {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--cream);
+    font-size: 12px;
+    line-height: 1;
+    transform: rotate(45deg);
+  }
+
+  .ed26-pin__fav {
+    position: absolute;
+    top: -2px;
+    right: 0;
+    display: grid;
+    place-items: center;
+    width: 17px;
+    height: 17px;
+    border: 1.5px solid var(--cream);
+    border-radius: 50%;
+    background: var(--orange);
+    color: var(--cream);
+    font-size: 10px;
+    line-height: 1;
+  }
+
+  // Zoom lejano: pines algo más pequeños para no tapar el mapa
+  .ed26-map--far .ed26-pin {
+    transform: scale(0.8);
+
+    &:hover {
+      transform: scale(0.92);
+    }
+
+    &.is-selected {
+      transform: scale(1.1);
+    }
+  }
+
   // Clústeres del mapa (L.divIcon vive fuera del encapsulado de Angular)
   .ed26-cluster span {
     display: grid;

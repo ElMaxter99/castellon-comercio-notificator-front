@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.8.0 - 2026-10-21
+
+### Cambio (edición 2026) · Mapa, fase 1: pin y paleta
+- **Pin nuevo** en `/2026/comercios?view=map`: gota con el color y el **icono del sector** (antes, un círculo de 8 px solo con color), con borde crema y sombra, caja táctil de 40×48 px y tamaño reducido con el mapa muy alejado.
+- **Favoritos**: los comercios guardados llevan una **estrella naranja** sobre el pin; al guardar o quitar un favorito se repintan los iconos sin mover el mapa.
+- **Paleta sin colisiones**: 14 colores bien separados (los 4 del cartel + 10 más) asignados por **orden alfabético de sector** en lugar de por hash, así que mientras haya ≤ 14 sectores ninguno se repite y el color no cambia al filtrar. El mismo color se usa en chips, tarjetas y mapa. Sin sector: gris neutro.
+- El HTML del pin se construye solo con valores controlados (color hexadecimal validado e icono), nunca con texto del API.
+- Tests: 72 en total (paleta, color estable, fábrica del pin).
+
 ## v2.7.1 - 2026-10-21
 
 ### Cambio (edición 2026)
