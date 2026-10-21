@@ -1,5 +1,13 @@
 # Changelog
 
+## v2.5.1 - 2026-10-20
+
+### Corregido
+- **Filtros de Comercios en móvil**: los nombres de sector largos (p. ej. «Librería, papelería y material de oficina») ensanchaban la rejilla y el panel se salía de la pantalla. La columna usa `minmax(0, 1fr)` y los chips se parten en varias líneas. A 320 px la cabecera de la 2026 tampoco desborda (se oculta el año).
+
+### Cambio
+- **Sin zoom en la app, solo en los mapas**: `viewport` con `maximum-scale=1, user-scalable=no`, `touch-action: pan-x pan-y` en `html/body` y cancelación de los eventos `gesture*` de iOS (`utils/disable-page-zoom.ts`) salvo dentro de `.leaflet-container`, donde zoomea Leaflet. Nota: bloquear el zoom limita la accesibilidad (WCAG 1.4.4).
+
 ## v2.5.0 - 2026-10-20
 
 ### Legal (LSSI / RGPD)

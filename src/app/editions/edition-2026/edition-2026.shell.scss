@@ -223,3 +223,27 @@
     }
   }
 }
+
+// Pantallas muy estrechas (320 px): que cabecera no ensanche la página
+@media (max-width: 380px) {
+  .shell__bar {
+    gap: 0.5rem;
+  }
+
+  .shell__brand {
+    min-width: 0;
+  }
+
+  .shell__lang {
+    flex: none;
+  }
+
+  .shell__lang ::ng-deep .language-switcher__dropdown {
+    max-width: 7.5rem;
+  }
+
+  // El año ya sale en el título de la página: se oculta para que quepa el selector de idioma
+  .shell__year {
+    display: none;
+  }
+}
