@@ -27,7 +27,6 @@ export class LanguageService {
 
   constructor(private readonly translate: TranslateService) {
     this.translate.addLangs(this.supportedLanguages.map((language) => language.code));
-    this.translate.setDefaultLang(this.supportedLanguages[0].code);
 
     const initialCode = this.resolveInitialLanguage();
     void this.setLanguage(initialCode);
@@ -41,7 +40,7 @@ export class LanguageService {
     const targetLanguage = this.findLanguage(code) ?? this.supportedLanguages[0];
 
     try {
-      if (this.translate.currentLang !== targetLanguage.code) {
+      if (this.translate.currentLang() !== targetLanguage.code) {
         await firstValueFrom(this.translate.use(targetLanguage.code));
       }
       this.updateActiveLanguage(targetLanguage, true);

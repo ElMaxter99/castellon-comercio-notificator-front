@@ -1,6 +1,6 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { CommerceHistoryEntry } from '../../../models/commerce-history-entry.model';
 import { LanguageService } from '../../../services/language.service';
 import { Edition2026Store } from '../edition-2026.store';
@@ -18,8 +18,9 @@ const entry = (timestamp: string, added: string[], removed: string[] = [], count
 
 function setup(history: CommerceHistoryEntry[]): ComponentFixture<NewsPageComponent> {
   TestBed.configureTestingModule({
-    imports: [NewsPageComponent, TranslateModule.forRoot()],
+    imports: [NewsPageComponent],
     providers: [
+      provideTranslateService(),
       { provide: Edition2026Store, useValue: { history: signal(history) } },
       { provide: LanguageService, useValue: { currentLocale: signal('es-ES') } }
     ]

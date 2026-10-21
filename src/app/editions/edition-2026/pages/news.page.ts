@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { CommerceHistoryEntry } from '../../../models/commerce-history-entry.model';
 import { LanguageService } from '../../../services/language.service';
 import { formatDate } from '../../../utils/format-date';
@@ -19,7 +19,7 @@ const PREVIEW_NAMES = 8;
 @Component({
   selector: 'app-ed26-news',
   standalone: true,
-  imports: [TranslateModule],
+  imports: [TranslatePipe],
   templateUrl: './news.page.html',
   styleUrl: './news.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

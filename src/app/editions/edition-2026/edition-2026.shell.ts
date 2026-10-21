@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import packageInfo from '../../../../package.json';
 import { LanguageSwitcherComponent } from '../../components/language-switcher/language-switcher.component';
 import { ConsentService } from '../../services/consent.service';
@@ -11,7 +11,7 @@ import { Edition2026Store } from './edition-2026.store';
 @Component({
   selector: 'app-edition-2026-shell',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, TranslateModule, LanguageSwitcherComponent],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, TranslatePipe, LanguageSwitcherComponent],
   templateUrl: './edition-2026.shell.html',
   styleUrl: './edition-2026.shell.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

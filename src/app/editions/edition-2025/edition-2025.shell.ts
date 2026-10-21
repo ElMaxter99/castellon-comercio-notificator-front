@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { filter } from 'rxjs';
 import { CommerceStatusComponent } from '../../components/commerce-status/commerce-status.component';
 import { LanguageSwitcherComponent } from '../../components/language-switcher/language-switcher.component';
@@ -11,7 +11,7 @@ import { DATA_MODE } from '../../services/data-mode';
 /** Edición 2025: layout original de la aplicación, siempre en modo DEMO. */
 @Component({
   selector: 'app-edition-2025-shell',
-  imports: [CommonModule, RouterOutlet, RouterLink, TranslateModule, CommerceStatusComponent, LanguageSwitcherComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, TranslatePipe, CommerceStatusComponent, LanguageSwitcherComponent],
   templateUrl: './edition-2025.shell.html',
   styleUrl: './edition-2025.shell.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

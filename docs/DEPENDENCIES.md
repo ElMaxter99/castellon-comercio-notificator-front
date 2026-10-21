@@ -8,17 +8,22 @@ Esta guía recoge **qué se acepta, qué se ignora a propósito y cómo revisar 
 - **Mayores**: nunca por el CI solo. Se prueban en local (ver "Cómo revisar") y, si afectan a la API de la librería, se hacen en un PR propio con su migración.
 - Conviene **unificar** las actualizaciones válidas en un solo PR antes de mergear (así se mergea y se despliega una sola vez).
 
-## Subidas ignoradas a propósito (20-oct-2026)
+## Subidas ignoradas a propósito (21-oct-2026)
 | Paquete | Propuesto | Por qué no se acepta | Qué hace falta |
 |---|---|---|---|
-| `@angular/*` (11 paquetes) | 20 → 22 | Salto de dos mayores; además Dependabot subía TypeScript a 7 y `@angular/build` 22 exige `typescript >=6.0 <6.1`: `npm install` falla (ERESOLVE) | `ng update` de una en una (20 → 21 → 22), con TypeScript y `zone.js` de cada versión |
-| `typescript` | 5.9 → 7 | Lo fija Angular (Angular 20: `>=5.8 <6.0`) | Se sube con Angular |
-| `zone.js` | 0.15 → 0.16 | Angular 20 tiene como peer `~0.15` | Se sube con Angular |
-| `@ngx-translate/core` | 17 → 18 | La v18 **elimina `TranslateModule`**: el build falla (`TS2724`) en todos los componentes que lo importan | Migrar a la API standalone (`TranslatePipe`/`TranslateDirective` en `imports`, `provideTranslateService(...)` en lugar de `TranslateModule.forRoot`) en todo el proyecto |
-| `jasmine-core` | 5.13 → 7 | `karma-jasmine-html-reporter@2.3` ya lo admite, pero el parche de Jasmine de `zone.js` 0.15 falla con Jasmine 7 (`Cannot assign to read only property 'describe'`) y los tests no arrancan (comprobado) | Subir `zone.js` junto con Angular (21/22) y repetir la prueba |
-| `@types/jasmine` | 5 → 7 | Tipos de la v7 contra el runtime 5.9: desalineados, sin ganancia | Se sube junto con `jasmine-core` |
+| `@angular/*` (11 paquetes) | 22 → 23… | Cada mayor se sube con `ng update`, de una en una, junto con TypeScript y `zone.js` | Repetir el proceso de abajo cuando salga el siguiente mayor |
+| `typescript` | 6.0 → 7 | Lo fija Angular (Angular 22: `>=6.0 <6.1`) | Se sube con Angular |
+| `jasmine-core` | 5.13 → 7 | Con Jasmine 7 (y `@types/jasmine` 7, y `karma-jasmine-html-reporter` 2.3) **los tests no arrancan** aunque se use `zone.js` 0.16: el parche de Jasmine de `zone-testing` falla con `Cannot assign to read only property 'describe'` (probado el 21-oct-2026) | Esperar a un `zone.js`/Angular que lo soporte y repetir la prueba |
+| `@types/jasmine` | 5 → 7 | Va con `jasmine-core` | Se sube junto con `jasmine-core` |
 
-> **Soporte de Angular**: según la política de Angular, cada mayor tiene 18 meses de soporte (6 activos + 12 de LTS). Angular 20 salió en mayo de 2025, así que su soporte termina hacia finales de noviembre de 2026 (compruébalo en <https://angular.dev/reference/releases>). Conviene planificar la migración a 21/22 junto con `ngx-translate` 18.
+> **Soporte de Angular**: cada mayor tiene 18 meses de soporte (6 activos + 12 de LTS). Angular 22 es la versión vigente (migrada el 21-oct-2026); consulta las fechas en <https://angular.dev/reference/releases>. Angular exige Node `^22.22.3 || ^24.15 || >=26`.
+
+## Cómo se migró a Angular 22 (20 → 22)
+1. Subir de **una versión mayor cada vez** (20 → 21 → 22), probando tests y build en cada paso. Con `ng update @angular/core@N @angular/cli@N`, o editando `package.json` y reinstalando.
+2. En este entorno el `npm` 10 falló al resolver peers (`Cannot read properties of null (reading 'edgesOut')`); con **npm 11** instaló bien. Si te pasa, borra `node_modules` y `package-lock.json` y usa npm 11.
+3. Las migraciones automáticas de `ng update` que se probaron (flujo de control `@if`, `withXhr`, supresión de diagnósticos) **no hacían falta** y se descartaron para no tocar la edición 2025.
+4. Cambios de código necesarios: ninguno hasta Angular 22 + TypeScript 6; con **ngx-translate 18** (elimina `TranslateModule`): `TranslatePipe` en los `imports` de cada componente, `provideTranslateService({ fallbackLang })` + `provideTranslateLoader(...)` en `app.config.ts`, `currentLang` pasa a ser una *signal* y `setDefaultLang` desaparece (el idioma de respaldo va en la config). En los tests, `provideTranslateService()` en lugar de `TranslateModule.forRoot()`.
+5. Verificado: 51 tests, builds de producción (con y sin `--live=false`) y la app en navegador en castellano y valencià (sin claves sin traducir ni errores JS).
 
 ## Cómo revisar un PR de Dependabot (método usado)
 No te fíes solo del CI: el CI del front prueba con Node 22 y el entorno real puede diferir. Para cada PR:
@@ -30,6 +35,7 @@ No te fíes solo del CI: el CI del front prueba con Node 22 y el entorno real pu
 5. Si hay varias válidas, aplicarlas **juntas** en una rama y repetir 2–3: el conjunto puede fallar aunque cada una pase sola.
 
 ## Actualizaciones aceptadas
+- Angular 20 → 22, TypeScript 5.9 → 6.0, `zone.js` 0.15 → 0.16 y `@ngx-translate/core` 17 → 18 (ver «Cómo se migró»).
 - `@vercel/analytics` 1.5 → 2.0 (2.0.1): mismo comportamiento verificado en navegador.
 - `jasmine-core` 5.13 y `karma-jasmine-html-reporter` 2.3 (menores; tests y build correctos).
 - `actions/checkout` y `actions/setup-node`: v4 → v7 (el CI pasa con ellas).
