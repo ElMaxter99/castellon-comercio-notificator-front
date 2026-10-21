@@ -13,6 +13,7 @@ import {
   signal
 } from '@angular/core';
 import { Commerce } from '../../../models/commerce.model';
+import { loadLeaflet } from '../../../utils/load-leaflet';
 import { commerceKey, coordsFromMapsUrl } from '../../../utils/commerce-utils';
 import { sectorIcon } from '../sector-icon';
 import { SectorSummary } from '../edition-2026.store';
@@ -35,7 +36,19 @@ type LeafletGlobal = any;
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div #canvas class="map" role="application" [attr.aria-label]="ariaLabel"></div>
+    <div
+      #canvas
+      class="map"
+      role="application"
+      [class.is-loading]="status() === 'loading'"
+      [attr.aria-busy]="status() === 'loading'"
+      [attr.aria-label]="ariaLabel"
+    ></div>
+    @if (status() === 'loading') {
+      <p class="map-state" role="status">{{ loadingLabel }}</p>
+    } @else if (status() === 'error') {
+      <p class="map-state map-state--error" role="alert">{{ errorLabel }}</p>
+    }
 
     @if (sectors.length > 0) {
       <aside class="legend" [class.is-open]="legendOpen()" [class.is-mobile]="mobile()" [attr.aria-label]="legendLabels.title">
@@ -252,6 +265,41 @@ type LeafletGlobal = any;
       .legend.is-mobile .legend__chip {
         box-shadow: none;
       }
+      .map-state {
+        position: absolute;
+        inset: 50% 1rem auto;
+        z-index: 1100;
+        margin: 0;
+        padding: 0.6rem 1rem;
+        border-radius: 999px;
+        background: rgba(251, 250, 240, 0.95);
+        color: #123524;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-align: center;
+        transform: translateY(-50%);
+        box-shadow: 0 4px 12px rgba(18, 53, 36, 0.18);
+      }
+      .map-state--error {
+        background: #fff3ee;
+        color: #9a2c10;
+      }
+      .map.is-loading {
+        animation: map-loading 1.3s ease-in-out infinite alternate;
+      }
+      @keyframes map-loading {
+        from {
+          background: #e9efd9;
+        }
+        to {
+          background: #f3f7e8;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .map.is-loading {
+          animation: none;
+        }
+      }
       .map {
         height: clamp(22rem, 65vh, 40rem);
         border-radius: 1.25rem;
@@ -285,6 +333,8 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
     viewInList: 'List'
   };
   @Input() ariaLabel = '';
+  @Input() loadingLabel = '…';
+  @Input() errorLabel = '';
   @Output() readonly commerceSelected = new EventEmitter<Commerce>();
   /** Se cerró el popup del comercio seleccionado. */
   @Output() readonly selectionCleared = new EventEmitter<void>();
@@ -304,6 +354,9 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.legendOpen.set(event.matches);
   };
   protected readonly iconFor = sectorIcon;
+  /** Leaflet se descarga al abrir el mapa: cargando → listo, o error si no hay conexión/CDN. */
+  protected readonly status = signal<'loading' | 'ready' | 'error'>('loading');
+  private destroyed = false;
 
   protected pickSector(name: string): void {
     this.sectorPicked.emit(name);
@@ -336,10 +389,20 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    const L = this.leaflet();
-    if (!L) {
-      return;
-    }
+    void loadLeaflet().then((L) => {
+      if (this.destroyed) {
+        return;
+      }
+      if (!L) {
+        this.status.set('error');
+        return;
+      }
+      this.initMap(L);
+      this.status.set('ready');
+    });
+  }
+
+  private initMap(L: LeafletGlobal): void {
     this.map = L.map(this.canvas.nativeElement).setView(DEFAULT_CENTER, DEFAULT_ZOOM);
     this.map.on('zoomend', () => this.updateZoomClass());
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -387,6 +450,7 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   ngOnDestroy(): void {
     // Al destruir el mapa Leaflet cierra los popups: no debe tomarse como «deseleccionar»
+    this.destroyed = true;
     this.desktopQuery?.removeEventListener?.('change', this.onViewportChange);
     this.repainting = true;
     this.map?.remove();

@@ -17,6 +17,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { Commerce } from '../../models/commerce.model';
 import { LanguageService } from '../../services/language.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
+import { loadLeaflet } from '../../utils/load-leaflet';
 import { buildMapPopupHtml } from '../../utils/map-popup';
 
 const DEFAULT_CENTER: [number, number] = [39.986359, -0.037652];
@@ -93,11 +94,19 @@ export class CommerceMapComponent implements AfterViewInit, OnDestroy, OnChanges
     }
   }
 
+  private destroyed = false;
+
   ngAfterViewInit(): void {
-    this.initialiseMap();
+    // Leaflet se descarga ahora al abrir el mapa (antes iba en index.html)
+    void loadLeaflet().then(() => {
+      if (!this.destroyed) {
+        this.initialiseMap();
+      }
+    });
   }
 
   ngOnDestroy(): void {
+    this.destroyed = true;
     if (this.map) {
       this.map.remove();
     }

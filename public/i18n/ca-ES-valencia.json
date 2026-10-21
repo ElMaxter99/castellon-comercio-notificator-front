@@ -282,7 +282,13 @@
         "all": "Tots",
         "favorites": "Preferits",
         "close": "Tancar"
-      }
+      },
+      "share": "Compartir",
+      "shareText": "Mira {{name}} a Castelló Comerç",
+      "linkCopied": "Enllaç copiat",
+      "shareFailed": "No s'ha pogut compartir l'enllaç",
+      "mapLoading": "Carregant el mapa…",
+      "mapError": "No s'ha pogut carregar el mapa. Comprova la teua connexió i torna-ho a provar."
     },
     "news": {
       "eyebrow": "Altes i baixes",
@@ -328,7 +334,7 @@
   "legal": {
     "back": "Tornar a l'inici",
     "title": "Avís legal, privacitat i galetes",
-    "updated": "Última actualització: 20 d'octubre de 2026",
+    "updated": "Última actualització: 21 d'octubre de 2026",
     "intro": "Aquesta web és una iniciativa independent i sense ànim de lucre per a consultar els comerços adherits al programa de bons de Castelló de la Plana. No té cap relació oficial amb l'Ajuntament ni amb CONFECOMERÇ.",
     "manage": "Canviar la meua elecció de galetes",
     "consent": {
@@ -386,7 +392,7 @@
     "third": {
       "title": "4. Serveis de tercers",
       "body": [
-        "Per a funcionar, la web carrega recursos de tercers, cosa que implica que la teua adreça IP arriba als seus servidors: Vercel (allotjament de la web), Render (allotjament de l'API), unpkg.com (llibreria de mapes Leaflet) i OpenStreetMap (tessel·les del mapa).",
+        "La web se serveix des de Vercel i les dades des de Render, així que la teua adreça IP arriba als seus servidors. Només quan obris un mapa es descarreguen a més recursos d'unpkg.com (llibreria de mapes Leaflet) i d'OpenStreetMap (tessel·les del mapa), que també reben la teua IP; si no obris el mapa, no es contacta amb ells.",
         "Si prems «Com arribar», s'obri Google Maps en una altra pestanya i s'apliquen les seues pròpies condicions. Aquests serveis tracten les dades segons les seues polítiques de privacitat."
       ]
     },
@@ -410,5 +416,13 @@
     "more": "Més informació",
     "accept": "Acceptar",
     "reject": "Rebutjar"
+  },
+  "title": {
+    "landing": "Castelló Comerç · Abonem Castelló 2026",
+    "edition2025": "Castelló Comerç · Edició 2025 (demo)",
+    "home": "Castelló Comerç 2026",
+    "shops": "Comerços · Castelló Comerç 2026",
+    "news": "Novetats · Castelló Comerç 2026",
+    "privacy": "Privacitat i galetes · Castelló Comerç"
   }
 }

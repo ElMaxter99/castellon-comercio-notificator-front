@@ -149,6 +149,8 @@
           [favorites]="store.favorites()"
           [selectedKey]="selectedKey()"
           [popupLabels]="popupLabels()"
+          [loadingLabel]="'ed26.shops.mapLoading' | translate"
+          [errorLabel]="'ed26.shops.mapError' | translate"
           (commerceSelected)="onMapSelect($event)"
           [sectors]="store.sectors()"
           [activeSector]="sector()"
@@ -225,6 +227,9 @@
                           <span aria-hidden="true">📞</span> {{ commerce.phone }}
                         </a>
                       }
+                      <button type="button" class="shop__pill" (click)="share(commerce)">
+                        <span aria-hidden="true">🔗</span> {{ 'ed26.shops.share' | translate }}
+                      </button>
                       <button type="button" class="shop__pill" (click)="showOnMap(commerce)">
                         <span aria-hidden="true">🗺️</span> {{ 'ed26.shops.viewOnMap' | translate }}
                       </button>

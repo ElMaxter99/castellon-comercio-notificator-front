@@ -1,64 +1,42 @@
 <!doctype html>
-<html lang="ca">
+<html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Comerç Castelló Notificator</title>
+  <title>Castellón Comercio · Abonem Castelló 2026</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#1E4D2B">
-  <meta name="application-name" content="Comerç Castelló Notificator">
-  <meta name="description" content="Iniciativa independent i sense ànim de lucre que ofereix avisos ciutadans sobre els bons d'Abonem Castelló per als comerços locals.">
-  <meta name="author" content="Projecte independent sense relació amb l'Ajuntament de Castelló ni CONFECOMERÇ">
+  <meta name="application-name" content="Castellón Comercio">
+  <meta name="description" content="Todos los comercios adheridos al programa de bonos Abonem Castelló en un solo sitio: busca por nombre, calle o sector, míralos en un mapa y entérate de las altas y bajas. Iniciativa independiente y sin ánimo de lucro.">
+  <meta name="author" content="Proyecto independiente sin relación con el Ayuntamiento de Castelló ni CONFECOMERÇ">
   <meta name="robots" content="index,follow">
-  <meta name="distribution" content="web">
+  <link rel="canonical" href="https://bono-castellon.alvaromaxter.es/">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Comerç Castelló Notificator">
-  <meta property="og:locale" content="ca_ES">
-  <meta property="og:title" content="Comerç Castelló Notificator">
-  <meta property="og:description" content="Aplicació independent i sense ànim de lucre amb informació pública del programa Abonem Castelló.">
-  <meta property="og:image" content="/public/logo.png">
+  <meta property="og:site_name" content="Castellón Comercio">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:locale:alternate" content="ca_ES">
+  <meta property="og:url" content="https://bono-castellon.alvaromaxter.es/">
+  <meta property="og:title" content="Castellón Comercio · Todos los comercios del bono, en un solo sitio">
+  <meta property="og:description" content="Busca por nombre, calle o sector, mira los comercios adheridos a Abonem Castelló en un mapa y entérate de los que se suman o dejan el programa.">
+  <meta property="og:image" content="https://bono-castellon.alvaromaxter.es/public/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:type" content="image/png">
-  <meta property="og:image:alt" content="Comerç Castelló Notificator, iniciativa independent de suport al comerç local.">
+  <meta property="og:image:alt" content="Castellón Comercio: todos los comercios del bono Abonem Castelló en un solo sitio.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Comerç Castelló Notificator">
-  <meta name="twitter:description" content="Projecte ciutadà sense ànim de lucre amb dades públiques del programa Abonem Castelló.">
-  <meta name="twitter:image" content="/public/branding/twitter-card.png">
-  <meta name="twitter:image:alt" content="Comerç Castelló Notificator, avís ciutadà sense ànim de lucre.">
-  <meta name="twitter:creator" content="@castellon-notificator">
-  <meta name="twitter:site" content="@castellon-notificator">
+  <meta name="twitter:title" content="Castellón Comercio · Todos los comercios del bono, en un solo sitio">
+  <meta name="twitter:description" content="Busca por nombre, calle o sector, mira los comercios adheridos en un mapa y entérate de las altas y bajas.">
+  <meta name="twitter:image" content="https://bono-castellon.alvaromaxter.es/public/og-image.png">
+  <meta name="twitter:image:alt" content="Castellón Comercio: todos los comercios del bono Abonem Castelló en un solo sitio.">
   <link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/public/favicon-192.png">
   <link rel="icon" href="/public/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w=="
-    crossorigin=""
-  >
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"
-    integrity="sha512-mQ77VzAakzdpWdgfL/lM1ksNy89uFgibRQANsNneSTMD/bj0Y/8+94XMwYhnbzx8eki2hrbPpDm0vD0CiT2lcg=="
-    crossorigin=""
-  >
+  <!-- Leaflet y leaflet.markercluster (unpkg, con SRI) ya NO se cargan aquí: se descargan al abrir un
+       mapa (src/app/utils/load-leaflet.ts). -->
 </head>
 <body>
   <app-root></app-root>
-  <script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg=="
-    crossorigin=""
-    defer
-  ></script>
-  <script
-    src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"
-    integrity="sha512-OFs3W4DIZ5ZkrDhBFtsCP6JXtMEDGmhl0QPlmWYBJay40TT1n3gt2Xuw8Pf/iezgW9CdabjkNChRqozl/YADmg=="
-    crossorigin=""
-    defer
-  ></script>
 </body>
 </html>

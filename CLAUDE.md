@@ -34,7 +34,7 @@ Proyecto independiente y sin ánimo de lucro; sin relación oficial con el Ayunt
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — componentes, estado, flujos de datos, i18n, mapa.
 - [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md) — entornos, `--live`, modo mock, builds.
 - [`docs/DEPENDENCIES.md`](docs/DEPENDENCIES.md) — Dependabot: qué se ignora a propósito (jasmine 7…) y cómo revisar sus PRs.
-- [`docs/PLAN-PINES-MAPA.md`](docs/PLAN-PINES-MAPA.md) — propuesta (sin implementar) para mejorar los pines del mapa 2026.
+- [`docs/PLAN-PINES-MAPA.md`](docs/PLAN-PINES-MAPA.md) — plan de los pines del mapa 2026 (implementado en v2.8–v2.11).
 - [`docs/REUSE-2026.md`](docs/REUSE-2026.md) — **checklist para reutilizar el proyecto en la edición 2026**.
 
 ## Comandos
@@ -47,7 +47,7 @@ npm run build -- --configuration=production
 npm run build -- --configuration=production --live=false   # prod con mock
 API_BASE_URL=https://mi-api.onrender.com npm run build -- --configuration=production   # API propio
 npm start -- --api-url=http://localhost:3000                 # API local en otro puerto
-npm test                         # Karma + Jasmine (97 tests: utils, CommerceService, popup, api-url, consentimiento, store y páginas de la edición 2026, app); CI en .github/workflows/ci.yml
+npm test                         # Karma + Jasmine (112 tests: utils, CommerceService, popup, api-url, consentimiento, store y páginas de la edición 2026, app); CI en .github/workflows/ci.yml
 ```
 
 ## Convenciones
@@ -66,10 +66,11 @@ npm test                         # Karma + Jasmine (97 tests: utils, CommerceSer
 0. **2025 es intocable y siempre demo** (`DATA_MODE`). Los estilos de 2026 viven bajo `.ed26`; no mezclar con los de 2025. No usar `DatePipe` (sin locale data): usar `utils/format-date.ts`.
 1. El mapa extrae lat/lng del parámetro `query=lat,lng` de `mapsUrl`; si el origen cambia el formato, desaparecen los marcadores (sin error visible).
 2. El popup del mapa 2025 se construye en `utils/map-popup.ts` **escapando** todo (`utils/escape-html.ts`) y solo admite enlaces http(s); no vuelvas a interpolar datos del API directamente en HTML.
+3d. **Títulos y compartir**: el título de cada ruta sale de `data: { titleKey }` (claves `title.*` en ambos JSON) vía `services/title.strategy.ts`; no pongas `title:` estático en las rutas. Los metadatos Open Graph/Twitter son **estáticos** en `src/index.html` (los rastreadores no ejecutan JS) y apuntan a `public/og-image.png` (1200×630, sin datos reales). «Compartir» (`utils/share.ts`) usa la Web Share API o copia el enlace; el enlace lleva `?view=map&shop=<clave>`.
 3a. Los textos de footer están en `landing.mini.*` y `ed26.footer.*` (ambos idiomas). Los iconos de navegación 2026 son SVG inline; no usar glifos Unicode.
 3b. El mapa 2026 debe mantener su contexto de apilamiento propio (`:host { position: relative; z-index: 0 }`); sin él, los controles de Leaflet (z-index hasta 1000) se pintan sobre la cabecera y la barra inferior móvil. Las animaciones de 2026 respetan `prefers-reduced-motion`.
 3c. Los pines del mapa 2026 (`components/map-pin.ts`, estilos `.ed26-pin*` en el tema) se construyen con `L.divIcon`: el HTML solo lleva color hexadecimal validado (`safeColor`) e icono del sector; **nunca texto del API**. El color de cada sector sale de `Edition2026Store.sectorColor` (orden alfabético sobre `SECTOR_COLORS`, no hash).
-3. Leaflet y `leaflet.markercluster` (clústeres de la edición 2026) vienen de `unpkg.com` en `src/index.html` con SRI (necesita internet) y se usan como `any`. Si el plugin no carga, el mapa 2026 funciona sin clústeres.
+3. Leaflet y `leaflet.markercluster` vienen de `unpkg.com` con SRI y se usan como `any`, pero **ya no están en `index.html`**: `utils/load-leaflet.ts` (`loadLeaflet()`) los descarga **solo al abrir un mapa** (2026 y 2025). Necesita internet: sin conexión el mapa 2026 muestra un aviso de error y `loadLeaflet()` devuelve `null` (se reintenta en el siguiente intento). Si el plugin no carga, el mapa funciona sin clústeres. Si cambias de versión, actualiza las URLs y el SRI en ese fichero y la política de privacidad si cambian los terceros.
 4. La URL del API se resuelve en compilación: `API_BASE_URL` (env) o `--api-url=` → `define` → `resolveApiBaseUrl()`; si no hay, el valor por defecto de `src/environments/*.ts` (`https://castellon-comercio-notificator-api.onrender.com` en prod). Es **build-time**: cambiarla exige recompilar/redesplegar. Solo la inyecta el wrapper `tools/ng-live.cjs` en `build|serve|dev-server`.
 5. `CommerceStatus.lastUpdate` es `string | null` (el API devuelve `null` si aún no hay scrapeos): las vistas deben tratarlo.
 6. `ng` en `node_modules/.bin` es sobrescrito por el postinstall (`tools/setup-ng-live.cjs`); si el flag `--live` "no existe", repetir `npm install`. El script **nunca debe escribir a través de un enlace simbólico** (npm enlaza `.bin/ng` a `@angular/cli/bin/ng.js`; con una caché que ya tenga `ng-real` se corrompía Angular CLI y fallaba el build de Vercel).
