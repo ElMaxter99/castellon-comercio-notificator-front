@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.14.0 - 2026-10-22
+
+### Añadido
+- **Novedades muestra los comercios actualizados** (API ≥ 2.8): además de altas (+N) y bajas (−N), las entradas del histórico con cambios de sector, teléfono, dirección o ubicación llevan la insignia ±N y un bloque «actualizados» con el nombre y los campos que cambiaron (es y ca-ES-valencia). Una entrada que solo trae modificaciones también aparece. Con un API anterior, sin el campo `modified`, todo sigue igual.
+- Tests: 122 (3 nuevos).
+
 ## v2.13.0 - 2026-10-21
 
 ### Añadido
