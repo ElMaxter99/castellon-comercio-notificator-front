@@ -1,4 +1,5 @@
 <div class="ed26 shell">
+  <a class="shell__skip" href="#main" (click)="skipToContent($event)">{{ 'ed26.nav.skip' | translate }}</a>
   <header class="shell__header">
     <div class="ed26-container shell__bar">
       <a class="shell__brand" routerLink="/2026" [attr.aria-label]="'ed26.nav.home' | translate">
@@ -26,7 +27,11 @@
     </div>
   </header>
 
-  <main class="shell__main">
+  @if (!online()) {
+    <p class="shell__offline" role="status">{{ 'ed26.state.offline' | translate }}</p>
+  }
+
+  <main class="shell__main" id="main" tabindex="-1" #main>
     <router-outlet></router-outlet>
   </main>
 

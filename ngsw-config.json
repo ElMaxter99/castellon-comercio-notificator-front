@@ -1,0 +1,41 @@
+{
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": ["/favicon.ico", "/index.html", "/manifest.webmanifest", "/*.css", "/*.js"]
+      }
+    },
+    {
+      "name": "textos-y-logos",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": ["/public/i18n/**", "/public/logo.png", "/public/favicon-*.png", "/public/favicon.svg", "/public/commerce-placeholder.svg"]
+      }
+    },
+    {
+      "name": "resto",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": ["/public/**"]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "api-comercios",
+      "urls": ["https://*/api/comercios", "https://*/api/comercios/**"],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 20,
+        "maxAge": "7d",
+        "timeout": "8s"
+      }
+    }
+  ]
+}

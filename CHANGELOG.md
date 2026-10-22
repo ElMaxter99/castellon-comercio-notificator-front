@@ -1,5 +1,33 @@
 # Changelog
 
+## v2.16.0 - 2026-10-22
+
+### Añadido
+- **PWA ligera** (`@angular/service-worker`, solo en builds de producción/test): la web se puede instalar («Añadir a la pantalla de inicio», `manifest.webmanifest` con iconos de 192 y 512 px) y abre sin conexión. El service worker guarda la propia app y los textos al instalarse y, para el API (`/api/comercios/**`), usa la estrategia *freshness*: pide siempre al servidor y, si no responde en 8 s o no hay red, sirve los últimos datos guardados (hasta 7 días). Útil también contra el arranque en frío de Render.
+- **Aviso «Sin conexión: se muestran los últimos datos guardados»** en la edición 2026 (`OnlineStatus`).
+- **Actualizaciones sin sorpresas** (`PwaUpdateService`): cuando hay una versión nueva se activa y la página se recarga en la *siguiente navegación*, nunca a mitad de lo que haces.
+- **Privacidad**: `/privacidad` lista la caché de la aplicación (técnica, sin datos personales; no requiere consentimiento) en ambos idiomas.
+- Nueva dependencia `@angular/service-worker`. Tests: 133 (6 nuevos).
+
+### Comprobado
+Build de producción: genera `ngsw-worker.js`, `ngsw.json` y el manifiesto. En Chromium real con el build en modo mock: el service worker se registra, controla la página tras recargar y, **sin conexión, la app y los datos cargan**. No he podido probar la caché del API real (el sandbox no llega a Render).
+
+## v2.15.0 - 2026-10-22
+
+### Accesibilidad (edición 2026)
+- **«Saltar al contenido»**: primer elemento al tabular; mueve el foco a `<main>`.
+- **Foco al cambiar de página**: al navegar a otra sección el foco pasa al contenido (antes se quedaba en el enlace de la cabecera). Cambiar solo filtros (la query de la URL) no lo mueve.
+- **Etiquetas con nombre** en las acciones repetidas de cada comercio: «Llamar a X: 964…», «Compartir X», «Ver X en el mapa», «Cómo llegar a X (se abre en una pestaña nueva)» (es y ca-ES-valencia). Antes, un lector de pantalla leía decenas de «Compartir» o «Ver en el mapa» iguales.
+- **Esc cierra la leyenda del mapa** y devuelve el foco a su botón.
+- **Contraste**: el naranja oscuro de los textos pequeños (`--orange-deep`) pasa de 4,1:1 a 5,3:1 sobre crema (AA exige 4,5:1). El resto de pares texto/fondo del tema ya cumplían (≥ 5,5:1).
+- Tests: 127 (5 nuevos: salto al contenido, foco por página y por filtros, Esc en la leyenda).
+
+## v2.14.0 - 2026-10-22
+
+### Añadido
+- **Novedades muestra los comercios actualizados** (API ≥ 2.8): además de altas (+N) y bajas (−N), las entradas del histórico con cambios de sector, teléfono, dirección o ubicación llevan la insignia ±N y un bloque «actualizados» con el nombre y los campos que cambiaron (es y ca-ES-valencia). Una entrada que solo trae modificaciones también aparece. Con un API anterior, sin el campo `modified`, todo sigue igual.
+- Tests: 122 (3 nuevos).
+
 ## v2.13.0 - 2026-10-21
 
 ### Añadido

@@ -47,7 +47,7 @@ npm run build -- --configuration=production
 npm run build -- --configuration=production --live=false   # prod con mock
 API_BASE_URL=https://mi-api.onrender.com npm run build -- --configuration=production   # API propio
 npm start -- --api-url=http://localhost:3000                 # API local en otro puerto
-npm test                         # Karma + Jasmine (119 tests: utils, CommerceService, popup, api-url, consentimiento, store y páginas de la edición 2026, app); CI en .github/workflows/ci.yml
+npm test                         # Karma + Jasmine (133 tests: utils, CommerceService, popup, api-url, consentimiento, store y páginas de la edición 2026, app); CI en .github/workflows/ci.yml
 ```
 
 ## Convenciones
@@ -68,6 +68,8 @@ npm test                         # Karma + Jasmine (119 tests: utils, CommerceSe
 2. El popup del mapa 2025 se construye en `utils/map-popup.ts` **escapando** todo (`utils/escape-html.ts`) y solo admite enlaces http(s); no vuelvas a interpolar datos del API directamente en HTML.
 3d. **Títulos y compartir**: el título de cada ruta sale de `data: { titleKey }` (claves `title.*` en ambos JSON) vía `services/title.strategy.ts`; no pongas `title:` estático en las rutas. Los metadatos Open Graph/Twitter son **estáticos** en `src/index.html` (los rastreadores no ejecutan JS) y apuntan a `public/og-image.png` (1200×630, sin datos reales). «Compartir» (`utils/share.ts`) usa la Web Share API o copia el enlace; el enlace lleva `?view=map&shop=<clave>`.
 3e. **Arranque en frío**: el API de Render gratis se duerme. `Edition2026Store` reintenta la carga (`COLD_START_CONFIG`; los tests la inyectan sin esperas) y expone `waking`/`reload()`; el estado y el histórico se piden solo tras cargar los comercios. Si cambias el hosting del API, ajusta o quita las esperas.
+3f. **Accesibilidad 2026**: el shell tiene «Saltar al contenido» y enfoca `<main>` al cambiar de *ruta* (no de query: los filtros viven en la URL). Las acciones repetidas por comercio llevan `aria-label` con el nombre (`ed26.shops.*For`). Texto pequeño ≥ 4,5:1 de contraste; no uses `--orange` para texto (solo `--orange-deep`).
+3g. **PWA / service worker** (`ngsw-config.json`, solo builds `production*`/`test*`; en `ng serve` y tests está desactivado): `app` y textos se precargan; el API (`https://*/api/comercios/**`) va en *freshness* con timeout de 8 s y 7 días de caducidad. Tras un despliegue, `PwaUpdateService` activa la versión nueva y recarga en la siguiente navegación. Si añades rutas del API, otros ficheros de `public/` imprescindibles offline o cambias el hosting, revisa `ngsw-config.json`; la caché está declarada en `legal.storage.rows`. El manifiesto vive en `src/manifest.webmanifest` (se publica en `/`, no en `/public`).
 3a. Los textos de footer están en `landing.mini.*` y `ed26.footer.*` (ambos idiomas). Los iconos de navegación 2026 son SVG inline; no usar glifos Unicode.
 3b. El mapa 2026 debe mantener su contexto de apilamiento propio (`:host { position: relative; z-index: 0 }`); sin él, los controles de Leaflet (z-index hasta 1000) se pintan sobre la cabecera y la barra inferior móvil. Las animaciones de 2026 respetan `prefers-reduced-motion`.
 3c. Los pines del mapa 2026 (`components/map-pin.ts`, estilos `.ed26-pin*` en el tema) se construyen con `L.divIcon`: el HTML solo lleva color hexadecimal validado (`safeColor`) e icono del sector; **nunca texto del API**. El color de cada sector sale de `Edition2026Store.sectorColor` (orden alfabético sobre `SECTOR_COLORS`, no hash).

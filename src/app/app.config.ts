@@ -1,11 +1,14 @@
 import {
   ApplicationConfig,
   inject,
+  isDevMode,
+  provideAppInitializer,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
 import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import { TitleStrategy, provideRouter } from '@angular/router';
+import { provideServiceWorker } from '@angular/service-worker';
 import {
   TranslateLoader,
   Translation,
@@ -14,6 +17,7 @@ import {
 } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
+import { PwaUpdateService } from './services/pwa-update.service';
 import { AppTitleStrategy } from './services/title.strategy';
 import { routes } from './app.routes';
 
@@ -41,6 +45,12 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     { provide: TitleStrategy, useClass: AppTitleStrategy },
     provideHttpClient(withFetch()),
+    // Solo en builds de producción/test (ngsw-config.json); en `ng serve` y en los tests queda desactivado.
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
+    provideAppInitializer(() => inject(PwaUpdateService).start()),
     provideTranslateService({ fallbackLang: 'es' }),
     provideTranslateLoader((): TranslateLoader => createTranslateLoader(inject(HttpClient))),
   ],

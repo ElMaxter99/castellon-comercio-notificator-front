@@ -51,10 +51,11 @@ type LeafletGlobal = any;
     }
 
     @if (sectors.length > 0) {
-      <aside class="legend" [class.is-open]="legendOpen()" [class.is-mobile]="mobile()" [attr.aria-label]="legendLabels.title">
+      <aside class="legend" (keydown.escape)="closeLegend(toggleBtn)" [class.is-open]="legendOpen()" [class.is-mobile]="mobile()" [attr.aria-label]="legendLabels.title">
         <button
           type="button"
           class="legend__toggle"
+          #toggleBtn
           [attr.aria-expanded]="legendOpen()"
           [attr.aria-label]="legendLabels.title"
           (click)="legendOpen.set(!legendOpen())"
@@ -349,6 +350,14 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   protected readonly mobile = signal(!(this.desktopQuery?.matches ?? false));
   /** En escritorio la leyenda arranca abierta; en móvil, plegada para no tapar el mapa. */
   protected readonly legendOpen = signal(!this.mobile());
+
+  /** Esc cierra la leyenda y devuelve el foco a su botón. */
+  protected closeLegend(toggle: HTMLElement): void {
+    if (this.legendOpen()) {
+      this.legendOpen.set(false);
+      toggle.focus();
+    }
+  }
   private readonly onViewportChange = (event: MediaQueryListEvent): void => {
     this.mobile.set(!event.matches);
     this.legendOpen.set(event.matches);

@@ -37,6 +37,7 @@ Debe mantenerse fiel a como estaba. Solo se han cambiado enlaces para vivir bajo
 - **Móvil**: la navegación pasa a barra inferior.
 
 **Piezas**
+- `edition-2026.shell.ts`: cabecera, «Saltar al contenido», foco al cambiar de ruta y aviso sin conexión (`OnlineStatus`). La PWA (service worker, manifiesto) es transversal: ver `ngsw-config.json` y `services/pwa-update.service.ts`.
 - `edition-2026.store.ts`: `Edition2026Store` (provisto a nivel de ruta) carga comercios, estado e histórico **una sola vez** para todas las páginas; reintenta la carga con esperas crecientes si el API está dormido (`COLD_START_CONFIG`, señal `waking`, `reload()`); calcula sectores, color estable por sector, novedades recientes y favoritos.
 - `components/shops-map.component.ts`: mapa Leaflet con clústeres y popup construido con nodos DOM (sin HTML interpolado → sin el riesgo XSS del mapa de 2025).
 - `sector-icon.ts`: emoji decorativo por sector (coincidencia por palabra clave; `🏪` por defecto).

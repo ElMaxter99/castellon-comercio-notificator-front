@@ -31,6 +31,11 @@
                 "glob": "**/*",
                 "input": "public",
                 "output": "/public"
+              },
+              {
+                "glob": "manifest.webmanifest",
+                "input": "src",
+                "output": "/"
               }
             ],
             "styles": [
@@ -57,7 +62,8 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
-              ]
+              ],
+              "serviceWorker": "ngsw-config.json"
             },
             "production-mock": {
               "budgets": [
@@ -78,7 +84,8 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.mock.prod.ts"
                 }
-              ]
+              ],
+              "serviceWorker": "ngsw-config.json"
             },
             "development": {
               "optimization": false,
@@ -115,7 +122,8 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.test.ts"
                 }
-              ]
+              ],
+              "serviceWorker": "ngsw-config.json"
             },
             "test-mock": {
               "budgets": [
@@ -136,7 +144,8 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.mock.test.ts"
                 }
-              ]
+              ],
+              "serviceWorker": "ngsw-config.json"
             }
           },
           "defaultConfiguration": "development"
