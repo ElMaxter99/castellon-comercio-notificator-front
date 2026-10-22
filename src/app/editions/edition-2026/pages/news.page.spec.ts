@@ -9,11 +9,18 @@ import { NewsPageComponent } from './news.page';
 const names = (prefix: string, count: number): string[] =>
   Array.from({ length: count }, (_, i) => `${prefix} ${i + 1}`);
 
-const entry = (timestamp: string, added: string[], removed: string[] = [], countAfter = 100): CommerceHistoryEntry => ({
+const entry = (
+  timestamp: string,
+  added: string[],
+  removed: string[] = [],
+  countAfter = 100,
+  modified?: CommerceHistoryEntry['modified']
+): CommerceHistoryEntry => ({
   timestamp,
   added,
   removed,
-  countAfter
+  countAfter,
+  ...(modified ? { modified } : {})
 });
 
 function setup(history: CommerceHistoryEntry[]): ComponentFixture<NewsPageComponent> {
@@ -27,7 +34,13 @@ function setup(history: CommerceHistoryEntry[]): ComponentFixture<NewsPageCompon
   });
   const translate = TestBed.inject(TranslateService);
   translate.setTranslation('es', {
-    ed26: { news: { week: 'Semana del {{start}} al {{end}}', thisWeek: 'Esta semana' } }
+    ed26: {
+      news: {
+        week: 'Semana del {{start}} al {{end}}',
+        thisWeek: 'Esta semana',
+        fields: { phone: 'teléfono', address: 'dirección' }
+      }
+    }
   });
   translate.use('es');
   const fixture = TestBed.createComponent(NewsPageComponent);
@@ -150,6 +163,38 @@ describe('NewsPageComponent', () => {
     it('no marca ninguna si todas las entradas son antiguas', () => {
       const fixture = setup([entry('2020-03-04T10:00:00Z', ['A'])]);
       expect(html(fixture).querySelector('.news__current')).toBeNull();
+    });
+  });
+
+  describe('comercios actualizados', () => {
+    const modifiedEntry = entry('2026-10-21T10:00:00Z', [], [], 100, [
+      { name: 'Bar Pepe', changes: ['phone', 'address'] },
+      { name: 'Zapatería Sol', changes: ['campo-nuevo'] }
+    ]);
+
+    it('una entrada que solo trae modificaciones aparece, con su insignia ±N', () => {
+      const fixture = setup([modifiedEntry]);
+      expect(html(fixture).querySelectorAll('.news__card-head').length).toBe(1);
+      expect(html(fixture).querySelector('.news__card-head .news__badge--mod')?.textContent).toContain('±2');
+      expect(html(fixture).querySelector('.news__month-toggle .news__badge--mod')?.textContent).toContain('±2');
+    });
+
+    it('lista cada comercio con los campos cambiados e ignora los campos desconocidos', () => {
+      const fixture = setup([modifiedEntry]);
+      const items = [...html(fixture).querySelectorAll('.news__names--modified li')];
+      expect(items.length).toBe(2);
+      expect(items[0].textContent).toContain('Bar Pepe');
+      expect([...items[0].querySelectorAll('.news__change')].map((c) => c.textContent?.trim())).toEqual([
+        'teléfono',
+        'dirección'
+      ]);
+      expect(items[1].querySelectorAll('.news__change').length).toBe(0);
+    });
+
+    it('las entradas antiguas, sin `modified`, siguen funcionando', () => {
+      const fixture = setup([entry('2026-10-21T10:00:00Z', ['A'])]);
+      expect(html(fixture).querySelector('.news__badge--mod')).toBeNull();
+      expect(html(fixture).querySelector('.news__names--modified')).toBeNull();
     });
   });
 });

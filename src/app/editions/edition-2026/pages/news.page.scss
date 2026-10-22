@@ -116,6 +116,12 @@
     background: var(--peach);
     color: #7c2d12;
   }
+
+  &--mod {
+    background: var(--cream);
+    color: var(--forest-deep);
+    box-shadow: inset 0 0 0 1.5px var(--forest);
+  }
 }
 
 .news__chevron {
@@ -211,6 +217,29 @@
     background: var(--peach);
     color: #7c2d12;
   }
+
+  &--mod {
+    background: var(--cream);
+    color: var(--forest-deep);
+    box-shadow: inset 0 0 0 1.5px var(--forest);
+  }
+}
+
+.news__changes {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+
+.news__change {
+  padding: 0 0.5rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--forest-deep);
+  background: var(--sage);
 }
 
 .news__names {

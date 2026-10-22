@@ -41,6 +41,16 @@ describe('ShopsMapComponent · leyenda', () => {
     expect(toggle.getAttribute('aria-expanded')).not.toBe(before);
   });
 
+  it('Esc cierra la leyenda abierta y devuelve el foco a su botón', () => {
+    const fixture = setup();
+    openLegend(fixture);
+    const toggle = root(fixture).querySelector<HTMLElement>('.legend__toggle')!;
+    root(fixture).querySelector('.legend__chip')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    fixture.detectChanges();
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+    expect(document.activeElement).toBe(toggle);
+  });
+
   it('lista «Todos», un chip por sector con su recuento y el filtro de favoritos', () => {
     const fixture = setup({ favoritesCount: 3 });
     openLegend(fixture);
