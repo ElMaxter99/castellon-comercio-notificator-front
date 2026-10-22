@@ -27,6 +27,10 @@
     </div>
   </header>
 
+  @if (!online()) {
+    <p class="shell__offline" role="status">{{ 'ed26.state.offline' | translate }}</p>
+  }
+
   <main class="shell__main" id="main" tabindex="-1" #main>
     <router-outlet></router-outlet>
   </main>

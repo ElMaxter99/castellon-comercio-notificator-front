@@ -4,10 +4,11 @@ import { Router, provideRouter } from '@angular/router';
 import { provideTranslateService } from '@ngx-translate/core';
 import { ConsentService } from '../../services/consent.service';
 import { LanguageService } from '../../services/language.service';
+import { OnlineStatus } from '../../services/online-status';
 import { Edition2026ShellComponent } from './edition-2026.shell';
 import { Edition2026Store } from './edition-2026.store';
 
-async function setup(): Promise<{ fixture: ComponentFixture<Edition2026ShellComponent>; router: Router }> {
+async function setup(online = true): Promise<{ fixture: ComponentFixture<Edition2026ShellComponent>; router: Router }> {
   TestBed.configureTestingModule({
     imports: [Edition2026ShellComponent],
     providers: [
@@ -18,6 +19,7 @@ async function setup(): Promise<{ fixture: ComponentFixture<Edition2026ShellComp
       ]),
       provideTranslateService(),
       { provide: Edition2026Store, useValue: { status: signal(null) } },
+      { provide: OnlineStatus, useValue: { online: signal(online) } },
       { provide: ConsentService, useValue: { reopen: () => undefined } },
       {
         provide: LanguageService,
@@ -79,5 +81,15 @@ describe('Edition2026ShellComponent · accesibilidad', () => {
     expect(document.activeElement).toBe(input);
     expect(document.activeElement).not.toBe(main(fixture));
     input.remove();
+  });
+
+  it('sin conexión avisa de que se muestran los últimos datos guardados', async () => {
+    const { fixture } = await setup(false);
+    expect((fixture.nativeElement as HTMLElement).querySelector('.shell__offline')?.textContent).toContain('ed26.state.offline');
+  });
+
+  it('con conexión no muestra el aviso', async () => {
+    const { fixture } = await setup(true);
+    expect((fixture.nativeElement as HTMLElement).querySelector('.shell__offline')).toBeNull();
   });
 });

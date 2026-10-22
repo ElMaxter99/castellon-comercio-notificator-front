@@ -1,6 +1,6 @@
 {
   "name": "Castellón Comercio Notificator",
-  "version": "2.15.0",
+  "version": "2.16.0",
   "author": "Aamoros",
   "scripts": {
     "ng": "node tools/ng-live.cjs",
@@ -30,11 +30,12 @@
     "@angular/forms": "^22.2.3",
     "@angular/platform-browser": "^22.2.3",
     "@angular/router": "^22.2.3",
+    "@angular/service-worker": "^22.2.3",
     "@ngx-translate/core": "18.0.0",
+    "@vercel/analytics": "2.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.16.3",
-    "@vercel/analytics": "2.0.1"
+    "zone.js": "~0.16.3"
   },
   "devDependencies": {
     "@angular/build": "^22.2.3",

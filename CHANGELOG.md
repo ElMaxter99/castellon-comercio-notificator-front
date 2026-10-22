@@ -1,5 +1,17 @@
 # Changelog
 
+## v2.16.0 - 2026-10-22
+
+### Añadido
+- **PWA ligera** (`@angular/service-worker`, solo en builds de producción/test): la web se puede instalar («Añadir a la pantalla de inicio», `manifest.webmanifest` con iconos de 192 y 512 px) y abre sin conexión. El service worker guarda la propia app y los textos al instalarse y, para el API (`/api/comercios/**`), usa la estrategia *freshness*: pide siempre al servidor y, si no responde en 8 s o no hay red, sirve los últimos datos guardados (hasta 7 días). Útil también contra el arranque en frío de Render.
+- **Aviso «Sin conexión: se muestran los últimos datos guardados»** en la edición 2026 (`OnlineStatus`).
+- **Actualizaciones sin sorpresas** (`PwaUpdateService`): cuando hay una versión nueva se activa y la página se recarga en la *siguiente navegación*, nunca a mitad de lo que haces.
+- **Privacidad**: `/privacidad` lista la caché de la aplicación (técnica, sin datos personales; no requiere consentimiento) en ambos idiomas.
+- Nueva dependencia `@angular/service-worker`. Tests: 133 (6 nuevos).
+
+### Comprobado
+Build de producción: genera `ngsw-worker.js`, `ngsw.json` y el manifiesto. En Chromium real con el build en modo mock: el service worker se registra, controla la página tras recargar y, **sin conexión, la app y los datos cargan**. No he podido probar la caché del API real (el sandbox no llega a Render).
+
 ## v2.15.0 - 2026-10-22
 
 ### Accesibilidad (edición 2026)

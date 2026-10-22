@@ -325,6 +325,7 @@
     },
     "state": {
       "loading": "Cargando comercios…",
+      "offline": "Sin conexión: se muestran los últimos datos guardados en este dispositivo.",
       "waking": "El servidor se estaba durmiendo y está despertando. Puede tardar hasta un minuto la primera vez; reintentamos solos.",
       "retry": "Reintentar",
       "error": "No hemos podido cargar los datos. Inténtalo de nuevo en unos minutos.",
@@ -396,6 +397,11 @@
           "name": "castellon-comercio-consent-v1",
           "purpose": "Recordar tu elección sobre las cookies.",
           "kind": "Técnico · almacenamiento local · hasta que lo borres"
+        },
+        {
+          "name": "Caché de la aplicación (service worker)",
+          "purpose": "Guardar en tu dispositivo la propia web y los últimos datos descargados para que abra más rápido y funcione sin conexión. No contiene datos personales.",
+          "kind": "Técnico · caché del navegador · se renueva con cada versión; puedes borrarla desde los ajustes del navegador"
         },
         {
           "name": "Vercel Web Analytics (/_vercel/insights)",

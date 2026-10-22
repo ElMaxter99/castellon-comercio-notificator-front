@@ -99,6 +99,16 @@
   }
 }
 
+.shell__offline {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  background: var(--peach);
+  color: #7c2d12;
+}
+
 .shell__skip {
   position: fixed;
   top: 0.5rem;
