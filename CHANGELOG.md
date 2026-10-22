@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.15.0 - 2026-10-22
+
+### Accesibilidad (edición 2026)
+- **«Saltar al contenido»**: primer elemento al tabular; mueve el foco a `<main>`.
+- **Foco al cambiar de página**: al navegar a otra sección el foco pasa al contenido (antes se quedaba en el enlace de la cabecera). Cambiar solo filtros (la query de la URL) no lo mueve.
+- **Etiquetas con nombre** en las acciones repetidas de cada comercio: «Llamar a X: 964…», «Compartir X», «Ver X en el mapa», «Cómo llegar a X (se abre en una pestaña nueva)» (es y ca-ES-valencia). Antes, un lector de pantalla leía decenas de «Compartir» o «Ver en el mapa» iguales.
+- **Esc cierra la leyenda del mapa** y devuelve el foco a su botón.
+- **Contraste**: el naranja oscuro de los textos pequeños (`--orange-deep`) pasa de 4,1:1 a 5,3:1 sobre crema (AA exige 4,5:1). El resto de pares texto/fondo del tema ya cumplían (≥ 5,5:1).
+- Tests: 127 (5 nuevos: salto al contenido, foco por página y por filtros, Esc en la leyenda).
+
 ## v2.14.0 - 2026-10-22
 
 ### Añadido

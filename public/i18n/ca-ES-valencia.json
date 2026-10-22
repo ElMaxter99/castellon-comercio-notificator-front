@@ -212,6 +212,7 @@
   },
   "ed26": {
     "nav": {
+      "skip": "Saltar al contingut",
       "ariaLabel": "Navegació 2026",
       "home": "Inici",
       "shops": "Comerços",
@@ -242,6 +243,10 @@
       }
     },
     "shops": {
+      "callFor": "Telefonar a {{name}}: {{phone}}",
+      "shareFor": "Compartir {{name}}",
+      "viewOnMapFor": "Vore {{name}} al mapa",
+      "directionsFor": "Com arribar a {{name}} (s'obri en una pestanya nova)",
       "title": "Comerços",
       "searchLabel": "Cercar comerços",
       "searchPlaceholder": "Nom, adreça o sector",
