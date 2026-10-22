@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.17.0 - 2026-10-22
+
+### Cambiado
+- **`package-lock.json` se versiona** y el CI instala con `npm ci` (con caché de npm): builds reproducibles, sin versiones nuevas por sorpresa entre dos ejecuciones. Vercel respeta el lock con su `npm install`. Comprobado: `npm ci` funciona con npm 10 y npm 11 (el error `edgesOut` de npm 10 era al *resolver* sin lock), y los tests y el build de producción pasan con el árbol del lock.
+- **Desde ahora**: si cambias dependencias, regenera el lock (`npm install`, npm ≥ 11) y súbelo en el mismo PR; Dependabot lo actualiza solo.
+
 ## v2.16.0 - 2026-10-22
 
 ### Añadido
