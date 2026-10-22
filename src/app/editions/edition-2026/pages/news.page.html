@@ -36,6 +36,9 @@
             @if (group.removed > 0) {
               <span class="news__badge news__badge--remove">−{{ group.removed }}</span>
             }
+            @if (group.modified > 0) {
+              <span class="news__badge news__badge--mod" [attr.aria-label]="'ed26.news.modifiedCount' | translate: { count: group.modified }">±{{ group.modified }}</span>
+            }
             <span class="news__month-count">{{ (group.entries.length === 1 ? 'ed26.news.updatesOne' : 'ed26.news.updates') | translate: { count: group.entries.length } }}</span>
             <span class="news__chevron" aria-hidden="true">▾</span>
           </button>
@@ -59,6 +62,9 @@
                     }
                     @if (entry.removed.length > 0) {
                       <span class="news__badge news__badge--remove">−{{ entry.removed.length }}</span>
+                    }
+                    @if (modifiedOf(entry).length > 0) {
+                      <span class="news__badge news__badge--mod" [attr.aria-label]="'ed26.news.modifiedCount' | translate: { count: modifiedOf(entry).length }">±{{ modifiedOf(entry).length }}</span>
                     }
                     <span class="news__total">{{ 'ed26.news.total' | translate: { count: entry.countAfter } }}</span>
                     <span class="news__chevron" aria-hidden="true">▾</span>
@@ -93,6 +99,30 @@
                           @if (entry.removed.length > previewNames) {
                             <button type="button" class="news__more" (click)="toggleList(entry, 'remove')">
                               {{ (isListOpen(entry, 'remove') ? 'ed26.news.showLess' : 'ed26.news.showMore') | translate: { count: entry.removed.length - previewNames } }}
+                            </button>
+                          }
+                        </div>
+                      }
+                      @if (modifiedOf(entry).length > 0) {
+                        <div class="news__block">
+                          <h3 class="news__label news__label--mod">±{{ modifiedOf(entry).length }} {{ 'ed26.news.modified' | translate }}</h3>
+                          <ul class="news__names news__names--modified">
+                            @for (item of visible(modifiedOf(entry), entry, 'mod'); track item.name) {
+                              <li>
+                                {{ item.name }}
+                                @if (knownChanges(item).length > 0) {
+                                  <span class="news__changes">
+                                    @for (change of knownChanges(item); track change) {
+                                      <span class="news__change">{{ 'ed26.news.fields.' + change | translate }}</span>
+                                    }
+                                  </span>
+                                }
+                              </li>
+                            }
+                          </ul>
+                          @if (modifiedOf(entry).length > previewNames) {
+                            <button type="button" class="news__more" (click)="toggleList(entry, 'mod')">
+                              {{ (isListOpen(entry, 'mod') ? 'ed26.news.showLess' : 'ed26.news.showMore') | translate: { count: modifiedOf(entry).length - previewNames } }}
                             </button>
                           }
                         </div>

@@ -291,11 +291,19 @@
       "mapError": "No se pudo cargar el mapa. Comprueba tu conexión e inténtalo de nuevo."
     },
     "news": {
-      "eyebrow": "Altas y bajas",
+      "eyebrow": "Altas, bajas y cambios",
       "title": "Novedades",
       "subtitle": "Cada vez que el listado oficial cambia, queda registrado aquí.",
       "added": "nuevos",
       "removed": "dejan de participar",
+      "modified": "actualizados",
+      "modifiedCount": "{{count}} comercios actualizados",
+      "fields": {
+        "sector": "sector",
+        "phone": "teléfono",
+        "address": "dirección",
+        "mapsUrl": "ubicación"
+      },
       "total": "{{count}} comercios en total",
       "empty": {
         "title": "Sin novedades todavía",

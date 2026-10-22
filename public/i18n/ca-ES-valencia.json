@@ -291,11 +291,19 @@
       "mapError": "No s'ha pogut carregar el mapa. Comprova la teua connexió i torna-ho a provar."
     },
     "news": {
-      "eyebrow": "Altes i baixes",
+      "eyebrow": "Altes, baixes i canvis",
       "title": "Novetats",
       "subtitle": "Cada vegada que el llistat oficial canvia, queda registrat ací.",
       "added": "nous",
       "removed": "deixen de participar",
+      "modified": "actualitzats",
+      "modifiedCount": "{{count}} comerços actualitzats",
+      "fields": {
+        "sector": "sector",
+        "phone": "telèfon",
+        "address": "adreça",
+        "mapsUrl": "ubicació"
+      },
       "total": "{{count}} comerços en total",
       "empty": {
         "title": "Encara sense novetats",
