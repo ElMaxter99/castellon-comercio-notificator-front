@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { CommerceHistoryEntry } from '../../../models/commerce-history-entry.model';
+import { CommerceHistoryEntry, CommerceHistoryModification } from '../../../models/commerce-history-entry.model';
 import { LanguageService } from '../../../services/language.service';
 import { formatDate } from '../../../utils/format-date';
 import { Edition2026Store } from '../edition-2026.store';
@@ -14,6 +14,7 @@ interface WeekGroup {
   entries: CommerceHistoryEntry[];
   added: number;
   removed: number;
+  modified: number;
 }
 
 /** Lunes (00:00, hora local) de la semana de una fecha. */
@@ -24,6 +25,9 @@ function weekStart(date: Date): Date {
 
 /** Nombres que se muestran por bloque antes de pedir "ver todos". */
 const PREVIEW_NAMES = 8;
+
+/** Campos del API cuyo cambio se muestra (los desconocidos se ignoran sin romper la lista). */
+const CHANGE_FIELDS = ['sector', 'phone', 'address', 'mapsUrl'];
 
 @Component({
   selector: 'app-ed26-news',
@@ -77,7 +81,7 @@ export class NewsPageComponent {
   protected readonly groups = computed<WeekGroup[]>(() => {
     const groups = new Map<string, WeekGroup>();
     const entries = [...this.store.history()]
-      .filter((entry) => entry.added.length > 0 || entry.removed.length > 0)
+      .filter((entry) => entry.added.length > 0 || entry.removed.length > 0 || this.modifiedOf(entry).length > 0)
       .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
     for (const entry of entries) {
@@ -89,11 +93,13 @@ export class NewsPageComponent {
         end: new Date(start.getFullYear(), start.getMonth(), start.getDate() + 6),
         entries: [],
         added: 0,
-        removed: 0
+        removed: 0,
+        modified: 0
       };
       group.entries.push(entry);
       group.added += entry.added.length;
       group.removed += entry.removed.length;
+      group.modified += this.modifiedOf(entry).length;
       groups.set(key, group);
     }
     return [...groups.values()];
@@ -110,7 +116,12 @@ export class NewsPageComponent {
     return this.overrides().get(`e:${entry.timestamp}`) ?? this.groups()[0]?.entries[0] === entry;
   }
 
-  protected isListOpen(entry: CommerceHistoryEntry, kind: 'add' | 'remove'): boolean {
+  /** Comercios actualizados de una entrada (las entradas antiguas no traen el campo). */
+  protected modifiedOf(entry: CommerceHistoryEntry): CommerceHistoryModification[] {
+    return entry.modified ?? [];
+  }
+
+  protected isListOpen(entry: CommerceHistoryEntry, kind: 'add' | 'remove' | 'mod'): boolean {
     return this.overrides().get(`n:${entry.timestamp}:${kind}`) ?? false;
   }
 
@@ -122,7 +133,7 @@ export class NewsPageComponent {
     this.flip(`e:${entry.timestamp}`, this.isEntryOpen(entry));
   }
 
-  protected toggleList(entry: CommerceHistoryEntry, kind: 'add' | 'remove'): void {
+  protected toggleList(entry: CommerceHistoryEntry, kind: 'add' | 'remove' | 'mod'): void {
     this.flip(`n:${entry.timestamp}:${kind}`, this.isListOpen(entry, kind));
   }
 
@@ -140,8 +151,13 @@ export class NewsPageComponent {
   }
 
   /** Nombres visibles de un bloque: los primeros, o todos si está desplegado. */
-  protected visible(names: string[], entry: CommerceHistoryEntry, kind: 'add' | 'remove'): string[] {
-    return this.isListOpen(entry, kind) ? names : names.slice(0, PREVIEW_NAMES);
+  protected visible<T>(items: T[], entry: CommerceHistoryEntry, kind: 'add' | 'remove' | 'mod'): T[] {
+    return this.isListOpen(entry, kind) ? items : items.slice(0, PREVIEW_NAMES);
+  }
+
+  /** «teléfono, dirección»: campos cambiados, con los nombres ya traducidos por la plantilla. */
+  protected knownChanges(modification: CommerceHistoryModification): string[] {
+    return modification.changes.filter((change) => CHANGE_FIELDS.includes(change));
   }
 
   private flip(key: string, current: boolean): void {

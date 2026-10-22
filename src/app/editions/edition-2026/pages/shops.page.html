@@ -229,18 +229,18 @@
                     <p class="shop__row"><span aria-hidden="true">📍</span> {{ commerce.address }}</p>
                     <div class="shop__actions">
                       @if (commerce.phone) {
-                        <a class="shop__pill" [href]="phoneHref(commerce.phone)">
+                        <a class="shop__pill" [href]="phoneHref(commerce.phone)" [attr.aria-label]="'ed26.shops.callFor' | translate: { name: commerce.name, phone: commerce.phone }">
                           <span aria-hidden="true">📞</span> {{ commerce.phone }}
                         </a>
                       }
-                      <button type="button" class="shop__pill" (click)="share(commerce)">
+                      <button type="button" class="shop__pill" (click)="share(commerce)" [attr.aria-label]="'ed26.shops.shareFor' | translate: { name: commerce.name }">
                         <span aria-hidden="true">🔗</span> {{ 'ed26.shops.share' | translate }}
                       </button>
-                      <button type="button" class="shop__pill" (click)="showOnMap(commerce)">
+                      <button type="button" class="shop__pill" (click)="showOnMap(commerce)" [attr.aria-label]="'ed26.shops.viewOnMapFor' | translate: { name: commerce.name }">
                         <span aria-hidden="true">🗺️</span> {{ 'ed26.shops.viewOnMap' | translate }}
                       </button>
                       @if (commerce.mapsUrl) {
-                        <a class="shop__pill shop__pill--go" [href]="commerce.mapsUrl" target="_blank" rel="noopener noreferrer">
+                        <a class="shop__pill shop__pill--go" [href]="commerce.mapsUrl" target="_blank" rel="noopener noreferrer" [attr.aria-label]="'ed26.shops.directionsFor' | translate: { name: commerce.name }">
                           {{ 'ed26.shops.directions' | translate }} →
                         </a>
                       }

@@ -20,7 +20,7 @@ Esta guía recoge **qué se acepta, qué se ignora a propósito y cómo revisar 
 
 ## Cómo se migró a Angular 22 (20 → 22)
 1. Subir de **una versión mayor cada vez** (20 → 21 → 22), probando tests y build en cada paso. Con `ng update @angular/core@N @angular/cli@N`, o editando `package.json` y reinstalando.
-2. En este entorno el `npm` 10 falló al resolver peers (`Cannot read properties of null (reading 'edgesOut')`); con **npm 11** instaló bien. Si te pasa, borra `node_modules` y `package-lock.json` y usa npm 11.
+2. En este entorno el `npm` 10 falló al resolver peers (`Cannot read properties of null (reading 'edgesOut')`); con **npm 11** instaló bien. Si te pasa, borra `node_modules` y usa npm 11 (`npm ci` con el lock versionado funciona también con npm 10).
 3. Las migraciones automáticas de `ng update` que se probaron (flujo de control `@if`, `withXhr`, supresión de diagnósticos) **no hacían falta** y se descartaron para no tocar la edición 2025.
 4. Cambios de código necesarios: ninguno hasta Angular 22 + TypeScript 6; con **ngx-translate 18** (elimina `TranslateModule`): `TranslatePipe` en los `imports` de cada componente, `provideTranslateService({ fallbackLang })` + `provideTranslateLoader(...)` en `app.config.ts`, `currentLang` pasa a ser una *signal* y `setDefaultLang` desaparece (el idioma de respaldo va en la config). En los tests, `provideTranslateService()` en lugar de `TranslateModule.forRoot()`.
 5. Verificado: 51 tests, builds de producción (con y sin `--live=false`) y la app en navegador en castellano y valencià (sin claves sin traducir ni errores JS).

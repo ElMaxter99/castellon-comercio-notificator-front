@@ -212,6 +212,7 @@
   },
   "ed26": {
     "nav": {
+      "skip": "Saltar al contenido",
       "ariaLabel": "Navegación 2026",
       "home": "Inicio",
       "shops": "Comercios",
@@ -242,6 +243,10 @@
       }
     },
     "shops": {
+      "callFor": "Llamar a {{name}}: {{phone}}",
+      "shareFor": "Compartir {{name}}",
+      "viewOnMapFor": "Ver {{name}} en el mapa",
+      "directionsFor": "Cómo llegar a {{name}} (se abre en una pestaña nueva)",
       "title": "Comercios",
       "searchLabel": "Buscar comercios",
       "searchPlaceholder": "Nombre, dirección o sector",
@@ -291,11 +296,19 @@
       "mapError": "No se pudo cargar el mapa. Comprueba tu conexión e inténtalo de nuevo."
     },
     "news": {
-      "eyebrow": "Altas y bajas",
+      "eyebrow": "Altas, bajas y cambios",
       "title": "Novedades",
       "subtitle": "Cada vez que el listado oficial cambia, queda registrado aquí.",
       "added": "nuevos",
       "removed": "dejan de participar",
+      "modified": "actualizados",
+      "modifiedCount": "{{count}} comercios actualizados",
+      "fields": {
+        "sector": "sector",
+        "phone": "teléfono",
+        "address": "dirección",
+        "mapsUrl": "ubicación"
+      },
       "total": "{{count}} comercios en total",
       "empty": {
         "title": "Sin novedades todavía",
@@ -312,6 +325,7 @@
     },
     "state": {
       "loading": "Cargando comercios…",
+      "offline": "Sin conexión: se muestran los últimos datos guardados en este dispositivo.",
       "waking": "El servidor se estaba durmiendo y está despertando. Puede tardar hasta un minuto la primera vez; reintentamos solos.",
       "retry": "Reintentar",
       "error": "No hemos podido cargar los datos. Inténtalo de nuevo en unos minutos.",
@@ -383,6 +397,11 @@
           "name": "castellon-comercio-consent-v1",
           "purpose": "Recordar tu elección sobre las cookies.",
           "kind": "Técnico · almacenamiento local · hasta que lo borres"
+        },
+        {
+          "name": "Caché de la aplicación (service worker)",
+          "purpose": "Guardar en tu dispositivo la propia web y los últimos datos descargados para que abra más rápido y funcione sin conexión. No contiene datos personales.",
+          "kind": "Técnico · caché del navegador · se renueva con cada versión; puedes borrarla desde los ajustes del navegador"
         },
         {
           "name": "Vercel Web Analytics (/_vercel/insights)",

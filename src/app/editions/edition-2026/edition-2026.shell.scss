@@ -92,6 +92,39 @@
 
 .shell__main {
   flex: 1;
+
+  // Recibe el foco por código al cambiar de página; no necesita el aro.
+  &:focus {
+    outline: none;
+  }
+}
+
+.shell__offline {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  background: var(--peach);
+  color: #7c2d12;
+}
+
+.shell__skip {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  border-radius: 0.75rem;
+  background: var(--forest-deep);
+  color: var(--cream);
+  font-weight: 800;
+  text-decoration: none;
+  transform: translateY(-200%);
+
+  &:focus {
+    transform: none;
+  }
 }
 
 .shell__footer {

@@ -6,6 +6,13 @@
     "countAfter": 6
   },
   {
+    "timestamp": "2025-01-07T12:30:00+01:00",
+    "added": [],
+    "removed": [],
+    "modified": [{ "name": "EcoVerda", "changes": ["phone", "address"] }],
+    "countAfter": 5
+  },
+  {
     "timestamp": "2025-01-05T09:15:00+01:00",
     "added": ["Floristeria Azahar"],
     "removed": ["Merceria Paquita"],

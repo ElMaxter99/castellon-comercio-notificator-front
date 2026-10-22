@@ -23,10 +23,10 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 22
+          cache: npm
 
-      # No se versiona package-lock.json, así que no se usa `npm ci` ni la caché de npm.
       - name: Instalar dependencias
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
 
       # En runners con AppArmor Chrome puede negarse a arrancar con sandbox.
       - name: Chrome sin sandbox

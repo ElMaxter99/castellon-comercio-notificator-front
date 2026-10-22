@@ -212,6 +212,7 @@
   },
   "ed26": {
     "nav": {
+      "skip": "Saltar al contingut",
       "ariaLabel": "Navegació 2026",
       "home": "Inici",
       "shops": "Comerços",
@@ -242,6 +243,10 @@
       }
     },
     "shops": {
+      "callFor": "Telefonar a {{name}}: {{phone}}",
+      "shareFor": "Compartir {{name}}",
+      "viewOnMapFor": "Vore {{name}} al mapa",
+      "directionsFor": "Com arribar a {{name}} (s'obri en una pestanya nova)",
       "title": "Comerços",
       "searchLabel": "Cercar comerços",
       "searchPlaceholder": "Nom, adreça o sector",
@@ -291,11 +296,19 @@
       "mapError": "No s'ha pogut carregar el mapa. Comprova la teua connexió i torna-ho a provar."
     },
     "news": {
-      "eyebrow": "Altes i baixes",
+      "eyebrow": "Altes, baixes i canvis",
       "title": "Novetats",
       "subtitle": "Cada vegada que el llistat oficial canvia, queda registrat ací.",
       "added": "nous",
       "removed": "deixen de participar",
+      "modified": "actualitzats",
+      "modifiedCount": "{{count}} comerços actualitzats",
+      "fields": {
+        "sector": "sector",
+        "phone": "telèfon",
+        "address": "adreça",
+        "mapsUrl": "ubicació"
+      },
       "total": "{{count}} comerços en total",
       "empty": {
         "title": "Encara sense novetats",
@@ -312,6 +325,7 @@
     },
     "state": {
       "loading": "Carregant comerços…",
+      "offline": "Sense connexió: es mostren les últimes dades guardades en este dispositiu.",
       "waking": "El servidor s'estava dormint i s'està despertant. Pot tardar fins a un minut la primera vegada; ho reintentem sols.",
       "retry": "Reintenta",
       "error": "No hem pogut carregar les dades. Torna-ho a provar d'ací a uns minuts.",
@@ -383,6 +397,11 @@
           "name": "castellon-comercio-consent-v1",
           "purpose": "Recordar la teua elecció sobre les galetes.",
           "kind": "Tècnic · emmagatzematge local · fins que ho esborres"
+        },
+        {
+          "name": "Memòria cau de l'aplicació (service worker)",
+          "purpose": "Guardar al teu dispositiu la pròpia web i les últimes dades descarregades perquè òbriga més ràpid i funcione sense connexió. No conté dades personals.",
+          "kind": "Tècnic · memòria cau del navegador · es renova amb cada versió; pots esborrar-la des dels ajustos del navegador"
         },
         {
           "name": "Vercel Web Analytics (/_vercel/insights)",
