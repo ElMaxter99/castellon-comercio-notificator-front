@@ -27,6 +27,8 @@ const DEFAULT_ZOOM = 14;
 const FIT_RADIUS_DEGREES = 0.25;
 /** A este zoom o menos, los pines se dibujan más pequeños. */
 const FAR_ZOOM = 13;
+/** Zoom mínimo al ir a un comercio concreto (enlace compartido, «Ver en el mapa»). */
+const SELECTED_ZOOM = 16;
 
 type LeafletGlobal = any;
 
@@ -496,7 +498,9 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
     const fitCoords = this.mainArea(allCoords);
     if (fitCoords.length > 0) {
-      this.map.fitBounds(L.latLngBounds(fitCoords), { padding: [40, 40], maxZoom: 17 });
+      // Con un comercio seleccionado (enlace compartido) el encuadre es inmediato: así no compite con
+      // el desplazamiento al pin.
+      this.map.fitBounds(L.latLngBounds(fitCoords), { padding: [40, 40], maxZoom: 17, animate: !this.selectedKey });
     } else {
       this.map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
     }
@@ -555,14 +559,39 @@ export class ShopsMapComponent implements AfterViewInit, OnChanges, OnDestroy {
     if (!entry || !this.map) {
       return;
     }
+    this.focusSelected(entry.marker, this.selectedKey!);
+  }
+
+  /**
+   * Lleva el mapa al pin seleccionado y abre su popup. Se hace sin animación y sin depender de los
+   * eventos del plugin de clústeres: `zoomToShowLayer` solo avisa tras un `moveend`, y si el mapa
+   * ya está donde toca (o aún se está encuadrando) nunca llega, así que un enlace compartido
+   * dejaba el mapa sin popup.
+   */
+  private focusSelected(marker: any, key: string): void {
     const open = (): void => {
-      this.map.panTo(entry.marker.getLatLng(), { animate: true });
-      entry.marker.openPopup();
+      if (!this.destroyed && this.selectedKey === key && !marker.isPopupOpen?.()) {
+        marker.openPopup();
+      }
     };
+    // Se acerca de nivel en nivel, sin animación, hasta que el pin sale de su clúster (el plugin
+    // reagrupa en cada cambio de zoom).
+    const position = marker.getLatLng();
+    for (let zoom = Math.max(this.map.getZoom(), SELECTED_ZOOM); zoom <= this.map.getMaxZoom(); zoom++) {
+      this.map.setView(position, zoom, { animate: false });
+      if (this.map.hasLayer(marker)) {
+        open();
+        return;
+      }
+    }
+    // Pines con la misma posición: siguen agrupados incluso al máximo zoom; el plugin los abre en abanico.
     if (this.layer?.zoomToShowLayer) {
-      this.layer.zoomToShowLayer(entry.marker, open);
-    } else {
-      open();
+      this.layer.zoomToShowLayer(marker, open);
+      setTimeout(() => {
+        if (this.map?.hasLayer(marker)) {
+          open();
+        }
+      }, 600);
     }
   }
 

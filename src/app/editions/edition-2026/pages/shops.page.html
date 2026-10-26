@@ -236,9 +236,11 @@
                       <button type="button" class="shop__pill" (click)="share(commerce)">
                         <span aria-hidden="true">🔗</span> {{ 'ed26.shops.share' | translate }}
                       </button>
-                      <button type="button" class="shop__pill" (click)="showOnMap(commerce)">
-                        <span aria-hidden="true">🗺️</span> {{ 'ed26.shops.viewOnMap' | translate }}
-                      </button>
+                      @if (hasCoords(commerce)) {
+                        <button type="button" class="shop__pill" (click)="showOnMap(commerce)">
+                          <span aria-hidden="true">🗺️</span> {{ 'ed26.shops.viewOnMap' | translate }}
+                        </button>
+                      }
                       @if (commerce.mapsUrl) {
                         <a class="shop__pill shop__pill--go" [href]="commerce.mapsUrl" target="_blank" rel="noopener noreferrer">
                           {{ 'ed26.shops.directions' | translate }} →
