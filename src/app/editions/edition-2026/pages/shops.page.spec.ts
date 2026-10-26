@@ -8,13 +8,15 @@ import { commerceKey } from '../../../utils/commerce-utils';
 import { Edition2026Store, SectorSummary } from '../edition-2026.store';
 import { ShopsPageComponent } from './shops.page';
 
-const shop = (name: string, sector: string, address = 'Calle Mayor'): Commerce => ({
+const WITH_COORDS = 'https://www.google.com/maps/search/?api=1&query=39.9864,-0.0376';
+
+const shop = (name: string, sector: string, address = 'Calle Mayor', mapsUrl = WITH_COORDS): Commerce => ({
   name,
   sector,
   phone: '',
   address,
   img: '',
-  mapsUrl: ''
+  mapsUrl
 });
 
 const COMMERCES = [
@@ -32,7 +34,7 @@ interface Harness {
   favorites: ReturnType<typeof signal<ReadonlySet<string>>>;
 }
 
-function setup(params: Record<string, string> = {}): Harness {
+function setup(params: Record<string, string> = {}, commerces: Commerce[] = COMMERCES): Harness {
   const queryParamMap = new BehaviorSubject(convertToParamMap(params));
   const favorites = signal<ReadonlySet<string>>(new Set());
   const sectors: SectorSummary[] = [
@@ -41,7 +43,7 @@ function setup(params: Record<string, string> = {}): Harness {
     { name: 'Moda', count: 1, color: '#333' }
   ];
   const store = {
-    commerces: signal(COMMERCES),
+    commerces: signal(commerces),
     sectors: signal(sectors),
     loading: signal(false),
     error: signal(false),
@@ -198,5 +200,28 @@ describe('ShopsPageComponent', () => {
     expect(url.searchParams.get('view')).toBe('map');
     expect(url.searchParams.get('shop')).toBe('Calzados Pepe|Calle Mayor');
     delete (navigator as unknown as { share?: unknown }).share;
+  });
+
+  describe('enlace compartido a un comercio sin coordenadas', () => {
+    const noMap = shop('Sin Mapa', 'Moda', 'Calle Oculta', '');
+
+    it('no ofrece «Ver en el mapa» (no tiene pin)', () => {
+      const h = setup({}, [noMap]);
+      const labels = [...root(h).querySelectorAll('.shop__pill')].map((b) => b.textContent ?? '');
+      expect(labels.some((text) => text.includes('ed26.shops.viewOnMap'))).toBeFalse();
+    });
+
+    it('si se abre en la vista de mapa, lleva a su ficha en la lista', () => {
+      const h = setup({ view: 'map', shop: commerceKey(noMap) }, [noMap, shop('Con Mapa', 'Moda')]);
+      expect(h.navigate).toHaveBeenCalledWith(
+        [],
+        jasmine.objectContaining({ queryParams: { view: null, shop: 'Sin Mapa|Calle Oculta' } })
+      );
+    });
+
+    it('un comercio con coordenadas se queda en el mapa', () => {
+      const h = setup({ view: 'map', shop: 'Con Mapa|Calle Mayor' }, [noMap, shop('Con Mapa', 'Moda')]);
+      expect(h.navigate).not.toHaveBeenCalled();
+    });
   });
 });
