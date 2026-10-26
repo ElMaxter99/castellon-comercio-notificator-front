@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.13.1 - 2026-10-26
+
+### Corregido
+- **Los enlaces para compartir un comercio (`?view=map&shop=…`) abren su ficha en el mapa.** Con el catálogo real el mapa se quedaba sin popup en muchos comercios (en una muestra de 40, 8 fallaban; sobre todo los del centro, donde los pines están agrupados): el plugin de clústeres solo avisa tras un `moveend`, que no llega si el mapa ya está donde toca o aún se está encuadrando. Ahora el mapa se encuadra sin animación, se acerca nivel a nivel hasta que el pin sale de su clúster y abre el popup (`focusSelected`). Tras el arreglo: 39 de 40 (escritorio) y 32 de 32 (móvil) con los datos reales del API; el que queda es el siguiente caso.
+- **Comercios sin coordenadas** (el enlace de Google Maps del API no trae `query=lat,lng`; hoy 5 de 158): no tienen pin, así que un enlace compartido a uno de ellos te lleva a **su ficha en la lista**, resaltada, en vez de a un mapa sin nada. Su tarjeta ya no ofrece «Ver en el mapa».
+- Tests: 122 (3 nuevos).
+
 ## v2.13.0 - 2026-10-21
 
 ### Añadido

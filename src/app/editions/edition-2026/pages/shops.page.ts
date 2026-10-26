@@ -1,5 +1,5 @@
 import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, computed, effect, inject, signal, untracked } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
@@ -135,6 +135,19 @@ export class ShopsPageComponent implements AfterViewInit {
       .pipe(debounceTime(250), takeUntilDestroyed())
       .subscribe((value) => this.update({ q: value.trim() || null }));
 
+    // Un enlace compartido a un comercio sin coordenadas (no tiene pin) no puede abrir el mapa:
+    // se le lleva a su ficha en la lista.
+    effect(() => {
+      const key = this.selectedKey();
+      if (!key || this.view() !== 'map' || this.store.loading()) {
+        return;
+      }
+      const commerce = this.store.commerces().find((item) => commerceKey(item) === key);
+      if (commerce && !this.hasCoords(commerce)) {
+        untracked(() => this.showInList(commerce));
+      }
+    });
+
     // Al cambiar los filtros se olvidan las aperturas manuales.
     effect(() => {
       this.query();
@@ -186,6 +199,11 @@ export class ShopsPageComponent implements AfterViewInit {
     if (this.view() === 'map') {
       setTimeout(() => this.scrollToResults(), 350);
     }
+  }
+
+  /** ¿Se puede situar en el mapa? (las coordenadas salen del enlace de Google Maps del API) */
+  protected hasCoords(commerce: Commerce): boolean {
+    return coordsFromMapsUrl(commerce.mapsUrl) !== null;
   }
 
   /** Enlace directo al comercio (mapa con su popup abierto), listo para compartir. */
