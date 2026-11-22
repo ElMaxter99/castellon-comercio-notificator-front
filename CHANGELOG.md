@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.14.1 - 2026-11-22
+
+### Documentación
+- **`docs/EDICION-2027.md`**: guía para retomar el proyecto en la edición 2027 (decisión sobre `/2026`, crear `/2027`, legal, dependencias, capturas, despliegue, lo aprendido en 2026 y ramas aparcadas).
+- README al día: estado entre ediciones, compartir comercio, arranque en frío, TypeScript 6 y tabla de documentación.
+- `CLAUDE.md`, `REUSE-2026.md` y `EDITIONS.md` apuntan a la guía.
+
 ## v2.14.0 - 2026-11-22
 
 ### Añadido

@@ -9,7 +9,7 @@ La app tiene una portada (`/`) que explica por qué existe el proyecto, enlaza a
 | `/2026`, `/2026/comercios`, `/2026/novedades` | **Vistas renovadas** (`editions/edition-2026/`) | API real según el entorno (ver abajo) |
 | `/history` | Redirige a `/2025/history` (enlaces antiguos) | |
 
-> **Estado (nov-2026): entre ediciones.** El programa 2026 termina; el API corre en modo mock y el shell 2026 muestra un aviso de «datos de demostración» (`CommerceStatus.mode === 'mock'`). Para la siguiente edición ver «Siguiente edición» al final.
+> **Estado (nov-2026): entre ediciones.** El programa 2026 termina; el API corre en modo mock y el shell 2026 muestra un aviso de «datos de demostración» (`CommerceStatus.mode === 'mock'`). Para la siguiente edición ver «Siguiente edición» al final y [`EDICION-2027.md`](EDICION-2027.md).
 
 ## Cómo se fuerza el modo demo en 2025
 `services/data-mode.ts` define el token `DATA_MODE`. La ruta `2025` en `app.routes.ts` declara
