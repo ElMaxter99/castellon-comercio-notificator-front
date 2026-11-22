@@ -26,6 +26,10 @@
     </div>
   </header>
 
+  @if (isDemo()) {
+    <p class="shell__demo" role="note">{{ 'ed26.demo.banner' | translate }}</p>
+  }
+
   <main class="shell__main">
     <router-outlet></router-outlet>
   </main>

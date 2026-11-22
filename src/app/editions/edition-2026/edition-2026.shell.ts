@@ -22,6 +22,8 @@ export class Edition2026ShellComponent {
   protected readonly consent = inject(ConsentService);
 
   protected readonly version = packageInfo.version ?? '';
+  /** El API sirve datos de demostración (programa terminado, a la espera de la siguiente edición). */
+  protected readonly isDemo = computed(() => this.store.status()?.mode === 'mock');
   protected readonly lastUpdate = computed(() => {
     const value = this.store.status()?.lastUpdate;
     return value
