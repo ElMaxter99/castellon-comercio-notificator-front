@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.14.0 - 2026-11-22
+
+### Añadido
+- **Aviso de «datos de demostración»** en la edición 2026 cuando el API está en modo mock (`mode: "mock"` en `/api/comercios/status`, API ≥ 2.10): «el programa de bonos 2026 ha terminado y los comercios que ves son ficticios. La edición 2027 llegará en cuanto se abra la campaña» (es y ca-ES-valencia). Con un API anterior, o con datos reales, no aparece. Los builds con `--live=false` también lo muestran (`public/mockup/status.json` lleva `mode: "mock"`).
+- Tests: 125 (3 nuevos).
+
 ## v2.13.1 - 2026-10-26
 
 ### Corregido

@@ -9,6 +9,8 @@ La app tiene una portada (`/`) que explica por qué existe el proyecto, enlaza a
 | `/2026`, `/2026/comercios`, `/2026/novedades` | **Vistas renovadas** (`editions/edition-2026/`) | API real según el entorno (ver abajo) |
 | `/history` | Redirige a `/2025/history` (enlaces antiguos) | |
 
+> **Estado (nov-2026): entre ediciones.** El programa 2026 termina; el API corre en modo mock y el shell 2026 muestra un aviso de «datos de demostración» (`CommerceStatus.mode === 'mock'`). Para la siguiente edición ver «Siguiente edición» al final.
+
 ## Cómo se fuerza el modo demo en 2025
 `services/data-mode.ts` define el token `DATA_MODE`. La ruta `2025` en `app.routes.ts` declara
 `providers: [{ provide: DATA_MODE, useValue: 'demo' }, CommerceService]`, de modo que **todo el árbol 2025 recibe su propia instancia de `CommerceService`** que lee los mocks. Si no hay token (rutas 2026), `CommerceService` usa `environment.isLive`.
@@ -69,3 +71,9 @@ Si el API aún no tiene comercios 2026 (programa sin publicar), 2026 muestra "To
 ## Pendiente / ideas
 - No se ha incorporado ningún asset del cartel (ilustración, logo del programa): solo su paleta.
 - Tests de `Edition2026Store` y `ShopsPageComponent`.
+
+## Siguiente edición (2027)
+1. En el API: seguir `docs/EDICION-2027.md` (namespace nuevo de Redis, quitar `MOCK_MODE`). El aviso de demostración desaparece solo cuando `mode` deja de ser `mock`.
+2. Crear `editions/edition-2027/` partiendo de `edition-2026/` (shell, store, páginas, tema) y su ruta `2027` lazy en `app.routes.ts`; mantener `/2026` como archivo de la edición anterior (con el aviso) o redirigir. Textos nuevos en ambos JSON de i18n (`ed27.*`), título por `titleKey`, y actualizar `docs/REUSE-2026.md`.
+3. Revisar `src/index.html` (Open Graph), la portada y la política de privacidad si cambia algo.
+

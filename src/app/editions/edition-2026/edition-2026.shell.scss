@@ -90,6 +90,16 @@
   stroke-width: 2.1;
 }
 
+.shell__demo {
+  margin: 0;
+  padding: 0.6rem 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  background: var(--peach);
+  color: #7c2d12;
+}
+
 .shell__main {
   flex: 1;
 }
