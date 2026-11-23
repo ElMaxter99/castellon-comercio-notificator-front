@@ -1,5 +1,7 @@
 # Reutilizar el proyecto en 2026
 
+> **Para la edición 2027 empieza por [`EDICION-2027.md`](EDICION-2027.md)** (y antes, por la del API). Este documento queda como checklist general e histórico de mejoras de 2026.
+
 Para trabajar con Claude: "sigue `docs/REUSE-2026.md` del repo front". Haz antes el equivalente del API (`castellon-comercio-notificator-api/docs/REUSE-2026.md`), porque el front depende de sus datos.
 
 > **Estado (v2.0.0)**: la edición 2026 ya tiene vistas renovadas (`/2026`), 2025 queda congelada en demo (`/2025`) y la URL del API se configura con `API_BASE_URL` / `--api-url` sin editar código. Ver [EDITIONS.md](EDITIONS.md) y [ENVIRONMENTS-AND-MOCK.md](ENVIRONMENTS-AND-MOCK.md). Los puntos 4 (aviso de fin de programa) y 5 (mock) de abajo ya no aplican a 2025; 2026 usa el API real. Quedan por hacer: definir `API_BASE_URL` con el backend 2026 y revisar textos/mapa con datos reales.
