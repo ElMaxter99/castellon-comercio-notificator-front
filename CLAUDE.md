@@ -35,7 +35,8 @@ Proyecto independiente y sin ánimo de lucro; sin relación oficial con el Ayunt
 - [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md) — entornos, `--live`, modo mock, builds.
 - [`docs/DEPENDENCIES.md`](docs/DEPENDENCIES.md) — Dependabot: qué se ignora a propósito (jasmine 7…) y cómo revisar sus PRs.
 - [`docs/PLAN-PINES-MAPA.md`](docs/PLAN-PINES-MAPA.md) — plan de los pines del mapa 2026 (implementado en v2.8–v2.11).
-- [`docs/REUSE-2026.md`](docs/REUSE-2026.md) — **checklist para reutilizar el proyecto en la edición 2026**.
+- [`docs/EDICION-2027.md`](docs/EDICION-2027.md) — **guía para retomar el proyecto en la edición 2027** (empieza por la del repo API).
+- [`docs/REUSE-2026.md`](docs/REUSE-2026.md) — checklist general de reutilización e histórico de mejoras de 2026.
 
 ## Comandos
 ```bash

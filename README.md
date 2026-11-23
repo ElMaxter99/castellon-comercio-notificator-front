@@ -14,7 +14,7 @@
 [![CI](https://github.com/ElMaxter99/castellon-comercio-notificator-front/actions/workflows/ci.yml/badge.svg)](https://github.com/ElMaxter99/castellon-comercio-notificator-front/actions/workflows/ci.yml)
 [![Versión](https://img.shields.io/github/package-json/v/ElMaxter99/castellon-comercio-notificator-front?style=flat-square&color=1E4D2B&label=versi%C3%B3n)](CHANGELOG.md)
 [![Angular](https://img.shields.io/badge/Angular-22-DD0031?style=flat-square&logo=angular&logoColor=white)](https://angular.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Leaflet](https://img.shields.io/badge/Leaflet-1.9-199900?style=flat-square&logo=leaflet&logoColor=white)](https://leafletjs.com)
 [![Vercel](https://img.shields.io/badge/despliegue-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com)
 [![Idiomas](https://img.shields.io/badge/idiomas-castellano%20%C2%B7%20valenci%C3%A0-F77F00?style=flat-square)](public/i18n)
@@ -26,6 +26,9 @@
 > [!NOTE]
 > **Iniciativa independiente y sin ánimo de lucro.** No guarda relación con el Ayuntamiento de Castelló de la Plana ni con CONFECOMERÇ. Los datos proceden de la web oficial del programa y se ofrecen solo con fines informativos.
 
+> [!IMPORTANT]
+> **Estado (nov-2026): entre ediciones.** El programa 2026 termina: el API está en **modo demo** (datos ficticios) y la edición 2026 muestra un aviso de «datos de demostración» que desaparece solo cuando el API vuelve a servir datos reales. Para retomar el proyecto en 2027: [**`docs/EDICION-2027.md`**](docs/EDICION-2027.md).
+
 ---
 
 ## ✨ ¿Qué es?
@@ -35,7 +38,9 @@ La web oficial del programa ofrece un listado paginado sin buscador cómodo, sin
 - 🔎 **Buscador** por nombre, dirección o sector (tolera acentos).
 - 🗂️ **Lista agrupada por sector** o 🗺️ **mapa con clústeres**, con contador de establecimientos.
 - ⭐ **Favoritos** guardados en tu navegador y 🔗 filtros compartibles por URL.
-- 🔔 **Novedades**: altas y bajas del listado a lo largo del tiempo.
+- 🔔 **Novedades**: altas y bajas del listado a lo largo del tiempo, agrupadas por semanas.
+- 🔗 **Compartir un comercio**: el enlace abre el mapa con su ficha (o, si no tiene ubicación, su tarjeta en la lista).
+- 🌤️ **Tolera el arranque en frío** del API gratuito: reintenta y avisa de que el servidor está despertando.
 - 🌍 Castellano y valencià, responsive y con accesibilidad en mente (`prefers-reduced-motion`, ARIA, teclado).
 
 ## 🧭 Ecosistema
@@ -44,7 +49,7 @@ Este repositorio es **solo el front**. Los datos los produce el [**API**](https:
 
 ```mermaid
 flowchart LR
-    W["🌐 Web oficial<br/>bonoscastellodelaplana.es"] -- "scrapeo cada 5 min" --> A["⚙️ API<br/>Node · Express"]
+    W["🌐 Web oficial<br/>bonoscastellodelaplana.es"] -- "scrapeo periódico<br/>(o modo demo)" --> A["⚙️ API<br/>Node · Express"]
     A <--> R[("🧠 Redis")]
     A -- "email si hay<br/>comercios nuevos" --> M["✉️ SMTP / Resend"]
     A -- "REST /api/comercios" --> F["🖥️ Front<br/>Angular (este repo)"]
@@ -94,7 +99,7 @@ flowchart LR
 | Ruta | Edición | Datos |
 |---|---|---|
 | `/` | Portada (por qué existe, fuentes oficiales, entrada a la 2026; la 2025 demo desde el pie) | — |
-| `/2026` · `/2026/comercios` · `/2026/novedades` | **2026** — vistas renovadas | API real (configurable) |
+| `/2026` · `/2026/comercios` · `/2026/novedades` | **2026** — vistas renovadas | API (real o, entre ediciones, demo; con aviso) |
 | `/2025` · `/2025/history` | **2025** — vistas originales | **Siempre demo** (`public/mockup/`) |
 
 Cómo se fuerza el modo demo en 2025 y cómo está montado el diseño 2026: [`docs/EDITIONS.md`](docs/EDITIONS.md).
@@ -109,7 +114,7 @@ cd castellon-comercio-notificator-front
 npm install
 
 npm start                      # http://localhost:4200 contra el API en http://localhost:12001
-npm start -- --live=false      # sin API: datos mock de public/mockup (solo afecta a 2026)
+npm start -- --live=false      # sin API: datos mock de public/mockup (solo afecta a 2026; muestra el aviso de demo)
 npm test                       # Karma + Jasmine (el CI lo ejecuta en cada PR)
 npm run build -- --configuration=production
 ```
@@ -149,11 +154,12 @@ Angular 22 con componentes *standalone*, `signal`/`computed`, `OnPush` y rutas p
 
 | Documento | Contenido |
 |---|---|
+| [**`docs/EDICION-2027.md`**](docs/EDICION-2027.md) | **Guía para retomar el proyecto en 2027** (qué hacer con `/2026`, crear `/2027`, legal, capturas, despliegue) |
 | [`docs/EDITIONS.md`](docs/EDITIONS.md) | Ediciones 2025/2026, modo demo forzado, diseño, animaciones y footers |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Árbol de componentes, estado, datos, mapa, i18n |
 | [`docs/ENVIRONMENTS-AND-MOCK.md`](docs/ENVIRONMENTS-AND-MOCK.md) | Entornos, `--live`, `API_BASE_URL`, mock y builds |
 | [`docs/DEPENDENCIES.md`](docs/DEPENDENCIES.md) | Dependabot: subidas ignoradas a propósito, ruta de migración y cómo revisar sus PRs |
-| [`docs/REUSE-2026.md`](docs/REUSE-2026.md) | Checklist para reutilizar el proyecto en una nueva edición |
+| [`docs/REUSE-2026.md`](docs/REUSE-2026.md) | Checklist general de reutilización e histórico de mejoras de 2026 |
 | [`CHANGELOG.md`](CHANGELOG.md) | Historial de versiones |
 | [`CLAUDE.md`](CLAUDE.md) | Guía del proyecto para trabajar con Claude Code |
 
